@@ -14,7 +14,7 @@ const CellContainer = tw.div`
 export function DayCell({ day }: CalendarCellProp) {
   // 여기서 isDay 조건에 따라 클래스를 추가합니다.
   const additionalClasses = day
-    ? "hover:bg-blue-200 opacity-100 cursor-pointer "
+    ? "hover:bg-lightgray opacity-100 cursor-pointer "
     : "opacity-0";
 
   return (

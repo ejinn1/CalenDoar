@@ -26,6 +26,21 @@ const config: Config = {
         xs: "1.5rem",
         xxs: "1rem",
       },
+      backgroundColor: {
+        lightgray: "#D3D3D3",
+      },
+      colors: {
+        lightgray: "#D3D3D3",
+      },
+      keyframes: {
+        pulse: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+        },
+      },
+      animation: {
+        pulse: "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      },
     },
   },
   plugins: [],

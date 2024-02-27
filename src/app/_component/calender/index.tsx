@@ -12,6 +12,7 @@ const CalendarContainer = tw.div`
 `;
 const CalendarHeader = tw.h1`
   font-semibold text-center text-gray-800 text-xxl
+  transition duration-100 ease-linear
 `;
 const CalendarGrid = tw.div`
   grid grid-cols-7 gap-4 mt-5
@@ -26,6 +27,11 @@ const ArrowButton = tw.button`
 
 const WeekdayHeader = tw.div`
   grid grid-cols-7 gap-4 mt-5
+`;
+
+const SkeletonDayCell = tw.div`
+  w-[6rem] h-[8rem]
+  animate-pulse bg-lightgray rounded
 `;
 
 function getDaysInMonth(year: number, month: number) {
@@ -49,21 +55,22 @@ function getDaysInMonth(year: number, month: number) {
 export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [daysInMonth, setDaysInMonth] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+  // const months = [
+  //   "January",
+  //   "February",
+  //   "March",
+  //   "April",
+  //   "May",
+  //   "June",
+  //   "July",
+  //   "August",
+  //   "September",
+  //   "October",
+  //   "November",
+  //   "December",
+  // ];
 
   function goToNextMonth() {
     setCurrentDate(
@@ -81,7 +88,8 @@ export default function Calendar() {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     setDaysInMonth(getDaysInMonth(year, month));
-  }, [currentDate]);
+    setIsLoading(false);
+  }, [currentDate, setDaysInMonth]);
 
   return (
     <CalendarContainer>
@@ -90,10 +98,9 @@ export default function Calendar() {
           <Image src="/leftArrow.png" width={24} height={24} alt="<" />
         </ArrowButton>
       </div>
-      <h1 className="text-s font-bold">{currentDate.getFullYear()}</h1>
-      {/* <h2 className="text-xxs font-regular">
-        {months[currentDate.getMonth()]}
-      </h2> */}
+      <h1 className="text-s font-bold text-lightgray">
+        {currentDate.getFullYear()}
+      </h1>
       <div className="flex items-center justify-end">
         <CalendarHeader>{`${(currentDate.getMonth() + 1)
           .toString()
@@ -110,9 +117,13 @@ export default function Calendar() {
         ))}
       </WeekdayHeader>
       <CalendarGrid>
-        {daysInMonth.map((day, index) => (
-          <DayCell key={index} day={day !== 0 ? day : null}></DayCell>
-        ))}
+        {isLoading
+          ? Array.from({ length: 35 }).map((_, index) => (
+              <SkeletonDayCell key={index}></SkeletonDayCell>
+            ))
+          : daysInMonth.map((day, index) => (
+              <DayCell key={index} day={day !== 0 ? day : null}></DayCell>
+            ))}
       </CalendarGrid>
       <div className="absolute top-[30rem] -right-[4rem]">
         <ArrowButton onClick={goToNextMonth}>
