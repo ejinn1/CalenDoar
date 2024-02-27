@@ -1,3 +1,9 @@
+import Calender from "./_component/calender";
+
 export default function Home() {
-  return <main>메인</main>;
+  return (
+    <main className="flex">
+      <Calender />
+    </main>
+  );
 }
