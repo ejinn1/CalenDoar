@@ -1,27 +1,28 @@
 import Link from "next/link";
 import tw from "tailwind-styled-components";
-
-const SignContainer = tw.aside`
-  flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4
-`;
+import Container from "../_component/container";
 
 const StyledLink = tw.div`
-  text-blue-500 hover:text-blue-700 text-lg font-semibold
-  p-2 m-2
-  rounded-lg border border-blue-500 hover:border-blue-700 transition duration-300
+  bg-white text-blue-700 hover:bg-blue-700 hover:text-white
+  text-lg font-semibold
+  py-3 px-6
+  rounded-full
+  shadow-lg
+  transition duration-300 ease-in-out
+  transform hover:-translate-y-1 hover:scale-105
 `;
 
 export default function Home() {
   return (
-    <main>
-      <SignContainer>
+    <main className="flex justify-center items-center w-screen h-screen">
+      <Container>
         <Link href="/signin" passHref>
           <StyledLink>로그인</StyledLink>
         </Link>
         <Link href="/signup" passHref>
           <StyledLink>회원가입</StyledLink>
         </Link>
-      </SignContainer>
+      </Container>
     </main>
   );
 }

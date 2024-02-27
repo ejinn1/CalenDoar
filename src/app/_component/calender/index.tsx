@@ -3,13 +3,9 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
+import Container from "../container";
 import { DayCell } from "../dayCell";
 
-const CalendarContainer = tw.div`
-  mx-auto mt-5 p-5
-  shadow-md rounded-lg
-  relative
-`;
 const CalendarHeader = tw.h1`
   font-semibold text-center text-gray-800 text-xxl
   transition duration-100 ease-linear
@@ -92,7 +88,7 @@ export default function Calendar() {
   }, [currentDate, setDaysInMonth]);
 
   return (
-    <CalendarContainer>
+    <Container>
       <div className="absolute top-[30rem] -left-[4rem]">
         <ArrowButton onClick={goToPrevMonth}>
           <Image src="/leftArrow.png" width={24} height={24} alt="<" />
@@ -130,6 +126,6 @@ export default function Calendar() {
           <Image src="/rightArrow.png" width={24} height={24} alt=">" />
         </ArrowButton>
       </div>
-    </CalendarContainer>
+    </Container>
   );
 }
