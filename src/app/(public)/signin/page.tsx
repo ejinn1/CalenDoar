@@ -1,6 +1,6 @@
 "use client";
 
-import Container from "@/app/_component/container";
+import Container from "@/app/_component/common/container";
 import useUserInfo from "@/store/user/info";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";

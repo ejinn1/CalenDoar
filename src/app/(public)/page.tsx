@@ -1,6 +1,6 @@
 import Link from "next/link";
 import tw from "tailwind-styled-components";
-import Container from "../_component/container";
+import Container from "../_component/common/container";
 
 const StyledLink = tw.div`
   bg-white text-blue-700 hover:bg-blue-700 hover:text-white

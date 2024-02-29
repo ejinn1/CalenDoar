@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
-import Container from "../container";
+import Container from "../common/container";
 import { DayCell } from "../dayCell";
 
 const CalendarHeader = tw.h1`
