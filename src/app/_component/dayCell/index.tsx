@@ -7,7 +7,7 @@ interface CalendarCellProp {
 const CellContainer = tw.div`
   w-[6rem] h-[8rem] shadow-md
   p-2 rounded-md text-center
-  transition-opacity duration-300 ease-in-out
+  transition-bg duration-300 ease-in-out
 `;
 
 export function DayCell({ day }: CalendarCellProp) {
