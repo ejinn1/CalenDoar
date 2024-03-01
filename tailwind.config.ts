@@ -28,9 +28,11 @@ const config: Config = {
       },
       backgroundColor: {
         lightgray: "#D3D3D3",
+        gray: "#808080",
       },
       colors: {
         lightgray: "#D3D3D3",
+        gray: "#808080",
       },
       keyframes: {
         pulse: {
