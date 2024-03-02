@@ -1,4 +1,5 @@
 import tw from "tailwind-styled-components";
+import MiniCalendar from "../miniCalendar/index,";
 
 const StyledMain = tw.main`
     w-full h-full
@@ -8,11 +9,12 @@ const StyledMain = tw.main`
 export default function Main() {
   return (
     <StyledMain>
-      <aside className="bg-red-300 w-[40rem] h-full ">
-        <div>미니 캘린더</div>
+      <section className="min-w-[24rem] h-full p-2 border-r-2 border-lightgray flex flex-col items-center">
+        <MiniCalendar />
+        <div className="w-full border-t border-lightgray my-4"></div>
         <div>옵션</div>
-      </aside>
-      <aside className="bg-blue-300 w-full h-full">캘린더</aside>
+      </section>
+      <section className=" w-full h-full">캘린더</section>
     </StyledMain>
   );
 }
