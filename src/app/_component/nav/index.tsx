@@ -2,7 +2,7 @@ import tw from "tailwind-styled-components";
 
 const StyledNav = tw.nav`
     group
-    fixed h-[8rem] bg-lightgray w-full p-2 px-[8rem]
+    fixed top-0 left-0 h-[8rem] bg-lightgray w-full p-2 px-[8rem]
     flex justify-between items-center
     transition-bg duration-300 ease-in-out
     hover:bg-gray
