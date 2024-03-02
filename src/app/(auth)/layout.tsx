@@ -6,7 +6,7 @@ interface Prop {
 
 export default function Layout({ children }: Prop) {
   return (
-    <div className="relatvie">
+    <div className="pt-[8rem] w-screen h-screen">
       <Nav />
       {children}
     </div>
