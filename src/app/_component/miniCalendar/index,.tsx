@@ -41,7 +41,7 @@ export default function MiniCalendar() {
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
 
   return (
-    <div className="flex flex-col rounded-sm">
+    <div className="flex flex-col rounded-lg bg-white p-[1rem] w-[20rem]">
       <WeekdayContainer>
         {weekdays.map((day, index) => (
           <Weekday
