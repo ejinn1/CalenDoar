@@ -1,7 +1,9 @@
 "use client";
 
+import AddOptionModal from "@/app/(auth)/_component/addOptionModal";
+import useModalOpen from "@/app/hook/useModalOpen";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 
 const Button = tw.button`
@@ -16,6 +18,22 @@ const AddButton = tw.div`
 
 export default function OptionBox() {
   const [isHover, setIsHover] = useState(false);
+  const { isOpen, openModal, closeModal } = useModalOpen();
+
+  const handleOpenModal = () => {
+    openModal();
+    setIsHover(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (!isOpen) {
+      setIsHover(false);
+    }
+  };
+
+  useEffect(() => {
+    handleMouseLeave();
+  }, [isOpen]);
 
   const LISTS = ["전체", "일정", "할일"];
 
@@ -25,17 +43,19 @@ export default function OptionBox() {
         <div
           className="hover:bg-lightgray rounded-full cursor-pointer transition-bg duration-300 ease-in-out"
           onMouseOver={() => setIsHover(true)}
-          onMouseLeave={() => setIsHover(false)}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleOpenModal}
         >
           <Image src="/add.png" alt="더하기" width={18} height={18} />
         </div>
       </div>
       {LISTS.map((list) => (
-        <Button>{list}</Button>
+        <Button key={list}>{list}</Button>
       ))}
       <AddButton className={isHover ? "opacity-100" : "opacity-0"}>
         추가
       </AddButton>
+      {isOpen && <AddOptionModal onClose={closeModal} />}
     </div>
   );
 }
