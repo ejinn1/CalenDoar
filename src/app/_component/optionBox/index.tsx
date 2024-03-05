@@ -1,7 +1,7 @@
 "use client";
 
 import AddOptionModal from "@/app/(auth)/_component/addOptionModal";
-import useModalOpen from "@/app/hook/useModalOpen";
+import useModalOpen from "@/hooks/useModalOpen";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
