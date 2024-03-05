@@ -1,10 +1,11 @@
+import { getDaysInMonth } from "@/utils/date";
 import tw from "tailwind-styled-components";
 
 const WeekdayContainer = tw.div`
   grid grid-cols-7
 `;
 
-const Weekday = tw.div`
+const WeekCell = tw.div`
   w-[3rem] h-[3rem]
   flex justify-center items-center font-bold
 `;
@@ -18,21 +19,6 @@ const DayCell = tw.div`
   flex justify-center items-center
 `;
 
-function getDaysInMonth(year: number, month: number) {
-  let date = new Date(year, month, 1);
-  let days = [];
-
-  for (let i = 0; i < date.getDay(); i++) {
-    days.push(null);
-  }
-
-  while (date.getMonth() === month) {
-    days.push(new Date(date));
-    date.setDate(date.getDate() + 1);
-  }
-  return days;
-}
-
 export default function MiniCalendar() {
   const now = new Date();
   const days = getDaysInMonth(now.getFullYear(), now.getMonth());
@@ -42,12 +28,12 @@ export default function MiniCalendar() {
     <div className="flex flex-col rounded-lg bg-white p-[1rem] w-[20rem]">
       <WeekdayContainer>
         {weekdays.map((day, index) => (
-          <Weekday
+          <WeekCell
             key={index}
             className={index === 0 || index === 6 ? "text-lightgray" : ""}
           >
             {day}
-          </Weekday>
+          </WeekCell>
         ))}
       </WeekdayContainer>
       <DayContainer>
