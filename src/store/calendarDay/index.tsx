@@ -7,6 +7,7 @@ interface CalendarState {
   setDays: (year: number, month: number) => void;
   goToLeftMonth: () => void;
   goToRightMonth: () => void;
+  goToTodayMonth: () => void;
 }
 
 // 캘린더에 나타나는 날짜 배열
@@ -43,6 +44,12 @@ const useCalendarState = create<CalendarState>((set) => ({
         nextMonth.getMonth()
       );
       return { viewDate: nextMonth, days };
+    }),
+  goToTodayMonth: () =>
+    set(() => {
+      const today = new Date();
+      const days = getDaysInMonth(today.getFullYear(), today.getMonth() + 1);
+      return { viewDate: today, days };
     }),
 }));
 

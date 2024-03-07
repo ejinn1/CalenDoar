@@ -28,19 +28,32 @@ const ArrowContainer = tw.div`
   hover:opacity-100 transition-opacity duration-300 ease-in-out
 `;
 
+const TodayContainer = tw.div`
+  w-[4rem] ml-2 flex justify-center items-center
+  border-2 rounded-lg p-2 border-lightgray border-dotted
+  cursor-pointer
+  hover:bg-lightgray transition-bg duration-300 ease-in-out
+`;
+
 export default function Calendar() {
   const now = new Date();
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
-  const { viewDate, days, setDays, goToLeftMonth, goToRightMonth } =
-    useCalendarState();
+  const {
+    viewDate,
+    days,
+    setDays,
+    goToLeftMonth,
+    goToRightMonth,
+    goToTodayMonth,
+  } = useCalendarState();
 
   useEffect(() => {
-    setDays(viewDate.getFullYear(), viewDate.getMonth() + 1);
-  }, [viewDate, setDays, goToLeftMonth, goToRightMonth]);
+    setDays(viewDate.getFullYear(), viewDate.getMonth());
+  }, [viewDate, setDays, goToLeftMonth, goToRightMonth, goToTodayMonth]);
 
   return (
     <div className="bg-white rounded-lg w-full h-full p-[2rem]">
-      <aside className="flex w-[15rem] items-center justify-between gap-[2rem]">
+      <aside className="flex w-[20rem] items-center justify-between gap-[2rem]">
         <h1 className="h-[4rem] text-l font-bold flex items-center justify-center">{`${viewDate.getFullYear()}.${(
           viewDate.getMonth() + 1
         )
@@ -63,6 +76,7 @@ export default function Calendar() {
               height={16}
             />
           </ArrowContainer>
+          <TodayContainer onClick={goToTodayMonth}>오늘</TodayContainer>
         </div>
       </aside>
       <WeekContainer>
