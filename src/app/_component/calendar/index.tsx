@@ -2,7 +2,7 @@
 
 import useCalendarState from "@/store/calendarDay";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 
 const WeekContainer = tw.div`
@@ -37,6 +37,7 @@ const TodayContainer = tw.div`
 
 export default function Calendar() {
   const now = new Date();
+  const [toDayCheck, setToDayCheck] = useState(true);
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
   const {
     viewDate,
@@ -49,6 +50,11 @@ export default function Calendar() {
 
   useEffect(() => {
     setDays(viewDate.getFullYear(), viewDate.getMonth());
+    if (now.getMonth() === viewDate.getMonth()) {
+      setToDayCheck(true);
+    } else {
+      setToDayCheck(false);
+    }
   }, [viewDate, setDays, goToLeftMonth, goToRightMonth, goToTodayMonth]);
 
   return (
@@ -87,7 +93,15 @@ export default function Calendar() {
       <DayContainer>
         {days.map((day, index) => (
           <DayCell key={index} className={`${day !== null ? "shadow-sm" : ""}`}>
-            {day ? day.getDate() : ""}
+            <span
+              className={`flex justify-center items-center rounded-full w-[2rem] h-[2rem] ${
+                toDayCheck && now.getDate() === day?.getDate()
+                  ? "bg-red-400 text-white"
+                  : ""
+              }`}
+            >
+              {day ? day.getDate() : ""}
+            </span>
           </DayCell>
         ))}
       </DayContainer>
