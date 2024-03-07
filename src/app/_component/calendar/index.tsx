@@ -50,7 +50,10 @@ export default function Calendar() {
 
   useEffect(() => {
     setDays(viewDate.getFullYear(), viewDate.getMonth());
-    if (now.getMonth() === viewDate.getMonth()) {
+    if (
+      now.getMonth() === viewDate.getMonth() &&
+      now.getFullYear() === viewDate.getFullYear()
+    ) {
       setToDayCheck(true);
     } else {
       setToDayCheck(false);
