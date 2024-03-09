@@ -10,8 +10,8 @@ const WeekContainer = tw.div`
 `;
 
 const WeekCell = tw.div`
-  w-[3rem] h-[3rem] text-[1.5rem]
-  flex justify-center items-center font-semibold
+  w-full h-[3rem] text-[1.5rem] pl-[1.2rem]
+  flex justify-start items-center font-semibold
 `;
 
 const DayContainer = tw.div`
