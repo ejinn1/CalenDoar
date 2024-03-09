@@ -33,8 +33,11 @@ export default function Nav() {
 
   return (
     <NavContainer className={`${extended ? "h-[30rem]" : "h-[8rem]"}`}>
+      {extended && (
+        <div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-sm bg-black/20 "></div>
+      )}
       <StyledNav>
-        <div className="text-l font-bold">Calendar</div>
+        <div className="text-l font-bold">CalenDoar</div>
         <div className="flex gap-[2rem]">
           <div>
             {/* <StyledUl>
