@@ -29,10 +29,22 @@ const config: Config = {
       backgroundColor: {
         lightgray: "#D3D3D3",
         gray: "#808080",
+        lightred: "#F87171",
+        lightorange: "#fb9e24",
+        lightyellow: "#FBBF24",
+        lightgreen: "#34D399",
+        lightblue: "#60A5FA",
+        lightpurple: "#A78BFA",
       },
       colors: {
         lightgray: "#D3D3D3",
         gray: "#808080",
+        lightred: "#F87171",
+        lightorange: "#fb9e24",
+        lightyellow: "#FBBF24",
+        lightgreen: "#34D399",
+        lightblue: "#60A5FA",
+        lightpurple: "#A78BFA",
       },
       keyframes: {
         pulse: {

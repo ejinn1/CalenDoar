@@ -62,7 +62,7 @@ export default function OptionBox() {
       <Ul>
         {options.map((option, index) => (
           <Link key={index} href={`${option.link}`}>
-            <Li className={`bg-${option.color}`}>{option.name}</Li>
+            <Li style={{ backgroundColor: option.color }}>{option.name}</Li>
           </Link>
         ))}
       </Ul>
