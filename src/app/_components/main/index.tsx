@@ -1,5 +1,8 @@
+"use client";
+
+import DayContainer from "@/app/(auth)/_components/dayContainer";
 import tw from "tailwind-styled-components";
-import Calendar from "../../(auth)/_component/calendar";
+import Calendar from "../../(auth)/_components/calendar";
 
 const StyledMain = tw.main`
     w-full h-full
@@ -10,7 +13,9 @@ export default function Main() {
   return (
     <StyledMain>
       <section className="w-full h-full">
-        <Calendar />
+        <Calendar>
+          <DayContainer />
+        </Calendar>
       </section>
     </StyledMain>
   );

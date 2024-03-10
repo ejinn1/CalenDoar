@@ -1,5 +1,5 @@
-import Nav from "../_component/nav";
-import SideMenu from "../_component/sideMenu";
+import Nav from "../_components/nav";
+import SideMenu from "../_components/sideMenu";
 
 interface Prop {
   children: React.ReactNode;

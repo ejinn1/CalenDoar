@@ -1,5 +1,5 @@
-import MiniCalendar from "./_component/miniCalendar/index,";
-import OptionBox from "./_component/optionBox";
+import MiniCalendar from "./_components/miniCalendar";
+import OptionBox from "./_components/optionBox";
 
 export default function SideMenu() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import AddOptionModal from "@/app/(auth)/_component/addOptionModal";
+import AddOptionModal from "@/app/(auth)/_components/addOptionModal";
 import useModalOpen from "@/hooks/useModalOpen";
 import Image from "next/image";
 import Link from "next/link";
