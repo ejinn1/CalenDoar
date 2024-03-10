@@ -3,6 +3,7 @@
 import AddOptionModal from "@/app/(auth)/_component/addOptionModal";
 import useModalOpen from "@/hooks/useModalOpen";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 
@@ -35,7 +36,11 @@ export default function OptionBox() {
     handleMouseLeave();
   }, [isOpen]);
 
-  const LISTS = ["전체", "일정", "할일"];
+  const OPTIONS = [
+    { option: "전체", link: "/" },
+    { option: "일정", link: "/schedule" },
+    { option: "할일", link: "/todo" },
+  ];
 
   return (
     <div className="bg-white rounded-lg w-[20rem] h-full flex flex-col p-[1rem] gap-[1rem]">
@@ -49,8 +54,10 @@ export default function OptionBox() {
           <Image src="/add.png" alt="더하기" width={18} height={18} />
         </div>
       </div>
-      {LISTS.map((list) => (
-        <Button key={list}>{list}</Button>
+      {OPTIONS.map((option, index) => (
+        <Link key={index} href={`${option.link}`}>
+          <Button>{option.option}</Button>
+        </Link>
       ))}
       <AddButton className={isHover ? "opacity-100" : "opacity-0"}>
         추가
