@@ -1,5 +1,5 @@
 import tw from "tailwind-styled-components";
-import Calendar from "../calendar";
+import Calendar from "../../(auth)/_component/calendar";
 
 const StyledMain = tw.main`
     w-full h-full
