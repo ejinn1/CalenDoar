@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 import DayCell from "../dayCell";
 
-const Container = tw.aside`
+const Container = tw.div`
   w-full h-[calc(100%-7rem)]
   grid grid-cols-7 grid-auto-row
 `;

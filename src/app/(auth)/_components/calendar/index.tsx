@@ -8,7 +8,7 @@ interface Prop {
   children: React.ReactNode;
 }
 
-const WeekContainer = tw.aside`
+const WeekContainer = tw.div`
   grid grid-cols-7
 `;
 
@@ -37,7 +37,7 @@ export default function Calendar({ children }: Prop) {
     useCalendarState();
 
   return (
-    <div className="bg-white rounded-lg w-full h-full p-[2rem]">
+    <article className="bg-white rounded-lg w-full h-full p-[2rem]">
       <header className="flex w-[20rem] items-center justify-between gap-[2rem]">
         <h1 className="h-[4rem] text-l font-bold flex items-center justify-center">{`${viewDate.getFullYear()}.${(
           viewDate.getMonth() + 1
@@ -70,6 +70,6 @@ export default function Calendar({ children }: Prop) {
         ))}
       </WeekContainer>
       {children}
-    </div>
+    </article>
   );
 }
