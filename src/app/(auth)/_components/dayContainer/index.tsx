@@ -31,6 +31,7 @@ export default function DayContainer() {
       setToDayCheck(false);
     }
   }, [viewDate, setDays, goToLeftMonth, goToRightMonth, goToTodayMonth]);
+
   return (
     <Container>
       {days.map((day, index) => (

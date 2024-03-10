@@ -1,4 +1,4 @@
-import Nav from "../_components/nav";
+import Header from "../_components/header";
 import SideMenu from "../_components/sideMenu";
 
 interface Prop {
@@ -8,7 +8,7 @@ interface Prop {
 export default function Layout({ children }: Prop) {
   return (
     <div className="pt-[10rem] w-screen h-screen bg-gray flex gap-[2rem] p-[2rem]">
-      <Nav />
+      <Header />
       <SideMenu />
       {children}
     </div>
