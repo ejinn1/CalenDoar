@@ -6,10 +6,13 @@ html {
   font-size: 62.5%;
 }
 
-/* 텍스트 드레그 안되게 하기*/
 body {
+  /* 텍스트 드레그 안되게 하기 */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  /* 화면 흔들리지 않게 하기 */
+  overflow: hidden;
 }
