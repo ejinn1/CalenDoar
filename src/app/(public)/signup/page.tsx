@@ -1,5 +1,7 @@
 "use client";
 
+import { createClient } from "@/libs/supabase/client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import tw from "tailwind-styled-components";
 import BackGroundContainer from "../_components/backgroundContainer";
@@ -34,11 +36,35 @@ const ErrorMessage = tw.div`
   absolute -bottom-[2rem] left-0"
 `;
 
+// 이메일 인증 X
 export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
+
+  const supabase = createClient();
+  const router = useRouter();
+
+  const handelSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: {
+          user_name: name,
+        },
+      },
+    });
+
+    if (error) {
+      alert(error.message);
+    } else {
+      router.push("/login");
+    }
+  };
 
   return (
     <BackGroundContainer>
@@ -47,7 +73,7 @@ export default function SignUp() {
           <h1 className="text-l font-semibold">CalenDoar</h1>
           <h3 className="text-xxl font-bold">회원가입</h3>
         </div>
-        <Form>
+        <Form onSubmit={handelSignUp}>
           <div className="flex flex-col gap-[3rem]">
             <Box>
               <Label>이름</Label>

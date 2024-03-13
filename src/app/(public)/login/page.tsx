@@ -29,6 +29,7 @@ const Form = tw.form`
     flex flex-col gap-[1rem]
 `;
 
+// 간편 로그인 추가해야됨,
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
