@@ -1,5 +1,8 @@
 "use client";
 
+import { createClient } from "@/libs/supabase/client";
+import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import tw from "tailwind-styled-components";
 
@@ -28,6 +31,25 @@ const Form = tw.form`
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
+
+  const supabase = createClient();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    let { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      alert(error.message);
+    } else {
+      console.log("data", data);
+      router.push("/");
+    }
+  };
 
   return (
     <div className="bg-white rounded-lg w-full h-full min-w-[75rem] min-h-[70rem] flex justify-center">
@@ -54,7 +76,7 @@ export default function Login() {
             <span className="text-r uppercase">or login with email</span>
             <div className="flex-grow border-t border-lightgray"></div>
           </div>
-          <Form>
+          <Form onSubmit={handleLogin}>
             <div className="flex flex-col gap-[1rem]">
               <Box>
                 <Label>이메일</Label>
@@ -65,11 +87,11 @@ export default function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </Box>
-              <Box>
+              <Box className="relative">
                 <Label>비밀번호</Label>
                 <Input
                   type="password"
-                  placeholder="비밀번호"
+                  placeholder="비밀번호 (6자리 이상)"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -80,7 +102,7 @@ export default function Login() {
             </div>
             <button
               type="submit"
-              className="bg-lightgray p-[1.5rem] rounded-lg text-r"
+              className="bg-lightgray p-[1.5rem] rounded-lg text-r transition-bg duration-300 ease-in-out hover:bg-lightblue"
             >
               로그인
             </button>
