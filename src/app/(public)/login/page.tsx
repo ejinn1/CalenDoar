@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { useState } from "react";
 import tw from "tailwind-styled-components";
+import BackGroundContainer from "../_components/backgroundContainer";
 
 const SimpleLoginBox = tw.div`
   w-full border-[0.1rem] p-[1rem] rounded-md text-r cursor-pointer
@@ -52,7 +53,8 @@ export default function Login() {
   };
 
   return (
-    <div className="bg-white rounded-lg w-full h-full min-w-[75rem] min-h-[70rem] flex justify-center">
+    <BackGroundContainer>
+      =
       <div className="w-[70rem] h-full p-[4rem] flex flex-col justify-between">
         <div>
           <h1 className="text-l font-semibold">CalenDoar</h1>
@@ -109,11 +111,14 @@ export default function Login() {
           </Form>
         </div>
         <div>
-          <button className="border-t-[0.1rem] border-lightgray w-full p-[1rem] text-center text-gray">
+          <button
+            onClick={() => router.push("/signup")}
+            className="border-t-[0.1rem] border-lightgray w-full p-[1rem] text-center text-gray"
+          >
             회원가입
           </button>
         </div>
       </div>
-    </div>
+    </BackGroundContainer>
   );
 }
