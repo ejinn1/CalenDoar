@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+import tw from "tailwind-styled-components";
 import BackGroundContainer from "../_components/backgroundContainer";
 
 {
@@ -8,10 +12,102 @@ import BackGroundContainer from "../_components/backgroundContainer";
         <div className="absolute w-36 h-36 rounded-full bg-green-300 opacity-70 bottom-10 left-20"></div>
       </div> */
 }
+
+const Box = tw.div`
+  flex flex-col gap-2
+`;
+
+const Label = tw.label`
+  text-m font-bold
+`;
+
+const Input = tw.input`
+  p-[1.5rem] border-lightgray border-[0.1rem] rounded-md outline-none
+  text-r
+`;
+
+const Form = tw.form`
+  flex flex-col gap-[10rem]
+`;
+
+const ErrorMessage = tw.div`
+  absolute -bottom-[2rem] left-0"
+`;
+
 export default function SignUp() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [checkPassword, setCheckPassword] = useState("");
+
   return (
     <BackGroundContainer>
-      <div>회원가입</div>
+      <div className="w-[70rem] h-full p-[4rem] flex flex-col justify-between">
+        <div>
+          <h1 className="text-l font-semibold">CalenDoar</h1>
+          <h3 className="text-xxl font-bold">회원가입</h3>
+        </div>
+        <Form>
+          <div className="flex flex-col gap-[3rem]">
+            <Box>
+              <Label>이름</Label>
+              <Input
+                type="name"
+                placeholder="이름"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Box>
+            <Box>
+              <Label>이메일</Label>
+              <Input
+                type="email"
+                placeholder="이메일"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Box>
+            <Box className="relative">
+              <Label>비밀번호</Label>
+              <Input
+                type="password"
+                placeholder="비밀번호 (6자리 이상)"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {password.length < 6 && password.length !== 0 && (
+                <ErrorMessage>
+                  <span className="text-lightred text-r font-medium">
+                    비밀번호는 6자리 이상을 입력해주세요
+                  </span>
+                </ErrorMessage>
+              )}
+            </Box>
+            <Box className="relative">
+              <Label>비밀번호 확인</Label>
+              <Input
+                type="password"
+                placeholder="비밀번호 확인"
+                value={checkPassword}
+                onChange={(e) => setCheckPassword(e.target.value)}
+              />
+              {password !== checkPassword && checkPassword !== "" && (
+                <ErrorMessage>
+                  <span className="text-lightred text-r font-medium">
+                    비밀번호가 일치하지 않아요
+                  </span>
+                </ErrorMessage>
+              )}
+            </Box>
+          </div>
+          <button
+            type="submit"
+            className="bg-lightgray p-[1.5rem] rounded-lg text-r transition-bg duration-300 ease-in-out hover:bg-lightblue"
+          >
+            회원가입
+          </button>
+        </Form>
+      </div>
     </BackGroundContainer>
   );
 }

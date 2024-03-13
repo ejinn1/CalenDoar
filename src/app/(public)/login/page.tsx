@@ -92,7 +92,7 @@ export default function Login() {
                 <Label>비밀번호</Label>
                 <Input
                   type="password"
-                  placeholder="비밀번호 (6자리 이상)"
+                  placeholder="비밀번호"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
