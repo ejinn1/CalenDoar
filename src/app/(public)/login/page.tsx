@@ -54,7 +54,6 @@ export default function Login() {
 
   return (
     <BackGroundContainer>
-      =
       <div className="w-[70rem] h-full p-[4rem] flex flex-col justify-between">
         <div>
           <h1 className="text-l font-semibold">CalenDoar</h1>
