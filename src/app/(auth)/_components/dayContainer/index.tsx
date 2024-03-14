@@ -1,5 +1,5 @@
 import useCalendarState from "@/store/calendarDay";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import tw from "tailwind-styled-components";
 import DayCell from "../dayCell";
 
@@ -9,7 +9,7 @@ const Container = tw.div`
 `;
 
 export default function DayContainer() {
-  const now = new Date();
+  const now = useMemo(() => new Date(), []);
   const {
     viewDate,
     days,
@@ -35,7 +35,12 @@ export default function DayContainer() {
   return (
     <Container>
       {days.map((day, index) => (
-        <DayCell key={index} className={`${day !== null ? "shadow-sm" : ""}`}>
+        <DayCell
+          key={index}
+          className={`${day !== null ? "shadow-sm" : ""} ${
+            day?.getDay() === 0 ? "text-lightred" : ""
+          }`}
+        >
           <span
             className={`flex justify-center items-center rounded-full w-[2rem] h-[2rem] ${
               toDayCheck && now.getDate() === day?.getDate()

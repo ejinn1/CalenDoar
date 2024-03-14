@@ -6,7 +6,7 @@ interface Props {
 }
 
 const Cell = tw.div`
-  p-[1rem] text-s font-medium
+  p-[1rem] font-medium text-[1.2rem]
 `;
 
 export default function DayCell({ children, className }: Props) {

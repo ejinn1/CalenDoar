@@ -22,6 +22,7 @@ const config: Config = {
         xl: "4rem",
         l: "2rem",
         m: "1.5rem",
+        r: "1.2rem",
         s: "1rem",
         xs: "0.7rem",
         xxs: "0.4rem",
