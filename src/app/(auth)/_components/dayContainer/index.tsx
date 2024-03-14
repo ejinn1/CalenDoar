@@ -35,7 +35,12 @@ export default function DayContainer() {
   return (
     <Container>
       {days.map((day, index) => (
-        <DayCell key={index} className={`${day !== null ? "shadow-sm" : ""}`}>
+        <DayCell
+          key={index}
+          className={`${day !== null ? "shadow-sm" : ""} ${
+            day?.getDay() === 0 ? "text-lightred" : ""
+          }`}
+        >
           <span
             className={`flex justify-center items-center rounded-full w-[2rem] h-[2rem] ${
               toDayCheck && now.getDate() === day?.getDate()

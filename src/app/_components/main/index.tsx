@@ -27,7 +27,7 @@ export default function Main() {
       }
     };
     getSession();
-  }, []);
+  }, [router]);
 
   return (
     <StyledMain>

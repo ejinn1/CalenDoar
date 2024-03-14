@@ -30,8 +30,6 @@ const TodayContainer = tw.div`
 `;
 
 export default function Calendar({ children }: Prop) {
-  const now = new Date();
-
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
   const { viewDate, goToLeftMonth, goToRightMonth, goToTodayMonth } =
     useCalendarState();
@@ -66,7 +64,9 @@ export default function Calendar({ children }: Prop) {
       </header>
       <WeekContainer>
         {weekdays.map((week, index) => (
-          <WeekCell key={index}>{week}</WeekCell>
+          <WeekCell key={index} className={index === 0 ? "text-lightred" : ""}>
+            {week}
+          </WeekCell>
         ))}
       </WeekContainer>
       {children}
