@@ -1,5 +1,5 @@
 import useCalendarState from "@/store/calendarDay";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import tw from "tailwind-styled-components";
 import DayCell from "../dayCell";
 
@@ -9,7 +9,7 @@ const Container = tw.div`
 `;
 
 export default function DayContainer() {
-  const now = new Date();
+  const now = useMemo(() => new Date(), []);
   const {
     viewDate,
     days,
@@ -30,7 +30,7 @@ export default function DayContainer() {
     } else {
       setToDayCheck(false);
     }
-  }, [now, viewDate, setDays, goToLeftMonth, goToRightMonth, goToTodayMonth]);
+  }, [viewDate, setDays, goToLeftMonth, goToRightMonth, goToTodayMonth]);
 
   return (
     <Container>
