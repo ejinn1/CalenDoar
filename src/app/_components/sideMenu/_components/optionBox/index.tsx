@@ -45,7 +45,7 @@ export default function OptionBox() {
 
   useEffect(() => {
     handleMouseLeave();
-  }, [isOpen]);
+  }, [isOpen, handleMouseLeave]);
 
   return (
     <Container>

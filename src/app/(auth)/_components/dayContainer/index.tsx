@@ -30,7 +30,7 @@ export default function DayContainer() {
     } else {
       setToDayCheck(false);
     }
-  }, [viewDate, setDays, goToLeftMonth, goToRightMonth, goToTodayMonth]);
+  }, [now, viewDate, setDays, goToLeftMonth, goToRightMonth, goToTodayMonth]);
 
   return (
     <Container>
