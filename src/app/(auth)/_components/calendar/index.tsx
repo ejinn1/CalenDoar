@@ -3,6 +3,7 @@
 import useCalendarState from "@/store/calendarDay";
 import Image from "next/image";
 import tw from "tailwind-styled-components";
+import ContentsBox from "../contentsBox";
 
 interface Prop {
   children: React.ReactNode;
@@ -35,7 +36,7 @@ export default function Calendar({ children }: Prop) {
     useCalendarState();
 
   return (
-    <article className="bg-white rounded-lg w-full h-full p-[2rem]">
+    <ContentsBox>
       <header className="flex w-[20rem] items-center justify-between gap-[2rem]">
         <h1 className="h-[4rem] text-l font-bold flex items-center justify-center">{`${viewDate.getFullYear()}.${(
           viewDate.getMonth() + 1
@@ -70,6 +71,6 @@ export default function Calendar({ children }: Prop) {
         ))}
       </WeekContainer>
       {children}
-    </article>
+    </ContentsBox>
   );
 }

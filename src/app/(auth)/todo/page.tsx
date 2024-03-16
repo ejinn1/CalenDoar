@@ -1,3 +1,5 @@
+import ContentsBox from "../_components/contentsBox";
+
 export default function Schedule() {
-  return <div>할일</div>;
+  return <ContentsBox>할일</ContentsBox>;
 }
