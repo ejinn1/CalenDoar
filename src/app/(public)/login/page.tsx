@@ -3,6 +3,7 @@
 import { createClient } from "@/libs/supabase/client";
 import { useRouter } from "next/navigation";
 
+import useUserInfoStore from "@/store/user/info";
 import { useState } from "react";
 import tw from "tailwind-styled-components";
 import BackGroundContainer from "../_components/backgroundContainer";
@@ -37,6 +38,8 @@ export default function Login() {
 
   const supabase = createClient();
 
+  const { setUser } = useUserInfoStore();
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -49,6 +52,10 @@ export default function Login() {
       alert(error.message);
     } else {
       console.log("data", data);
+      if (data.user) {
+        setUser(data.user);
+      }
+
       router.push("/");
     }
   };
