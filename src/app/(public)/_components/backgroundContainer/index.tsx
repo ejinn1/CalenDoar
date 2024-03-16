@@ -6,7 +6,9 @@ interface Prop {
 
 const Container = tw.div`
   bg-white rounded-lg w-full h-full min-w-[75rem] min-h-[70rem] flex justify-center
+  relative
 `;
+
 export default function BackGroundContainer({ children }: Prop) {
   return <Container>{children}</Container>;
 }

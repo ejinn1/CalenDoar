@@ -1,8 +1,10 @@
 "use client";
 
 import { createClient } from "@/libs/supabase/client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { IoIosArrowBack } from "react-icons/io";
 import tw from "tailwind-styled-components";
 import BackGroundContainer from "../_components/backgroundContainer";
 
@@ -14,6 +16,13 @@ import BackGroundContainer from "../_components/backgroundContainer";
         <div className="absolute w-36 h-36 rounded-full bg-green-300 opacity-70 bottom-10 left-20"></div>
       </div> */
 }
+
+const BackContainer = tw.div`
+  absolute top-[2rem] left-[2rem] cursor-pointer rounded-full opacity-50
+  transition-all duration-300 ease-in-out
+  hover:bg-lightgray hover:opacity-100
+
+`;
 
 const Box = tw.div`
   flex flex-col gap-2
@@ -68,6 +77,11 @@ export default function SignUp() {
 
   return (
     <BackGroundContainer>
+      <BackContainer>
+        <Link href={"/login"}>
+          <IoIosArrowBack size={24} />
+        </Link>
+      </BackContainer>
       <div className="w-[70rem] h-full p-[4rem] flex flex-col justify-between">
         <div>
           <h1 className="text-l font-semibold">CalenDoar</h1>
