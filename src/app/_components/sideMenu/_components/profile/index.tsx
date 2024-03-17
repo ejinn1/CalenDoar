@@ -35,7 +35,7 @@ export default function Profile() {
   return (
     <div className="flex flex-col rounded-lg bg-white p-[1rem] w-[20rem]">
       <div className="flex gap-[1rem]">
-        <IoPersonCircle className="w-[10rem] h-[10rem]" color="#D3D3D3" />
+        <IoPersonCircle className="w-[8rem] h-[8rem]" color="#D3D3D3" />
         <div className="flex flex-col justify-around">
           <Link href={"/profile"}>
             <ProfileButton>
