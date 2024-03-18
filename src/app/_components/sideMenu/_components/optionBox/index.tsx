@@ -2,7 +2,9 @@
 
 import AddOptionModal from "@/app/(auth)/_components/addOptionModal";
 import useModalOpen from "@/hooks/useModalOpen";
-import useOptionState from "@/store/options";
+import { createClient } from "@/libs/supabase/client";
+import useOptionState, { Option } from "@/store/options";
+import useUserInfoStore from "@/store/user/info";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -30,7 +32,9 @@ const AddBox = tw.div`
 export default function OptionBox() {
   const [isHover, setIsHover] = useState(false);
   const { isOpen, openModal, closeModal } = useModalOpen();
-  const { options, addOption, deleteOption } = useOptionState();
+  const { options, setOptions } = useOptionState();
+  const supabase = createClient();
+  const { user } = useUserInfoStore();
 
   const handleOpenModal = () => {
     openModal();
@@ -47,6 +51,26 @@ export default function OptionBox() {
     handleMouseLeave();
   }, [isOpen, handleMouseLeave]);
 
+  useEffect(() => {
+    const getOptions = async () => {
+      if (user && user?.id) {
+        const { data, error } = await supabase
+          .from("options")
+          .select()
+          .eq("user_id", user.id);
+
+        if (error) {
+          console.log(error);
+        } else {
+          setOptions(data as Option[]);
+          console.log(data);
+        }
+      }
+    };
+
+    getOptions();
+  }, [user]);
+
   return (
     <Container>
       <div className="h-[3rem] flex justify-end items-center opacity-20 hover:opacity-55 transition-opacity duration-300 ease-in-out">
@@ -61,7 +85,10 @@ export default function OptionBox() {
       </div>
       <Ul>
         {options.map((option, index) => (
-          <Link key={index} href={`${option.link}`}>
+          <Link
+            key={index}
+            href={`${option.link ? option.link : `options/${option.id}`}`}
+          >
             <Li style={{ backgroundColor: option.color }}>{option.name}</Li>
           </Link>
         ))}
