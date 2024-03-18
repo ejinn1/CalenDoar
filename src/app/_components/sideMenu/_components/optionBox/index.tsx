@@ -87,7 +87,7 @@ export default function OptionBox() {
         {options.map((option, index) => (
           <Link
             key={index}
-            href={`${option.link ? option.link : `options/${option.id}`}`}
+            href={`${option.link ? option.link : `/options/${option.id}`}`}
           >
             <Li style={{ backgroundColor: option.color }}>{option.name}</Li>
           </Link>
