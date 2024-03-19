@@ -71,6 +71,10 @@ export default function OptionBox() {
     getOptions();
   }, [user]);
 
+  const [clicked, setClicked] = useState("0");
+
+  useEffect(() => {}, [setClicked]);
+
   return (
     <Container>
       <div className="h-[3rem] flex justify-end items-center opacity-20 hover:opacity-55 transition-opacity duration-300 ease-in-out">
@@ -89,7 +93,15 @@ export default function OptionBox() {
             key={index}
             href={`${option.link ? option.link : `/options/${option.id}`}`}
           >
-            <Li style={{ backgroundColor: option.color }}>{option.name}</Li>
+            <Li
+              style={{ backgroundColor: option.color }}
+              className={`${
+                clicked === index.toString() ? "border-2 border-gray" : ""
+              }`}
+              onClick={() => setClicked(index.toString())}
+            >
+              {option.name}
+            </Li>
           </Link>
         ))}
       </Ul>

@@ -1,5 +1,12 @@
-import ContentsBox from "../_components/contentsBox";
+"use client";
+
+import Calendar from "../_components/calendar";
+import DayContainer from "../_components/dayContainer";
 
 export default function Schedule() {
-  return <ContentsBox>일정</ContentsBox>;
+  return (
+    <Calendar>
+      <DayContainer />
+    </Calendar>
+  );
 }

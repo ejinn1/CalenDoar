@@ -1,3 +1,12 @@
+"use client";
+
+import Calendar from "../../_components/calendar";
+import DayContainer from "../../_components/dayContainer";
+
 export default function OptionPage() {
-  return <div>옵션 페이지</div>;
+  return (
+    <Calendar>
+      <DayContainer />
+    </Calendar>
+  );
 }
