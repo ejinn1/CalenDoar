@@ -1,6 +1,8 @@
+import useModalOpen from "@/hooks/useModalOpen";
 import useCalendarState from "@/store/calendarDay";
 import { useEffect, useMemo, useState } from "react";
 import tw from "tailwind-styled-components";
+import AddEventModal from "../addEventModal";
 import DayCell from "../dayCell";
 
 const Container = tw.div`
@@ -32,12 +34,18 @@ export default function DayContainer() {
     }
   }, [viewDate, setDays, goToLeftMonth, goToRightMonth, goToTodayMonth]);
 
+  const { isOpen, openModal, closeModal } = useModalOpen();
+  const [clickedDay, setClickedDay] = useState<Date>();
+
   return (
     <Container>
       {days.map((day, index) => (
         <DayCell
           key={index}
-          className={`${day !== null ? "shadow-sm" : ""} ${
+          day={day}
+          setClickedDay={setClickedDay}
+          onOpen={openModal}
+          className={`${day !== null ? "shadow-sm cursor-pointer" : ""} ${
             day?.getDay() === 0 ? "text-lightred" : ""
           }`}
         >
@@ -52,6 +60,9 @@ export default function DayContainer() {
           </span>
         </DayCell>
       ))}
+      {isOpen && clickedDay && (
+        <AddEventModal day={clickedDay} onClose={closeModal} />
+      )}
     </Container>
   );
 }
