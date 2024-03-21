@@ -13,3 +13,31 @@ export function getDaysInMonth(year: number, month: number) {
   }
   return days;
 }
+
+export function isSameDay(date1: Date, date2: Date) {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
+  );
+}
+
+export function isBefore(date1: Date, date2: Date) {
+  return date1.getTime() < date2.getTime();
+}
+
+export function isSameOrBefore(date1: Date, date2: Date) {
+  return date1.getTime() <= date2.getTime();
+}
+
+export function isAfter(date1: Date, date2: Date) {
+  return date1.getTime() > date2.getTime();
+}
+
+export function compareDay(date1: Date, date2: Date) {
+  return (
+    date1.getFullYear() <= date2.getFullYear() &&
+    date1.getMonth() <= date2.getMonth() &&
+    date1.getDate() <= date2.getDate()
+  );
+}
