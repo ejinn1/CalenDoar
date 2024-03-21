@@ -52,7 +52,7 @@ export default function DayContainer() {
           <span
             className={`flex justify-center items-center rounded-full w-[2rem] h-[2rem] ${
               toDayCheck && now.getDate() === day?.getDate()
-                ? "bg-red-400 text-white"
+                ? "bg-lightred text-white"
                 : ""
             }`}
           >
