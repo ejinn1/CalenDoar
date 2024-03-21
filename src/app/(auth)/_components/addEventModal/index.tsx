@@ -1,9 +1,11 @@
 "use client";
 
+import useEventScheduler from "@/store/eventCheduler";
 import useOptionState from "@/store/options";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import tw from "tailwind-styled-components";
+import ChoseDateBox from "../choseDateBox";
 
 interface Prop {
   day: Date;
@@ -37,6 +39,15 @@ export default function AddEventModal({ day, onClose }: Prop) {
   const [seletedOption, setSelectedOption] = useState("");
   const { options } = useOptionState();
 
+  const [isClickedDate, setIsClickedDate] = useState(false);
+  const { startDate, setStartDate, endDate, setEndDate, startTime, endTime } =
+    useEventScheduler();
+
+  useEffect(() => {
+    setStartDate(day);
+    setEndDate(day);
+  }, [day]);
+
   return (
     <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-30 flex items-center justify-center z-10 drop-shadow-md">
       <div className="relative bg-white p-[2rem] rounded-lg w-[50rem] h-[50rem] shadow-md">
@@ -65,35 +76,57 @@ export default function AddEventModal({ day, onClose }: Prop) {
           size={28}
           className="absolute top-[2rem] right-[2rem] cursor-pointer opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100"
         />
-        <Form onSubmit={handleSubmit} className="">
+        <Form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-[2rem]">
             <Field>
               <div className="flex justify-between">
-                <div className="text-m font-semibold flex gap-2 items-center">
+                <div className="relative text-m font-semibold flex gap-2 items-center">
                   <div>
-                    <span className="hover:bg-lightgray p-2 rounded-lg cursor-pointer">{`${
-                      day.getMonth() + 1
-                    }월 ${day.getDate()}일`}</span>
+                    <span
+                      onClick={() => setIsClickedDate((prev) => !prev)}
+                      className="hover:bg-lightgray p-2 rounded-lg cursor-pointer"
+                    >{`${
+                      startDate.getMonth() + 1
+                    }월 ${startDate.getDate()}일`}</span>
 
                     {isTimeConfig && (
                       <span>
                         <span className="hover:bg-lightgray p-2 rounded-lg cursor-pointer">
-                          00:00
+                          {`${startTime.hour
+                            .toString()
+                            .padStart(2, "0")} : ${startTime.minute
+                            .toString()
+                            .padStart(2, "0")}`}
                         </span>
                       </span>
                     )}
                   </div>
                   <div className="text-l font-medium">~</div>
                   <div>
-                    <span className="hover:bg-lightgray p-2 rounded-lg cursor-pointer">{`${
-                      day.getMonth() + 1
-                    }월 ${day.getDate()}일`}</span>
+                    <span
+                      onClick={() => setIsClickedDate((prev) => !prev)}
+                      className="hover:bg-lightgray p-2 rounded-lg cursor-pointer"
+                    >{`${
+                      endDate.getMonth() + 1
+                    }월 ${endDate.getDate()}일`}</span>
                     {isTimeConfig && (
                       <span className="hover:bg-lightgray p-2 rounded-lg cursor-pointer">
-                        <span>24:00</span>
+                        <span>{`${endTime.hour
+                          .toString()
+                          .padStart(2, "0")} : ${endTime.minute
+                          .toString()
+                          .padStart(2, "0")}`}</span>
                       </span>
                     )}
                   </div>
+                  {isClickedDate && (
+                    <ChoseDateBox
+                      clickedDate={day}
+                      startDate={startDate}
+                      endDate={endDate}
+                      onClose={() => setIsClickedDate((prev) => !prev)}
+                    />
+                  )}
                 </div>
                 <div
                   onClick={() => setIsTimeConfig((prev) => !prev)}
