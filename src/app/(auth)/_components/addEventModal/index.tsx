@@ -4,6 +4,8 @@ import { createClient } from "@/libs/supabase/client";
 import useEventScheduler from "@/store/eventScheduler";
 import useOptionState from "@/store/options";
 import useUserInfoStore from "@/store/user/info";
+import { getOptionIdofPath } from "@/utils/path";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import tw from "tailwind-styled-components";
@@ -40,8 +42,13 @@ export default function AddEventModal({ day, onClose }: Prop) {
 
   const [isTimeConfig, setIsTimeConfig] = useState(false);
 
-  const [seletedOption, setSelectedOption] = useState("");
+  const path = usePathname();
+
   const { options } = useOptionState();
+
+  const [seletedOption, setSelectedOption] = useState(
+    getOptionIdofPath(path, options)
+  );
 
   const [isClickedDate, setIsClickedDate] = useState(false);
   const { startDate, setStartDate, endDate, setEndDate, startTime, endTime } =
@@ -60,6 +67,13 @@ export default function AddEventModal({ day, onClose }: Prop) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const start_date = `${startDate.getFullYear()}-${(startDate.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${startDate.getDate().toString().padStart(2, "0")}`;
+    const end_date = `${endDate.getFullYear()}-${(endDate.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${endDate.getDate().toString().padStart(2, "0")}`;
+
     const start_time = `${startTime.hour
       .toString()
       .padStart(2, "0")}:${startTime.minute.toString().padStart(2, "0")}`;
@@ -70,8 +84,8 @@ export default function AddEventModal({ day, onClose }: Prop) {
     const newEvent = {
       title: title,
       body: body,
-      start_date: startDate,
-      end_date: endDate,
+      start_date: start_date,
+      end_date: end_date,
       start_time: start_time,
       end_time: end_time,
       option_id: seletedOption,
