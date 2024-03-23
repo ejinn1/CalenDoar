@@ -35,6 +35,7 @@ const DayContainer = tw.div`
 const DayCell = tw.div`
   w-[3rem] h-[3rem] rounded-full text-m font-semibold
   flex justify-center items-center cursor-pointer
+  transition-bg duration-200 ease-in-out
   hover:bg-lightgray
 `;
 
