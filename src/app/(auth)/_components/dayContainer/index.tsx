@@ -3,7 +3,7 @@ import { createClient } from "@/libs/supabase/client";
 import useCalendarState from "@/store/calendarDay";
 import useOptionState from "@/store/options";
 import { isAfter, isSameDay, isSameOrBefore } from "@/utils/date";
-import { getOptionIdofPath } from "@/utils/path";
+import { getOptionIdOfPath } from "@/utils/path";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import tw from "tailwind-styled-components";
@@ -60,7 +60,7 @@ export default function DayContainer() {
   const supabase = createClient();
 
   useEffect(() => {
-    const optionId = getOptionIdofPath(path, options);
+    const optionId = getOptionIdOfPath(path, options);
 
     if (!optionId) {
       console.error("주소가 유효하지 않습니다.");

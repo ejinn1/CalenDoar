@@ -1,6 +1,6 @@
 import { Option } from "@/store/options";
 
-export function getOptionIdofPath(path: string, options: Option[]) {
+export function getOptionIdOfPath(path: string, options: Option[]) {
   const mathedOption = options.find((option) => option.link === path);
 
   if (mathedOption) {

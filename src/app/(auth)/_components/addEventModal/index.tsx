@@ -4,7 +4,7 @@ import { createClient } from "@/libs/supabase/client";
 import useEventScheduler from "@/store/eventScheduler";
 import useOptionState from "@/store/options";
 import useUserInfoStore from "@/store/user/info";
-import { getOptionIdofPath } from "@/utils/path";
+import { getOptionIdOfPath } from "@/utils/path";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
@@ -47,7 +47,7 @@ export default function AddEventModal({ day, onClose }: Prop) {
   const { options } = useOptionState();
 
   const [seletedOption, setSelectedOption] = useState(
-    getOptionIdofPath(path, options)
+    getOptionIdOfPath(path, options)
   );
 
   const [isClickedDate, setIsClickedDate] = useState(false);

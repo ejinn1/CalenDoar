@@ -5,8 +5,10 @@ import useModalOpen from "@/hooks/useModalOpen";
 import { createClient } from "@/libs/supabase/client";
 import useOptionState, { Option } from "@/store/options";
 import useUserInfoStore from "@/store/user/info";
+import { getOptionIdOfPath } from "@/utils/path";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 
@@ -71,9 +73,14 @@ export default function OptionBox() {
     getOptions();
   }, [user]);
 
-  const [clicked, setClicked] = useState("0");
+  const path = usePathname();
+  const [clickedOption, setClickedOption] = useState(
+    getOptionIdOfPath(path, options)
+  );
 
-  useEffect(() => {}, [setClicked]);
+  useEffect(() => {
+    setClickedOption(getOptionIdOfPath(path, options));
+  }, [path]);
 
   return (
     <Container>
@@ -96,9 +103,9 @@ export default function OptionBox() {
             <Li
               style={{ backgroundColor: option.color }}
               className={`${
-                clicked === index.toString() ? "border-2 border-gray" : ""
+                clickedOption === option.id ? "border-2 border-gray" : ""
               }`}
-              onClick={() => setClicked(index.toString())}
+              onClick={() => setClickedOption(option.id)}
             >
               {option.name}
             </Li>
