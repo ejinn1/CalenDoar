@@ -1,7 +1,7 @@
 "use client";
 
 import { createClient } from "@/libs/supabase/client";
-import useEventScheduler from "@/store/eventCheduler";
+import useEventScheduler from "@/store/eventScheduler";
 import useOptionState from "@/store/options";
 import useUserInfoStore from "@/store/user/info";
 import { useEffect, useState } from "react";

@@ -1,6 +1,6 @@
 "use client";
 
-import useEventScheduler from "@/store/eventCheduler";
+import useEventScheduler from "@/store/eventScheduler";
 import {
   getDaysInMonth,
   isAfter,
