@@ -1,5 +1,9 @@
 import useModalOpen from "@/hooks/useModalOpen";
+import { createClient } from "@/libs/supabase/client";
 import useCalendarState from "@/store/calendarDay";
+import useOptionState from "@/store/options";
+import { getOptionIdofPath } from "@/utils/path";
+import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import tw from "tailwind-styled-components";
 import AddEventModal from "../addEventModal";
@@ -36,6 +40,35 @@ export default function DayContainer() {
 
   const { isOpen, openModal, closeModal } = useModalOpen();
   const [clickedDay, setClickedDay] = useState<Date>();
+
+  const path = usePathname();
+  const { options } = useOptionState();
+
+  const supabase = createClient();
+
+  useEffect(() => {
+    const optionId = getOptionIdofPath(path, options);
+
+    if (!optionId) {
+      console.error("주소가 유효하지 않습니다.");
+      return;
+    }
+
+    const getEvents = async () => {
+      const { data, error } = await supabase
+        .from("events")
+        .select()
+        .eq("option_id", optionId);
+
+      if (error) {
+        console.log("조회오류", error);
+      } else {
+        console.log("성공", data);
+      }
+    };
+
+    getEvents();
+  }, [path]);
 
   return (
     <Container>

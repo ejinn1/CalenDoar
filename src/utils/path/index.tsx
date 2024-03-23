@@ -7,7 +7,7 @@ export function getOptionIdofPath(path: string, options: Option[]) {
     return mathedOption.id;
   }
 
-  const optionIdMath = path.match(/\/options\/([a-zA-Z0-9]+)/);
+  const optionIdMath = path.match(/\/options\/(.*)/);
 
   if (optionIdMath) {
     return optionIdMath[1];
