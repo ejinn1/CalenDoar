@@ -1,24 +1,19 @@
 "use client";
 
 import { optionColors } from "@/constants/optionColor";
+import { createClient } from "@/libs/supabase/client";
 import useOptionState from "@/store/options";
-import Image from "next/image";
+import useUserInfoStore from "@/store/user/info";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { IoClose } from "react-icons/io5";
 import tw from "tailwind-styled-components";
 
 interface Prop {
   onClose: () => void;
 }
 
-const CloseButton = tw.span`
-  absolute top-[2rem] right-[2rem] cursor-pointer opacity-50
-  transition-opacity duration-300 ease-in-out
-  hover:opacity-100
-
-`;
-
-const Section = tw.div`
+const Field = tw.div`
   flex flex-col gap-[1rem]
 `;
 
@@ -50,15 +45,31 @@ export default function AddOptionModal({ onClose }: Prop) {
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const { options, addOption } = useOptionState();
+  const { user } = useUserInfoStore();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const supabase = createClient();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newOption = {
       name: name,
       color: color,
-      link: `/options/${options.length}`,
+      user_id: user?.id,
     };
-    addOption(newOption);
+
+    console.log(newOption);
+
+    const { data, error } = await supabase
+      .from("options")
+      .insert(newOption)
+      .select();
+
+    if (error) {
+      console.log(error);
+    } else {
+      addOption(newOption);
+    }
+
     // router.push("/");
   };
 
@@ -72,15 +83,17 @@ export default function AddOptionModal({ onClose }: Prop) {
     <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-30 flex items-center justify-center z-10 drop-shadow-md">
       <div className="relative bg-white p-[2rem] rounded-lg w-[40rem] h-[40rem] shadow-md">
         <h1 className="text-l font-bold">옵션 추가</h1>
-        <CloseButton onClick={onClose}>
-          <Image src="/close.png" alt="닫기" width={18} height={18} />
-        </CloseButton>
+        <IoClose
+          onClick={onClose}
+          size={28}
+          className="absolute top-[2rem] right-[2rem] cursor-pointer opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100"
+        />
         <form
           onSubmit={handleSubmit}
           className="flex flex-col justify-between gap-[2rem] h-[calc(100%-3rem)] pt-[4rem]"
         >
           <div className="flex flex-col gap-[2rem]">
-            <Section>
+            <Field>
               <Label htmlFor="optionName">이름</Label>
               <Input
                 id="optionName"
@@ -88,8 +101,8 @@ export default function AddOptionModal({ onClose }: Prop) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-            </Section>
-            <Section>
+            </Field>
+            <Field>
               <Label htmlFor="optionColor">색상</Label>
               <div className="grid grid-cols-7 gap-[1rem] justify-center items-center bg-lightgray rounded-lg p-[2rem]">
                 {optionColors.map((option, index) => (
@@ -105,7 +118,7 @@ export default function AddOptionModal({ onClose }: Prop) {
                   </ButtonContainer>
                 ))}
               </div>
-            </Section>
+            </Field>
           </div>
           <AddButton>추가</AddButton>
         </form>

@@ -16,3 +16,11 @@ body {
   /* 화면 흔들리지 않게 하기 */
   overflow: hidden;
 }
+
+/* 스크롤바 숨기기 */
+body {
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}

@@ -4,13 +4,7 @@ import DayContainer from "@/app/(auth)/_components/dayContainer";
 import { createClient } from "@/libs/supabase/client";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import tw from "tailwind-styled-components";
 import Calendar from "../../(auth)/_components/calendar";
-
-const StyledMain = tw.main`
-    w-full h-full
-    flex
-`;
 
 export default function Main() {
   const router = useRouter();
@@ -30,12 +24,8 @@ export default function Main() {
   }, [router]);
 
   return (
-    <StyledMain>
-      <section className="w-full h-full">
-        <Calendar>
-          <DayContainer />
-        </Calendar>
-      </section>
-    </StyledMain>
+    <Calendar>
+      <DayContainer />
+    </Calendar>
   );
 }

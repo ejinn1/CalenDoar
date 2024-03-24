@@ -1,3 +1,12 @@
+"use client";
+
+import Calendar from "../_components/calendar";
+import DayContainer from "../_components/dayContainer";
+
 export default function Schedule() {
-  return <div>일정</div>;
+  return (
+    <Calendar>
+      <DayContainer />
+    </Calendar>
+  );
 }

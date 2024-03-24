@@ -48,7 +48,6 @@ export default function Login() {
     if (error) {
       alert(error.message);
     } else {
-      console.log("data", data);
       router.push("/");
     }
   };
