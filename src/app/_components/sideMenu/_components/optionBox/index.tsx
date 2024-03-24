@@ -25,6 +25,11 @@ const Li = tw.li`
   flex justify-center items-center
 `;
 
+const SkeletonLi = tw.li`
+  w-full h-[4rem] bg-lightgray rounded-lg font-semibold
+  animate-pulse
+`;
+
 const AddBox = tw.div`
   w-full h-[4rem] border-lightgray border-2 border-dotted rounded-lg
   transition-opcatity duration-300 ease-in-out
@@ -37,6 +42,7 @@ export default function OptionBox() {
   const { options, setOptions } = useOptionState();
   const supabase = createClient();
   const { user } = useUserInfoStore();
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleOpenModal = () => {
     openModal();
@@ -65,7 +71,7 @@ export default function OptionBox() {
           console.log(error);
         } else {
           setOptions(data as Option[]);
-          console.log(data);
+          setIsLoading(false);
         }
       }
     };
@@ -94,24 +100,32 @@ export default function OptionBox() {
           <Image src="/add.png" alt="더하기" width={18} height={18} />
         </button>
       </div>
-      <Ul>
-        {options.map((option, index) => (
-          <Link
-            key={index}
-            href={`${option.link ? option.link : `/options/${option.id}`}`}
-          >
-            <Li
-              style={{ backgroundColor: option.color }}
-              className={`${
-                clickedOption === option.id ? "border-2 border-gray" : ""
-              }`}
-              onClick={() => setClickedOption(option.id)}
+      {isLoading ? (
+        <Ul>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <SkeletonLi key={index} />
+          ))}
+        </Ul>
+      ) : (
+        <Ul>
+          {options.map((option, index) => (
+            <Link
+              key={index}
+              href={`${option.link ? option.link : `/options/${option.id}`}`}
             >
-              {option.name}
-            </Li>
-          </Link>
-        ))}
-      </Ul>
+              <Li
+                style={{ backgroundColor: option.color }}
+                className={`${
+                  clickedOption === option.id ? "border-2 border-gray" : ""
+                }`}
+                onClick={() => setClickedOption(option.id)}
+              >
+                {option.name}
+              </Li>
+            </Link>
+          ))}
+        </Ul>
+      )}
       <AddBox className={isHover ? "opacity-100" : "opacity-0"}>추가</AddBox>
       {isOpen && <AddOptionModal onClose={closeModal} />}
     </Container>
