@@ -1,9 +1,9 @@
 "use client";
 
 import { createClient } from "@/libs/supabase/client";
-import useUserInfoStore from "@/store/user/info";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoPersonCircle } from "react-icons/io5";
 import tw from "tailwind-styled-components";
@@ -23,6 +23,8 @@ const LogoutButton = tw.div`
 export default function Profile() {
   const supabase = createClient();
   const router = useRouter();
+  const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -30,7 +32,20 @@ export default function Profile() {
     console.log(error);
   };
 
-  const { user } = useUserInfoStore();
+  useEffect(() => {
+    const getUserSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session) return;
+
+      setIsLoading(false);
+      setName(session.user.user_metadata.user_name);
+    };
+
+    getUserSession();
+  }, []);
 
   return (
     <div className="flex flex-col rounded-lg bg-white p-[1rem] w-[20rem]">
@@ -39,7 +54,7 @@ export default function Profile() {
         <div className="flex flex-col justify-around">
           <Link href={"/profile"}>
             <ProfileButton>
-              {user?.user_metadata.user_name} {"님"}
+              {isLoading ? "홍길동" : name} {"님"}
               <IoIosArrowForward
                 className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"
                 size={16}

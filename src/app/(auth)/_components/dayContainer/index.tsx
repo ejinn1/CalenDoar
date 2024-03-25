@@ -68,10 +68,17 @@ export default function DayContainer() {
     }
 
     const getEvents = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session) return;
+
       const { data, error } = await supabase
         .from("events")
         .select()
-        .eq("option_id", optionId);
+        .eq("option_id", optionId)
+        .eq("user_id", session.user.id);
 
       if (error) {
         console.log("조회오류", error);

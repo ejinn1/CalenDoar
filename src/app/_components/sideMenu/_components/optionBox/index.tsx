@@ -4,7 +4,6 @@ import AddOptionModal from "@/app/(auth)/_components/addOptionModal";
 import useModalOpen from "@/hooks/useModalOpen";
 import { createClient } from "@/libs/supabase/client";
 import useOptionState, { Option } from "@/store/options";
-import useUserInfoStore from "@/store/user/info";
 import { getOptionIdOfPath } from "@/utils/path";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,7 +40,6 @@ export default function OptionBox() {
   const { isOpen, openModal, closeModal } = useModalOpen();
   const { options, setOptions } = useOptionState();
   const supabase = createClient();
-  const { user } = useUserInfoStore();
   const [isLoading, setIsLoading] = useState(true);
 
   const handleOpenModal = () => {
@@ -61,23 +59,27 @@ export default function OptionBox() {
 
   useEffect(() => {
     const getOptions = async () => {
-      if (user && user?.id) {
-        const { data, error } = await supabase
-          .from("options")
-          .select()
-          .eq("user_id", user.id);
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-        if (error) {
-          console.log(error);
-        } else {
-          setOptions(data as Option[]);
-          setIsLoading(false);
-        }
+      if (!session) return;
+
+      const { data, error } = await supabase
+        .from("options")
+        .select()
+        .eq("user_id", session.user.id);
+
+      if (error) {
+        console.log(error);
+      } else {
+        setOptions(data as Option[]);
+        setIsLoading(false);
       }
     };
 
     getOptions();
-  }, [user]);
+  }, []);
 
   const path = usePathname();
   const [clickedOption, setClickedOption] = useState(

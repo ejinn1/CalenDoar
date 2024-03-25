@@ -3,7 +3,6 @@
 import { optionColors } from "@/constants/optionColor";
 import { createClient } from "@/libs/supabase/client";
 import useOptionState from "@/store/options";
-import useUserInfoStore from "@/store/user/info";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
@@ -45,16 +44,22 @@ export default function AddOptionModal({ onClose }: Prop) {
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const { options, addOption } = useOptionState();
-  const { user } = useUserInfoStore();
 
   const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) return;
+
     const newOption = {
       name: name,
       color: color,
-      user_id: user?.id,
+      user_id: session.user.id,
     };
 
     console.log(newOption);

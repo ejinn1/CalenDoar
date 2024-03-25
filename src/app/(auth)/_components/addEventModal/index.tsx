@@ -3,7 +3,6 @@
 import { createClient } from "@/libs/supabase/client";
 import useEventScheduler from "@/store/eventScheduler";
 import useOptionState from "@/store/options";
-import useUserInfoStore from "@/store/user/info";
 import { getOptionIdOfPath } from "@/utils/path";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -38,7 +37,6 @@ const Form = tw.form`
 
 export default function AddEventModal({ day, onClose }: Prop) {
   const supabase = createClient();
-  const { user } = useUserInfoStore();
 
   const [isTimeConfig, setIsTimeConfig] = useState(false);
 
@@ -67,6 +65,12 @@ export default function AddEventModal({ day, onClose }: Prop) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) return;
+
     const start_date = `${startDate.getFullYear()}-${(startDate.getMonth() + 1)
       .toString()
       .padStart(2, "0")}-${startDate.getDate().toString().padStart(2, "0")}`;
@@ -89,7 +93,7 @@ export default function AddEventModal({ day, onClose }: Prop) {
       start_time: start_time,
       end_time: end_time,
       option_id: seletedOption,
-      user_id: user?.id,
+      user_id: session.user.id,
     };
 
     console.log(newEvent);
