@@ -20,7 +20,7 @@ const Ul = tw.ul`
 `;
 
 const Li = tw.li`
-  w-full h-[3.5rem] bg-lightgray rounded-lg font-semibold text-s
+  w-full h-[3.5rem] bg-lightgray rounded-lg font-semibold text-r
   flex justify-center items-center
 `;
 
