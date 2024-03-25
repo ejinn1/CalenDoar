@@ -11,7 +11,7 @@ interface Props {
 }
 
 const Cell = tw.div`
-  relative p-[1rem] font-medium text-[1.2rem]
+  relative p-[0.5rem] font-medium text-r
 `;
 
 export default function DayCell({
