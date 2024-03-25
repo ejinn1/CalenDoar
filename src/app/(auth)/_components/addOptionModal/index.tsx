@@ -2,7 +2,6 @@
 
 import { optionColors } from "@/constants/optionColor";
 import { createClient } from "@/libs/supabase/client";
-import useOptionState from "@/store/options";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
@@ -43,8 +42,6 @@ export default function AddOptionModal({ onClose }: Prop) {
   const router = useRouter();
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
-  const { options, addOption } = useOptionState();
-
   const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -62,20 +59,13 @@ export default function AddOptionModal({ onClose }: Prop) {
       user_id: session.user.id,
     };
 
-    console.log(newOption);
-
-    const { data, error } = await supabase
-      .from("options")
-      .insert(newOption)
-      .select();
+    const { error } = await supabase.from("options").insert(newOption);
 
     if (error) {
       console.log(error);
     } else {
-      addOption(newOption);
+      onClose();
     }
-
-    // router.push("/");
   };
 
   const handleSelectedColor = (selectedColor: string) => {

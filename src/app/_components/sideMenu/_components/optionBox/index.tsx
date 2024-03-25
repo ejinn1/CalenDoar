@@ -79,7 +79,7 @@ export default function OptionBox() {
     };
 
     getOptions();
-  }, []);
+  }, [options, setOptions]);
 
   const path = usePathname();
   const [clickedOption, setClickedOption] = useState(
