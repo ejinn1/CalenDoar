@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 
 const Container = tw.nav`
-  bg-white rounded-lg w-[20rem] h-full flex flex-col p-[1rem] gap-[1rem]
+  w-[20rem] bg-white rounded-lg h-full flex flex-col p-[1rem] gap-[1rem]
 `;
 
 const Ul = tw.ul`
@@ -91,7 +91,7 @@ export default function OptionBox() {
   }, [path]);
 
   return (
-    <Container>
+    <Container className="overflow-scroll">
       <div className="h-[3rem] flex justify-end items-center opacity-20 hover:opacity-55 transition-opacity duration-300 ease-in-out">
         <button
           className="hover:bg-lightgray rounded-full cursor-pointer transition-bg duration-300 ease-in-out"
