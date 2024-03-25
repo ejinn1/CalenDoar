@@ -15,7 +15,7 @@ const ProfileButton = tw.div`
 
 const LogoutButton = tw.div`
   flex items-center gap-2
-  w-full rounded-lg text-r text-gray text-gray font-semibold cursor-pointer
+  text-s w-full rounded-lg text-gray font-semibold cursor-pointer
   transition-text duration-300 ease-in-out
   hover:text-lightgray
 `;
@@ -48,16 +48,16 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="flex flex-col rounded-lg bg-white p-[1rem] w-[20rem]">
-      <div className="flex gap-[1rem]">
-        <IoPersonCircle className="w-[8rem] h-[8rem]" color="#D3D3D3" />
+    <div className="flex flex-col rounded-lg bg-white px-[1rem] w-[16rem] py-[1.5rem]">
+      <div className="flex gap-[2rem]">
+        <IoPersonCircle className="w-[4rem] h-[4rem]" color="#D3D3D3" />
         <div className="flex flex-col justify-around">
           <Link href={"/profile"}>
             <ProfileButton>
               {isLoading ? "홍길동" : name} {"님"}
               <IoIosArrowForward
                 className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"
-                size={16}
+                size={12}
               />
             </ProfileButton>
           </Link>

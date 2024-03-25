@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 
 const Container = tw.nav`
-  w-[20rem] bg-white rounded-lg h-full flex flex-col p-[1rem] gap-[1rem]
+  w-[16rem] bg-white rounded-lg h-full flex flex-col p-[1rem] gap-[1rem]
 `;
 
 const Ul = tw.ul`
@@ -20,12 +20,12 @@ const Ul = tw.ul`
 `;
 
 const Li = tw.li`
-  w-full h-[4rem] bg-lightgray rounded-lg font-semibold
+  w-full h-[3.5rem] bg-lightgray rounded-lg font-semibold text-s
   flex justify-center items-center
 `;
 
 const SkeletonLi = tw.li`
-  w-full h-[4rem] bg-lightgray rounded-lg font-semibold
+  w-full h-[3.5rem] bg-lightgray rounded-lg font-semibold
   animate-pulse
 `;
 
@@ -92,14 +92,14 @@ export default function OptionBox() {
 
   return (
     <Container className="overflow-scroll">
-      <div className="h-[3rem] flex justify-end items-center opacity-20 hover:opacity-55 transition-opacity duration-300 ease-in-out">
+      <div className="h-[3rem] w-full flex justify-end items-center opacity-20 hover:opacity-55 transition-opacity duration-300 ease-in-out">
         <button
           className="hover:bg-lightgray rounded-full cursor-pointer transition-bg duration-300 ease-in-out"
           onMouseOver={() => setIsHover(true)}
           onMouseLeave={handleMouseLeave}
           onClick={handleOpenModal}
         >
-          <Image src="/add.png" alt="더하기" width={18} height={18} />
+          <Image src="/add.png" alt="더하기" width={16} height={16} />
         </button>
       </div>
       {isLoading ? (
