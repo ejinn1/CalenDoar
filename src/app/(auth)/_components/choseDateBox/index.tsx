@@ -164,7 +164,7 @@ export default function ChoseDateBox({ onClose, clickedDate }: Prop) {
                 ${day ? "hover:bg-lightgray  cursor-pointer" : ""}
                 ${
                   day && isAfter(day, startDate) && isBefore(day, endDate)
-                    ? "bg-lightblue opacity-15"
+                    ? "bg-lightblue opacity-40"
                     : ""
                 }
                 `}
