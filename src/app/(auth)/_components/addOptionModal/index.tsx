@@ -2,7 +2,6 @@
 
 import { optionColors } from "@/constants/optionColor";
 import { createClient } from "@/libs/supabase/client";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import tw from "tailwind-styled-components";
@@ -12,7 +11,7 @@ interface Prop {
 }
 
 const Field = tw.div`
-  flex flex-col gap-[1rem]
+  flex flex-col gap-[1rem] relative
 `;
 
 const Label = tw.label`
@@ -28,24 +27,25 @@ const ButtonContainer = tw.div`
 `;
 
 const ColorButton = tw.button`
-  w-[2.5rem] h-[2.5rem] rounded-full border-2
+  w-[2rem] h-[2rem] rounded-full border-2
   transition-all duration-200 ease-in-out
   hover:w-[3rem] hover:h-[3rem]
 `;
 
 const AddButton = tw.button`
-  w-full rounded-xl bg-lightgray h-[6rem] text-m font-semibold
+  w-full rounded-xl bg-lightgray h-[4rem] text-m font-semibold
 `;
 
-// 서버 연결 필요함
 export default function AddOptionModal({ onClose }: Prop) {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!name) return;
+    if (!color) return;
 
     const {
       data: { session },
@@ -80,14 +80,14 @@ export default function AddOptionModal({ onClose }: Prop) {
         <h1 className="text-l font-bold">옵션 추가</h1>
         <IoClose
           onClick={onClose}
-          size={28}
+          size={20}
           className="absolute top-[2rem] right-[2rem] cursor-pointer opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100"
         />
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col justify-between gap-[2rem] h-[calc(100%-3rem)] pt-[4rem]"
+          className="flex flex-col justify-between gap-[2rem] h-[calc(100%-2rem)] pt-[4rem]"
         >
-          <div className="flex flex-col gap-[2rem]">
+          <div className="flex flex-col gap-[4rem]">
             <Field>
               <Label htmlFor="optionName">이름</Label>
               <Input
@@ -96,6 +96,11 @@ export default function AddOptionModal({ onClose }: Prop) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
+              {!name && (
+                <span className="absolute -bottom-[2rem] left-0 text-lightred flex items-center gap-[0.3rem]">
+                  추가할 옵션의 이름을 입력해주세요
+                </span>
+              )}
             </Field>
             <Field>
               <Label htmlFor="optionColor">색상</Label>
@@ -106,13 +111,18 @@ export default function AddOptionModal({ onClose }: Prop) {
                       type="button"
                       style={{ backgroundColor: option.value }}
                       className={`${
-                        color === option.value ? "w-[3rem] h-[3rem]" : ""
+                        color === option.value ? "w-[2.5rem] h-[2.5rem]" : ""
                       }`}
                       onClick={() => handleSelectedColor(option.value)}
                     />
                   </ButtonContainer>
                 ))}
               </div>
+              {!color && (
+                <span className="absolute -bottom-[2rem] left-0 text-lightred flex items-center gap-[0.3rem]">
+                  추가할 옵션의 색상을 선택해주세요
+                </span>
+              )}
             </Field>
           </div>
           <AddButton>추가</AddButton>
