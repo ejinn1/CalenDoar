@@ -34,9 +34,9 @@ const DayContainer = tw.div`
 
 const DayCell = tw.div`
   w-[3rem] h-[3rem] rounded-full text-m font-semibold
-  flex justify-center items-center cursor-pointer
-  transition-bg duration-200 ease-in-out
-  hover:bg-lightgray
+  flex justify-center items-center
+  transition-bg duration-400 ease-in-out
+  transition-opacity duration-400 ease-in-out
 `;
 
 const ArrowContainer = tw.div`
@@ -82,7 +82,7 @@ export default function ChoseDateBox({ onClose, clickedDate }: Prop) {
   };
 
   return (
-    <div className="absolute top-[4rem] left-[1rem] shadow-md w-[30rem] h-[33rem] bg-white border-2 border-lightgray rounded-lg p-2">
+    <div className="absolute top-[4rem] left-[1rem] shadow-md w-[30rem] h-[33rem] bg-white border-2 border-lightgray rounded-lg p-2 z-10">
       <div className="relative w-full h-full">
         <header className="flex px-[1rem] justify-between items-center">
           <div className="h-[4rem] text-l font-bold flex items-center justify-center">
@@ -161,7 +161,13 @@ export default function ChoseDateBox({ onClose, clickedDate }: Prop) {
                     ? "bg-lightblue text-white"
                     : ""
                 }
-              `}
+                ${day ? "hover:bg-lightgray  cursor-pointer" : ""}
+                ${
+                  day && isAfter(day, startDate) && isBefore(day, endDate)
+                    ? "bg-lightblue opacity-15"
+                    : ""
+                }
+                `}
             >
               {day ? day.getDate() : ""}
             </DayCell>

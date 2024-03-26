@@ -16,7 +16,7 @@ interface Prop {
 }
 
 const Field = tw.div`
-  flex flex-col gap-[1rem]
+  flex flex-col gap-[1rem] relative
 `;
 
 const Label = tw.label`
@@ -32,7 +32,7 @@ const TextArea = tw.textarea`
 `;
 
 const Form = tw.form`
-  flex flex-col justify-between gap-[2rem] h-[calc(100%-9rem)] pt-[2rem] border-t-2 border-lightgray
+  flex flex-col justify-between gap-[2rem] h-[calc(100%-9rem)] pt-[1rem] border-t-2 border-lightgray
 `;
 
 export default function AddEventModal({ day, onClose }: Prop) {
@@ -109,7 +109,7 @@ export default function AddEventModal({ day, onClose }: Prop) {
 
   return (
     <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-30 flex items-center justify-center z-10 drop-shadow-md">
-      <div className="relative bg-white p-[2rem] rounded-lg w-[50rem] h-[50rem] shadow-md">
+      <div className="relative bg-white p-[2rem] rounded-lg w-[40rem] h-[42rem] shadow-md">
         <header className="flex flex-col gap-[1rem] pb-[1rem]">
           <h1 className="text-l font-bold">일정 등록</h1>
           <div className="relative bg-white text-black w-max">
@@ -132,11 +132,11 @@ export default function AddEventModal({ day, onClose }: Prop) {
         </header>
         <IoClose
           onClick={onClose}
-          size={28}
+          size={20}
           className="absolute top-[2rem] right-[2rem] cursor-pointer opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100"
         />
         <Form onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-[2rem]">
+          <div className="flex flex-col gap-[3rem]">
             <Field>
               <div className="flex justify-between">
                 <div className="relative text-m font-semibold flex gap-2 items-center">
@@ -207,6 +207,11 @@ export default function AddEventModal({ day, onClose }: Prop) {
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="제목을 입력해주세요"
               />
+              {!title && (
+                <span className="absolute -bottom-[2rem] left-0 text-lightred flex items-center gap-[0.3rem]">
+                  추가할 일정의 제목을 입력해주세요
+                </span>
+              )}
             </Field>
             <Field>
               <Label>내용</Label>
