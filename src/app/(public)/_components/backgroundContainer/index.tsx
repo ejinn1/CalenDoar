@@ -5,7 +5,7 @@ interface Prop {
 }
 
 const Container = tw.div`
-  bg-white rounded-lg w-full h-full min-w-[75rem] min-h-[70rem] flex justify-center
+  bg-white rounded-lg w-full h-full min-w-[50rem] min-h-[65rem] flex justify-center
   relative
 `;
 
