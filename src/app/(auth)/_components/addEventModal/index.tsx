@@ -96,14 +96,10 @@ export default function AddEventModal({ day, onClose }: Prop) {
       user_id: session.user.id,
     };
 
-    console.log(newEvent);
-
     const { data, error } = await supabase.from("events").insert(newEvent);
 
     if (error) {
       console.log(error);
-    } else {
-      console.log("성공", data);
     }
   };
 

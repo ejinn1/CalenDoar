@@ -19,8 +19,6 @@ export default function Profile() {
 
     if (error) {
       alert(error.message);
-    } else {
-      console.log(data);
     }
   };
 
