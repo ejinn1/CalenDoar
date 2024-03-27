@@ -52,9 +52,14 @@ const config: Config = {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.5" },
         },
+        spin: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transfrom: "rotate(360deg)" },
+        },
       },
       animation: {
         pulse: "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        spin: "spin 2s linear infinite",
       },
     },
     transitionProperty: {
