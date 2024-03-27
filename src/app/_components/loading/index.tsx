@@ -5,5 +5,9 @@ interface Prop {
 }
 
 export default function Loading({ size }: Prop) {
-  return <PiSpinnerGapLight size={size} className="animate-spin" />;
+  return (
+    <div className="w-full h-full flex items-center justify-center">
+      <PiSpinnerGapLight size={size} className="animate-spin" />
+    </div>
+  );
 }
