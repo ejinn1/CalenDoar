@@ -1,4 +1,3 @@
-import Loading from "@/app/_components/loading";
 import useModalOpen from "@/hooks/useModalOpen";
 import { createClient } from "@/libs/supabase/client";
 import useCalendarState from "@/store/calendarDay";
@@ -36,7 +35,6 @@ export default function DayContainer() {
     goToTodayMonth,
   } = useCalendarState();
   const [toDayCheck, setToDayCheck] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setDays(viewDate.getFullYear(), viewDate.getMonth());
@@ -48,8 +46,6 @@ export default function DayContainer() {
     } else {
       setToDayCheck(false);
     }
-
-    setIsLoading(false);
   }, [viewDate, setDays, goToLeftMonth, goToRightMonth, goToTodayMonth]);
 
   const { isOpen, openModal, closeModal } = useModalOpen();
@@ -95,58 +91,52 @@ export default function DayContainer() {
   }, [path]);
 
   return (
-    <>
-      {isLoading ? (
-        <Loading size={40} />
-      ) : (
-        <Container>
-          <WeekRow
-            days={days.slice(0, 7)}
-            events={events}
-            setClickedDay={() => setClickedDay}
-            onOpen={openModal}
-            toDayCheck={toDayCheck}
-          />
-          <WeekRow
-            days={days.slice(7, 14)}
-            events={events}
-            setClickedDay={() => setClickedDay}
-            onOpen={openModal}
-            toDayCheck={toDayCheck}
-          />
-          <WeekRow
-            days={days.slice(14, 21)}
-            events={events}
-            setClickedDay={() => setClickedDay}
-            onOpen={openModal}
-            toDayCheck={toDayCheck}
-          />
-          <WeekRow
-            days={days.slice(21, 28)}
-            events={events}
-            setClickedDay={() => setClickedDay}
-            onOpen={openModal}
-            toDayCheck={toDayCheck}
-          />
-          <WeekRow
-            days={days.slice(28, 35)}
-            events={events}
-            setClickedDay={() => setClickedDay}
-            onOpen={openModal}
-            toDayCheck={toDayCheck}
-          />
-          <WeekRow
-            days={days.slice(35, 42)}
-            events={events}
-            setClickedDay={() => setClickedDay}
-            onOpen={openModal}
-            toDayCheck={toDayCheck}
-          />
-          {isOpen && clickedDay && (
-            <AddEventModal day={clickedDay} onClose={closeModal} />
-          )}
-        </Container>
+    <Container>
+      <WeekRow
+        days={days.slice(0, 7)}
+        events={events}
+        setClickedDay={setClickedDay}
+        onOpen={openModal}
+        toDayCheck={toDayCheck}
+      />
+      <WeekRow
+        days={days.slice(7, 14)}
+        events={events}
+        setClickedDay={setClickedDay}
+        onOpen={openModal}
+        toDayCheck={toDayCheck}
+      />
+      <WeekRow
+        days={days.slice(14, 21)}
+        events={events}
+        setClickedDay={setClickedDay}
+        onOpen={openModal}
+        toDayCheck={toDayCheck}
+      />
+      <WeekRow
+        days={days.slice(21, 28)}
+        events={events}
+        setClickedDay={setClickedDay}
+        onOpen={openModal}
+        toDayCheck={toDayCheck}
+      />
+      <WeekRow
+        days={days.slice(28, 35)}
+        events={events}
+        setClickedDay={setClickedDay}
+        onOpen={openModal}
+        toDayCheck={toDayCheck}
+      />
+      <WeekRow
+        days={days.slice(35, 42)}
+        events={events}
+        setClickedDay={setClickedDay}
+        onOpen={openModal}
+        toDayCheck={toDayCheck}
+      />
+      {isOpen && clickedDay && (
+        <AddEventModal day={clickedDay} onClose={closeModal} />
       )}
-    </>
+    </Container>
   );
 }

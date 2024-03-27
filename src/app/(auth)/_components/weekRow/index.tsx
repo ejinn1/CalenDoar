@@ -6,7 +6,7 @@ import DayCell from "../dayCell";
 interface Props {
   days: (Date | null)[];
   events?: Event[];
-  setClickedDay: () => void;
+  setClickedDay: (day: Date) => void;
   onOpen: () => void;
   toDayCheck: boolean;
 }
@@ -31,7 +31,7 @@ export default function WeekRow({
   const now = new Date();
 
   return (
-    <div className="grid grid-cols-7 h-max min-h-[10rem]">
+    <div className="grid grid-cols-7 h-max min-h-[10.2rem]">
       {days.map((day, index) => (
         <DayCell
           key={index}
