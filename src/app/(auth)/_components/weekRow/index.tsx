@@ -49,6 +49,7 @@ export default function WeekRow({
                 .filter((event: Event) => {
                   const eventStart = new Date(event.start_date);
                   const eventEnd = new Date(event.end_date);
+
                   return (
                     isSameDay(eventStart, day) ||
                     (isAfter(day, eventStart) && isSameOrBefore(day, eventEnd))

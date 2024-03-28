@@ -16,7 +16,11 @@ const Container = tw.div`
 `;
 
 export default function DayContainer() {
+  const supabase = createClient();
+  const path = usePathname();
+
   const now = useMemo(() => new Date(), []);
+
   const {
     viewDate,
     days,
@@ -25,7 +29,12 @@ export default function DayContainer() {
     goToRightMonth,
     goToTodayMonth,
   } = useCalendarState();
+  const { isOpen, openModal, closeModal } = useModalOpen();
+  const { events, setEvents } = useEventState();
+  const { options, isUpdate } = useOptionState();
+
   const [toDayCheck, setToDayCheck] = useState(true);
+  const [clickedDay, setClickedDay] = useState<Date>();
 
   useEffect(() => {
     setDays(viewDate.getFullYear(), viewDate.getMonth());
@@ -38,16 +47,6 @@ export default function DayContainer() {
       setToDayCheck(false);
     }
   }, [viewDate, setDays, goToLeftMonth, goToRightMonth, goToTodayMonth]);
-
-  const { isOpen, openModal, closeModal } = useModalOpen();
-  const [clickedDay, setClickedDay] = useState<Date>();
-
-  const { events, setEvents } = useEventState();
-
-  const path = usePathname();
-  const { options } = useOptionState();
-
-  const supabase = createClient();
 
   useEffect(() => {
     const optionId = getOptionIdOfPath(path, options);
@@ -80,7 +79,7 @@ export default function DayContainer() {
     };
 
     getEvents();
-  }, [path, events, setEvents]);
+  }, [path, isUpdate]);
 
   return (
     <Container>

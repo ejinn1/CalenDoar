@@ -36,11 +36,17 @@ const AddBox = tw.div`
 `;
 
 export default function OptionBox() {
-  const [isHover, setIsHover] = useState(false);
-  const { isOpen, openModal, closeModal } = useModalOpen();
-  const { options, setOptions } = useOptionState();
   const supabase = createClient();
+  const path = usePathname();
+
+  const { isOpen, openModal, closeModal } = useModalOpen();
+  const { options, setOptions, isUpdate } = useOptionState();
+
+  const [isHover, setIsHover] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [clickedOption, setClickedOption] = useState(
+    getOptionIdOfPath(path, options)
+  );
 
   const handleOpenModal = () => {
     openModal();
@@ -52,6 +58,10 @@ export default function OptionBox() {
       setIsHover(false);
     }
   };
+
+  useEffect(() => {
+    setClickedOption(getOptionIdOfPath(path, options));
+  }, [path]);
 
   useEffect(() => {
     handleMouseLeave();
@@ -79,16 +89,7 @@ export default function OptionBox() {
     };
 
     getOptions();
-  }, [options, setOptions]);
-
-  const path = usePathname();
-  const [clickedOption, setClickedOption] = useState(
-    getOptionIdOfPath(path, options)
-  );
-
-  useEffect(() => {
-    setClickedOption(getOptionIdOfPath(path, options));
-  }, [path]);
+  }, [path, isUpdate]);
 
   return (
     <Container className="overflow-scroll">

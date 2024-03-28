@@ -2,6 +2,7 @@
 
 import { optionColors } from "@/constants/optionColor";
 import { createClient } from "@/libs/supabase/client";
+import useOptionState from "@/store/options";
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import tw from "tailwind-styled-components";
@@ -40,6 +41,7 @@ export default function AddOptionModal({ onClose }: Prop) {
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const supabase = createClient();
+  const { toggleUpdate } = useOptionState();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,6 +66,7 @@ export default function AddOptionModal({ onClose }: Prop) {
     if (error) {
       console.log(error);
     } else {
+      toggleUpdate();
       onClose();
     }
   };

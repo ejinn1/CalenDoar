@@ -37,30 +37,21 @@ const Form = tw.form`
 
 export default function AddEventModal({ day, onClose }: Prop) {
   const supabase = createClient();
-
-  const [isTimeConfig, setIsTimeConfig] = useState(false);
-
   const path = usePathname();
 
-  const { options } = useOptionState();
-
-  const [seletedOption, setSelectedOption] = useState(
-    getOptionIdOfPath(path, options)
-  );
-
-  const [isClickedDate, setIsClickedDate] = useState(false);
+  const { options, toggleUpdate } = useOptionState();
   const { startDate, setStartDate, endDate, setEndDate, startTime, endTime } =
     useEventScheduler();
 
+  const [isTimeConfig, setIsTimeConfig] = useState(false);
+  const [seletedOption, setSelectedOption] = useState(
+    getOptionIdOfPath(path, options)
+  );
+  const [isClickedDate, setIsClickedDate] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
-
-  useEffect(() => {
-    setStartDate(day);
-    setEndDate(day);
-  }, [day]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -101,9 +92,15 @@ export default function AddEventModal({ day, onClose }: Prop) {
     if (error) {
       console.log(error);
     } else {
+      toggleUpdate();
       onClose();
     }
   };
+
+  useEffect(() => {
+    setStartDate(day);
+    setEndDate(day);
+  }, [day]);
 
   return (
     <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-30 flex items-center justify-center z-10 drop-shadow-md">
