@@ -33,18 +33,18 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    const getUserSession = async () => {
+    const getUserInfo = async () => {
       const {
-        data: { session },
-      } = await supabase.auth.getSession();
+        data: { user },
+      } = await supabase.auth.getUser();
 
-      if (!session) return;
+      if (!user) return;
 
       setIsLoading(false);
-      setName(session.user.user_metadata.user_name);
+      setName(user.user_metadata.user_name);
     };
 
-    getUserSession();
+    getUserInfo();
   }, []);
 
   return (

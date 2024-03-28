@@ -66,10 +66,10 @@ export default function AddEventModal({ day, onClose }: Prop) {
     e.preventDefault();
 
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    if (!session) return;
+    if (!user) return;
 
     const start_date = `${startDate.getFullYear()}-${(startDate.getMonth() + 1)
       .toString()
@@ -93,7 +93,7 @@ export default function AddEventModal({ day, onClose }: Prop) {
       start_time: start_time,
       end_time: end_time,
       option_id: seletedOption,
-      user_id: session.user.id,
+      user_id: user.id,
     };
 
     const { data, error } = await supabase.from("events").insert(newEvent);

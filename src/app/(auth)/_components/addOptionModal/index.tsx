@@ -48,15 +48,15 @@ export default function AddOptionModal({ onClose }: Prop) {
     if (!color) return;
 
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    if (!session) return;
+    if (!user) return;
 
     const newOption = {
       name: name,
       color: color,
-      user_id: session.user.id,
+      user_id: user.id,
     };
 
     const { error } = await supabase.from("options").insert(newOption);
