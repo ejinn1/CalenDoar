@@ -1,5 +1,6 @@
 "use client";
 
+import { Event } from "@/store/events";
 import { isAfter, isSameDay, isSameOrBefore } from "@/utils/date";
 import DayCell from "../dayCell";
 
@@ -9,16 +10,6 @@ interface Props {
   setClickedDay: (day: Date) => void;
   onOpen: () => void;
   toDayCheck: boolean;
-}
-
-interface Event {
-  title: string;
-  body: string;
-  start_date: string;
-  end_date: string;
-  start_time: string;
-  end_time: string;
-  check: boolean;
 }
 
 export default function WeekRow({

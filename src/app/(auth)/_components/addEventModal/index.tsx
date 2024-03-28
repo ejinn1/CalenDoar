@@ -100,6 +100,8 @@ export default function AddEventModal({ day, onClose }: Prop) {
 
     if (error) {
       console.log(error);
+    } else {
+      onClose();
     }
   };
 

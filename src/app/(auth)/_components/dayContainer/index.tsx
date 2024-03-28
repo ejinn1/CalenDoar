@@ -1,6 +1,7 @@
 import useModalOpen from "@/hooks/useModalOpen";
 import { createClient } from "@/libs/supabase/client";
 import useCalendarState from "@/store/calendarDay";
+import useEventState from "@/store/events";
 import useOptionState from "@/store/options";
 import { getOptionIdOfPath } from "@/utils/path";
 import { usePathname } from "next/navigation";
@@ -8,16 +9,6 @@ import { useEffect, useMemo, useState } from "react";
 import tw from "tailwind-styled-components";
 import AddEventModal from "../addEventModal";
 import WeekRow from "../weekRow";
-
-interface Event {
-  title: string;
-  body: string;
-  start_date: string;
-  end_date: string;
-  start_time: string;
-  end_time: string;
-  check: boolean;
-}
 
 const Container = tw.div`
   w-full h-[calc(100%-7rem)]
@@ -51,7 +42,7 @@ export default function DayContainer() {
   const { isOpen, openModal, closeModal } = useModalOpen();
   const [clickedDay, setClickedDay] = useState<Date>();
 
-  const [events, setEvents] = useState<Event[]>();
+  const { events, setEvents } = useEventState();
 
   const path = usePathname();
   const { options } = useOptionState();
@@ -73,22 +64,23 @@ export default function DayContainer() {
 
       if (!user) return;
 
-      const { data, error } = await supabase
-        .from("events")
-        .select()
-        .eq("option_id", optionId)
-        .eq("user_id", user.id);
+      let query = supabase.from("events").select().eq("user_id", user.id);
+
+      if (path !== "/") {
+        query = query.eq("option_id", optionId);
+      }
+
+      const { data, error } = await query;
 
       if (error) {
         console.log("조회오류", error);
       } else {
-        console.log("성공", data);
         setEvents(data);
       }
     };
 
     getEvents();
-  }, [path]);
+  }, [path, events, setEvents]);
 
   return (
     <Container>
