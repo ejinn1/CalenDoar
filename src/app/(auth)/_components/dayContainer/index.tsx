@@ -33,19 +33,10 @@ export default function DayContainer() {
   const { events, setEvents } = useEventState();
   const { options, isUpdate } = useOptionState();
 
-  const [toDayCheck, setToDayCheck] = useState(true);
-  const [clickedDay, setClickedDay] = useState<Date>();
+  const [selectedDay, setSelectedDay] = useState<Date>();
 
   useEffect(() => {
     setDays(viewDate.getFullYear(), viewDate.getMonth());
-    if (
-      now.getMonth() === viewDate.getMonth() &&
-      now.getFullYear() === viewDate.getFullYear()
-    ) {
-      setToDayCheck(true);
-    } else {
-      setToDayCheck(false);
-    }
   }, [viewDate, setDays, goToLeftMonth, goToRightMonth, goToTodayMonth]);
 
   useEffect(() => {
@@ -86,47 +77,47 @@ export default function DayContainer() {
       <WeekRow
         days={days.slice(0, 7)}
         events={events}
-        setClickedDay={setClickedDay}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
         onOpen={openModal}
-        toDayCheck={toDayCheck}
       />
       <WeekRow
         days={days.slice(7, 14)}
         events={events}
-        setClickedDay={setClickedDay}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
         onOpen={openModal}
-        toDayCheck={toDayCheck}
       />
       <WeekRow
         days={days.slice(14, 21)}
         events={events}
-        setClickedDay={setClickedDay}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
         onOpen={openModal}
-        toDayCheck={toDayCheck}
       />
       <WeekRow
         days={days.slice(21, 28)}
         events={events}
-        setClickedDay={setClickedDay}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
         onOpen={openModal}
-        toDayCheck={toDayCheck}
       />
       <WeekRow
         days={days.slice(28, 35)}
         events={events}
-        setClickedDay={setClickedDay}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
         onOpen={openModal}
-        toDayCheck={toDayCheck}
       />
       <WeekRow
         days={days.slice(35, 42)}
         events={events}
-        setClickedDay={setClickedDay}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
         onOpen={openModal}
-        toDayCheck={toDayCheck}
       />
-      {isOpen && clickedDay && (
-        <AddEventModal day={clickedDay} onClose={closeModal} />
+      {isOpen && selectedDay && (
+        <AddEventModal day={selectedDay} onClose={closeModal} />
       )}
     </Container>
   );

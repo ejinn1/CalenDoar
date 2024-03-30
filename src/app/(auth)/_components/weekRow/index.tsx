@@ -8,9 +8,9 @@ import DayCell from "../dayCell";
 interface Props {
   days: (Date | null)[];
   events?: Event[];
-  setClickedDay: (day: Date) => void;
+  selectedDay?: Date;
+  setSelectedDay: (day: Date) => void;
   onOpen: () => void;
-  toDayCheck: boolean;
 }
 
 const WeekContainer = tw.div`
@@ -24,33 +24,20 @@ const EventsContainer = tw.span`
 export default function WeekRow({
   days,
   events,
-  setClickedDay,
+  selectedDay,
+  setSelectedDay,
   onOpen,
-  toDayCheck,
 }: Props) {
-  const now = new Date();
-
   return (
     <WeekContainer>
       {days.map((day, index) => (
         <DayCell
           key={index}
           day={day}
-          setClickedDay={setClickedDay}
+          setClickedDay={setSelectedDay}
           onOpen={onOpen}
-          className={`${day !== null ? "shadow-sm cursor-pointer" : ""} ${
-            day?.getDay() === 0 ? "text-lightred" : ""
-          }`}
+          className={`${day !== null ? "shadow-sm cursor-pointer" : ""}`}
         >
-          <span
-            className={`flex justify-center items-center rounded-full w-[1.7rem] h-[1.7rem] ${
-              toDayCheck && now.getDate() === day?.getDate()
-                ? "bg-lightred text-white"
-                : ""
-            }`}
-          >
-            {day ? day.getDate() : ""}
-          </span>
           <EventsContainer>
             {day &&
               events &&
