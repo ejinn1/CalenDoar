@@ -7,7 +7,7 @@ import { getOptionIdOfPath } from "@/utils/path";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import tw from "tailwind-styled-components";
-import AddEventModal from "../addEventModal";
+import AddEventModal from "../_modal/addEventModal";
 import WeekRow from "../weekRow";
 
 const Container = tw.div`
@@ -29,7 +29,12 @@ export default function DayContainer() {
     goToRightMonth,
     goToTodayMonth,
   } = useCalendarState();
-  const { isOpen, openModal, closeModal } = useModalOpen();
+  const {
+    isOpen: isOpenAdd,
+    openModal: openAddModal,
+    closeModal: closeAddMoal,
+  } = useModalOpen();
+
   const { events, setEvents } = useEventState();
   const { options, isUpdate } = useOptionState();
 
@@ -79,45 +84,45 @@ export default function DayContainer() {
         events={events}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
-        onOpen={openModal}
+        openAdd={openAddModal}
       />
       <WeekRow
         days={days.slice(7, 14)}
         events={events}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
-        onOpen={openModal}
+        openAdd={openAddModal}
       />
       <WeekRow
         days={days.slice(14, 21)}
         events={events}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
-        onOpen={openModal}
+        openAdd={openAddModal}
       />
       <WeekRow
         days={days.slice(21, 28)}
         events={events}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
-        onOpen={openModal}
+        openAdd={openAddModal}
       />
       <WeekRow
         days={days.slice(28, 35)}
         events={events}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
-        onOpen={openModal}
+        openAdd={openAddModal}
       />
       <WeekRow
         days={days.slice(35, 42)}
         events={events}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
-        onOpen={openModal}
+        openAdd={openAddModal}
       />
-      {isOpen && selectedDay && (
-        <AddEventModal day={selectedDay} onClose={closeModal} />
+      {isOpenAdd && selectedDay && (
+        <AddEventModal day={selectedDay} onClose={closeAddMoal} />
       )}
     </Container>
   );

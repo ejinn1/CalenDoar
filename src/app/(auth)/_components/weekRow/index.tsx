@@ -1,8 +1,11 @@
 "use client";
 
+import useModalOpen from "@/hooks/useModalOpen";
 import { Event } from "@/store/events";
 import { isAfter, isSameDay, isSameOrBefore } from "@/utils/date";
+import { useState } from "react";
 import tw from "tailwind-styled-components";
+import EditEventModal from "../_modal/editEventModal";
 import DayCell from "../dayCell";
 
 interface Props {
@@ -10,7 +13,7 @@ interface Props {
   events?: Event[];
   selectedDay?: Date;
   setSelectedDay: (day: Date) => void;
-  onOpen: () => void;
+  openAdd: () => void;
 }
 
 const WeekContainer = tw.div`
@@ -21,13 +24,28 @@ const EventsContainer = tw.span`
   w-full flex justify-center items-center flex-col gap-2 mt-2
 `;
 
+const EventItem = tw.span`
+  w-full bg-lightgray h-max text-r rounded-sm flex justify-center cursor-pointer
+  transition duration-300 ease-in-out
+  hover:shadow-md
+  hover:text-gray
+`;
+
 export default function WeekRow({
   days,
   events,
-  selectedDay,
   setSelectedDay,
-  onOpen,
+  openAdd,
 }: Props) {
+  const {
+    isOpen: isOpenEdit,
+    openModal: openEdit,
+    closeModal: closeEdit,
+  } = useModalOpen();
+
+  const [selectedEvent, setSelectedEvent] = useState<Event>();
+  const [eventDay, setEventDay] = useState<Date>();
+
   return (
     <WeekContainer>
       {days.map((day, index) => (
@@ -35,8 +53,8 @@ export default function WeekRow({
           key={index}
           day={day}
           setClickedDay={setSelectedDay}
-          onOpen={onOpen}
-          className={`${day !== null ? "shadow-sm cursor-pointer" : ""}`}
+          onOpen={openAdd}
+          className={`${day !== null ? "shadow-sm" : ""}`}
         >
           <EventsContainer>
             {day &&
@@ -51,16 +69,29 @@ export default function WeekRow({
                   );
                 })
                 .map((event: Event, eventIndex: number) => (
-                  <span
+                  <EventItem
                     key={eventIndex}
-                    className="w-full bg-lightgray h-max text-r rounded-sm flex justify-center text-black"
+                    onClick={(e) => {
+                      e.stopPropagation();
+
+                      setEventDay(day);
+                      setSelectedEvent(event);
+                      openEdit();
+                    }}
                   >
                     {event.title}
-                  </span>
+                  </EventItem>
                 ))}
           </EventsContainer>
         </DayCell>
       ))}
+      {isOpenEdit && selectedEvent && eventDay && (
+        <EditEventModal
+          event={selectedEvent}
+          day={eventDay}
+          onClose={closeEdit}
+        />
+      )}
     </WeekContainer>
   );
 }

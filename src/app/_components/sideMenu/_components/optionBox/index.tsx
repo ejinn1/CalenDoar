@@ -1,6 +1,6 @@
 "use client";
 
-import AddOptionModal from "@/app/(auth)/_components/addOptionModal";
+import AddOptionModal from "@/app/(auth)/_components/_modal/addOptionModal";
 import useModalOpen from "@/hooks/useModalOpen";
 import { createClient } from "@/libs/supabase/client";
 import useOptionState, { Option } from "@/store/options";
