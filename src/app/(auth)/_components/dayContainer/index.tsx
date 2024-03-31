@@ -114,13 +114,15 @@ export default function DayContainer() {
         setSelectedDay={setSelectedDay}
         openAdd={openAddModal}
       />
-      <WeekRow
-        days={days.slice(35, 42)}
-        events={events}
-        selectedDay={selectedDay}
-        setSelectedDay={setSelectedDay}
-        openAdd={openAddModal}
-      />
+      {days.slice(35, 42).length !== 0 && (
+        <WeekRow
+          days={days.slice(35, 42)}
+          events={events}
+          selectedDay={selectedDay}
+          setSelectedDay={setSelectedDay}
+          openAdd={openAddModal}
+        />
+      )}
       {isOpenAdd && selectedDay && (
         <AddEventModal day={selectedDay} onClose={closeAddMoal} />
       )}
