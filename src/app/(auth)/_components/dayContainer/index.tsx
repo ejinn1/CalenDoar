@@ -39,6 +39,24 @@ export default function DayContainer() {
   const { options, isUpdate } = useOptionState();
 
   const [selectedDay, setSelectedDay] = useState<Date>();
+  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(
+    null
+  );
+
+  // 타이머를 활용한 스크롤 이벤트
+  const handleWheelEvent = (e: React.WheelEvent) => {
+    if (debounceTimer) clearTimeout(debounceTimer);
+
+    const newTimer = setTimeout(() => {
+      if (e.deltaX > 20) {
+        goToRightMonth();
+      } else if (e.deltaX < -20) {
+        goToLeftMonth();
+      }
+    }, 100);
+
+    setDebounceTimer(newTimer);
+  };
 
   useEffect(() => {
     setDays(viewDate.getFullYear(), viewDate.getMonth());
@@ -77,8 +95,14 @@ export default function DayContainer() {
     getEvents();
   }, [path, isUpdate]);
 
+  useEffect(() => {
+    return () => {
+      if (debounceTimer) clearTimeout(debounceTimer);
+    };
+  }, [debounceTimer]);
+
   return (
-    <Container>
+    <Container onWheel={handleWheelEvent}>
       <WeekRow
         days={days.slice(0, 7)}
         events={events}
