@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 export interface Event {
+  id: string;
   title: string;
   body?: string;
   start_date: string;
@@ -8,6 +9,7 @@ export interface Event {
   start_time: string;
   end_time: string;
   check?: boolean;
+  option_id: string;
 }
 
 interface EventState {

@@ -4,8 +4,6 @@ import { createClient } from "@/libs/supabase/client";
 import useEventScheduler from "@/store/eventScheduler";
 import { Event } from "@/store/events";
 import useOptionState from "@/store/options";
-import { getOptionIdOfPath } from "@/utils/path";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import tw from "tailwind-styled-components";
@@ -40,16 +38,13 @@ const Form = tw.form`
 
 export default function EditEventModal({ event, day, onClose }: Prop) {
   const supabase = createClient();
-  const path = usePathname();
 
   const { options, toggleUpdate } = useOptionState();
   const { startDate, setStartDate, endDate, setEndDate, startTime, endTime } =
     useEventScheduler();
 
   const [isTimeConfig, setIsTimeConfig] = useState(false);
-  const [seletedOption, setSelectedOption] = useState(
-    getOptionIdOfPath(path, options)
-  );
+  const [seletedOption, setSelectedOption] = useState(event.option_id);
   const [isClickedDate, setIsClickedDate] = useState(false);
   const [title, setTitle] = useState(event.title);
   const [body, setBody] = useState(event.body);
@@ -79,18 +74,19 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
       .toString()
       .padStart(2, "0")}:${endTime.minute.toString().padStart(2, "0")}`;
 
-    const newEvent = {
+    const editEvent = {
       title: title,
       body: body,
       start_date: start_date,
       end_date: end_date,
       start_time: start_time,
       end_time: end_time,
-      option_id: seletedOption,
-      user_id: user.id,
     };
 
-    const { error } = await supabase.from("events").insert(newEvent);
+    const { error } = await supabase
+      .from("events")
+      .update(editEvent)
+      .eq("id", event.id);
 
     if (error) {
       console.log(error);
@@ -101,9 +97,11 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
   };
 
   useEffect(() => {
-    setStartDate(day);
-    setEndDate(day);
-  }, [day]);
+    console.log(event);
+
+    setStartDate(new Date(event.start_date));
+    setEndDate(new Date(event.end_date));
+  }, [event]);
 
   return (
     <Container>
@@ -221,17 +219,10 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
         </div>
         <div className="flex justify-end gap-[1rem]">
           <button
-            type="button"
-            onClick={onClose}
-            className="px-[1.4rem] py-[0.8rem] border-[0.1rem] rounded-lg border-lightgray text-m font-semibold"
-          >
-            취소
-          </button>
-          <button
             type="submit"
             className="px-[1.4rem] py-[0.8rem] border-[0.1rem] rounded-lg bg-lightblue text-white text-m font-semibold"
           >
-            저장
+            수정
           </button>
         </div>
       </Form>
