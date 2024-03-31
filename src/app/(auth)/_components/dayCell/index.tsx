@@ -61,10 +61,12 @@ export default function DayCell({
       <TopDiv>
         <DayContainer
           className={`${
-            day && isSameDay(now, day) && now.getDate() === day?.getDate()
+            day && isSameDay(now, day)
               ? "bg-lightred text-white"
+              : day.getDay() === 0
+              ? "text-lightred"
               : ""
-          } ${day?.getDay() === 0 ? "text-lightred" : ""}`}
+          }`}
         >
           {day ? day.getDate() : ""}
         </DayContainer>
