@@ -1,32 +1,26 @@
 import useModalOpen from "@/hooks/useModalOpen";
 import { createClient } from "@/libs/supabase/client";
 import useCalendarState from "@/store/calendarDay";
+import useEventState from "@/store/events";
 import useOptionState from "@/store/options";
-import { isAfter, isSameDay, isSameOrBefore } from "@/utils/date";
 import { getOptionIdOfPath } from "@/utils/path";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import tw from "tailwind-styled-components";
-import AddEventModal from "../addEventModal";
-import DayCell from "../dayCell";
-
-interface Event {
-  title: string;
-  body: string;
-  start_date: string;
-  end_date: string;
-  start_time: string;
-  end_time: string;
-  check: boolean;
-}
+import AddEventModal from "../_modal/addEventModal";
+import WeekRow from "../weekRow";
 
 const Container = tw.div`
   w-full h-[calc(100%-7rem)]
-  grid grid-cols-7 grid-auto-row
+  overflow-scroll
 `;
 
 export default function DayContainer() {
+  const supabase = createClient();
+  const path = usePathname();
+
   const now = useMemo(() => new Date(), []);
+
   const {
     viewDate,
     days,
@@ -35,29 +29,38 @@ export default function DayContainer() {
     goToRightMonth,
     goToTodayMonth,
   } = useCalendarState();
-  const [toDayCheck, setToDayCheck] = useState(true);
+  const {
+    isOpen: isOpenAdd,
+    openModal: openAddModal,
+    closeModal: closeAddMoal,
+  } = useModalOpen();
+
+  const { events, setEvents } = useEventState();
+  const { options, isUpdate } = useOptionState();
+
+  const [selectedDay, setSelectedDay] = useState<Date>();
+  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(
+    null
+  );
+
+  // 타이머를 활용한 스크롤 이벤트
+  const handleWheelEvent = (e: React.WheelEvent) => {
+    if (debounceTimer) clearTimeout(debounceTimer);
+
+    const newTimer = setTimeout(() => {
+      if (e.deltaX > 20) {
+        goToRightMonth();
+      } else if (e.deltaX < -20) {
+        goToLeftMonth();
+      }
+    }, 100);
+
+    setDebounceTimer(newTimer);
+  };
 
   useEffect(() => {
     setDays(viewDate.getFullYear(), viewDate.getMonth());
-    if (
-      now.getMonth() === viewDate.getMonth() &&
-      now.getFullYear() === viewDate.getFullYear()
-    ) {
-      setToDayCheck(true);
-    } else {
-      setToDayCheck(false);
-    }
   }, [viewDate, setDays, goToLeftMonth, goToRightMonth, goToTodayMonth]);
-
-  const { isOpen, openModal, closeModal } = useModalOpen();
-  const [clickedDay, setClickedDay] = useState<Date>();
-
-  const [events, setEvents] = useState<any>();
-
-  const path = usePathname();
-  const { options } = useOptionState();
-
-  const supabase = createClient();
 
   useEffect(() => {
     const optionId = getOptionIdOfPath(path, options);
@@ -68,68 +71,84 @@ export default function DayContainer() {
     }
 
     const getEvents = async () => {
-      const { data, error } = await supabase
-        .from("events")
-        .select()
-        .eq("option_id", optionId);
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      let query = supabase.from("events").select().eq("user_id", user.id);
+
+      if (path !== "/") {
+        query = query.eq("option_id", optionId);
+      }
+
+      const { data, error } = await query;
 
       if (error) {
         console.log("조회오류", error);
       } else {
-        console.log("성공", data);
         setEvents(data);
       }
     };
 
     getEvents();
-  }, [path]);
+  }, [path, isUpdate]);
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimer) clearTimeout(debounceTimer);
+    };
+  }, [debounceTimer]);
 
   return (
-    <Container>
-      {days.map((day, index) => (
-        <DayCell
-          key={index}
-          day={day}
-          setClickedDay={setClickedDay}
-          onOpen={openModal}
-          className={`${day !== null ? "shadow-sm cursor-pointer" : ""} ${
-            day?.getDay() === 0 ? "text-lightred" : ""
-          }`}
-        >
-          <span
-            className={`flex justify-center items-center rounded-full w-[2rem] h-[2rem] ${
-              toDayCheck && now.getDate() === day?.getDate()
-                ? "bg-lightred text-white"
-                : ""
-            }`}
-          >
-            {day ? day.getDate() : ""}
-          </span>
-          <span className="absolute top-[3.2rem] w-full left-0 flex flex-col">
-            {day &&
-              events &&
-              events
-                .filter((event: Event) => {
-                  const eventStart = new Date(event.start_date);
-                  const eventEnd = new Date(event.end_date);
-                  return (
-                    isSameDay(eventStart, day) ||
-                    (isAfter(day, eventStart) && isSameOrBefore(day, eventEnd))
-                  );
-                })
-                .map((event: Event, eventIndex: number) => (
-                  <span
-                    key={eventIndex}
-                    className="w-full bg-lightgray h-max text-r flex justify-center"
-                  >
-                    {event.title}
-                  </span>
-                ))}
-          </span>
-        </DayCell>
-      ))}
-      {isOpen && clickedDay && (
-        <AddEventModal day={clickedDay} onClose={closeModal} />
+    <Container onWheel={handleWheelEvent}>
+      <WeekRow
+        days={days.slice(0, 7)}
+        events={events}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
+        openAdd={openAddModal}
+      />
+      <WeekRow
+        days={days.slice(7, 14)}
+        events={events}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
+        openAdd={openAddModal}
+      />
+      <WeekRow
+        days={days.slice(14, 21)}
+        events={events}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
+        openAdd={openAddModal}
+      />
+      <WeekRow
+        days={days.slice(21, 28)}
+        events={events}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
+        openAdd={openAddModal}
+      />
+      <WeekRow
+        days={days.slice(28, 35)}
+        events={events}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
+        openAdd={openAddModal}
+      />
+      {days.slice(35, 42).length !== 0 && (
+        <WeekRow
+          days={days.slice(35, 42)}
+          events={events}
+          selectedDay={selectedDay}
+          setSelectedDay={setSelectedDay}
+          openAdd={openAddModal}
+        />
+      )}
+      {isOpenAdd && selectedDay && (
+        <AddEventModal day={selectedDay} onClose={closeAddMoal} />
       )}
     </Container>
   );

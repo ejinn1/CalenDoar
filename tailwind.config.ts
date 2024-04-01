@@ -18,14 +18,14 @@ const config: Config = {
         black: "900",
       },
       fontSize: {
-        xxl: "6rem",
-        xl: "4rem",
-        l: "2rem",
-        m: "1.5rem",
-        r: "1.2rem",
-        s: "1rem",
-        xs: "0.7rem",
-        xxs: "0.4rem",
+        xxl: "5rem",
+        xl: "2rem",
+        l: "1.5rem",
+        m: "1.2rem",
+        r: "1rem",
+        s: "0.8rem",
+        xs: "0.5rem",
+        xxs: "0.2rem",
       },
       backgroundColor: {
         lightgray: "#D3D3D3",
@@ -52,9 +52,14 @@ const config: Config = {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.5" },
         },
+        spin: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transfrom: "rotate(360deg)" },
+        },
       },
       animation: {
         pulse: "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        spin: "spin 2s linear infinite",
       },
     },
     transitionProperty: {

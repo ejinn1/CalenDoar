@@ -9,7 +9,7 @@ interface Prop {
 export default function Layout({ children }: Prop) {
   return (
     <AuthProvider>
-      <div className="pt-[10rem] w-screen h-screen bg-gray flex gap-[2rem] p-[2rem]">
+      <div className="pt-[6rem] w-screen h-screen bg-gray flex gap-[1rem] p-[1rem]">
         <Header />
         <SideMenu />
         {children}

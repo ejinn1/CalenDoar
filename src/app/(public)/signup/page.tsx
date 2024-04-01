@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import tw from "tailwind-styled-components";
-import BackGroundContainer from "../_components/backgroundContainer";
 
 {
   /* <div className="relative w-full h-full overflow-hidden bg-gray-100">
@@ -18,10 +17,9 @@ import BackGroundContainer from "../_components/backgroundContainer";
 }
 
 const BackContainer = tw.div`
-  absolute top-[2rem] left-[2rem] cursor-pointer rounded-full opacity-50
+  absolute top-[2rem] left-[2rem] cursor-pointer opacity-50
   transition-all duration-300 ease-in-out
-  hover:bg-lightgray hover:opacity-100
-
+  hover:opacity-100
 `;
 
 const Box = tw.div`
@@ -38,7 +36,7 @@ const Input = tw.input`
 `;
 
 const Form = tw.form`
-  flex flex-col gap-[10rem]
+  flex flex-col gap-[5rem]
 `;
 
 const ErrorMessage = tw.div`
@@ -76,17 +74,14 @@ export default function SignUp() {
   };
 
   return (
-    <BackGroundContainer>
+    <main className="w-[40rem] flex flex-col items-center">
       <BackContainer>
         <Link href={"/login"}>
-          <IoIosArrowBack size={24} />
+          <IoIosArrowBack size={20} />
         </Link>
       </BackContainer>
-      <div className="w-[70rem] h-full p-[4rem] flex flex-col justify-between">
-        <div>
-          <h1 className="text-l font-semibold">CalenDoar</h1>
-          <h3 className="text-xxl font-bold">회원가입</h3>
-        </div>
+      <div className="min-w-[40rem] w-full max-w-[80rem] h-full px-[4rem] py-[2rem] flex flex-col justify-between gap-[5rem]">
+        <h1 className="text-xxl font-bold">회원가입</h1>
         <Form onSubmit={handelSignUp}>
           <div className="flex flex-col gap-[3rem]">
             <Box>
@@ -148,6 +143,6 @@ export default function SignUp() {
           </button>
         </Form>
       </div>
-    </BackGroundContainer>
+    </main>
   );
 }

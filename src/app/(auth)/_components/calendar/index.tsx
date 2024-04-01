@@ -14,7 +14,7 @@ const WeekContainer = tw.div`
 `;
 
 const WeekCell = tw.div`
-  w-full h-[3rem] text-[1.5rem] pl-[1.2rem]
+  w-full h-[3rem] text-[1.2rem] pl-[0.9rem]
   flex justify-start items-center font-semibold
 `;
 
@@ -24,7 +24,7 @@ const ArrowContainer = tw.div`
 `;
 
 const TodayContainer = tw.div`
-  w-[4rem] ml-2 flex justify-center items-center
+  w-[4rem] ml-2 flex justify-center items-center text-r
   border-2 rounded-lg p-2 border-lightgray border-dotted
   cursor-pointer
   hover:bg-lightgray transition-bg duration-300 ease-in-out
@@ -38,7 +38,7 @@ export default function Calendar({ children }: Prop) {
   return (
     <ContentsBox>
       <header className="relative flex w-[20rem] items-center justify-between gap-[2rem]">
-        <div className="h-[4rem] text-l font-bold flex items-center justify-center">{`${viewDate.getFullYear()}.${(
+        <div className="h-[4rem] pl-[0.7rem] text-xl font-bold flex items-center justify-center">{`${viewDate.getFullYear()}.${(
           viewDate.getMonth() + 1
         )
           .toString()
@@ -49,16 +49,16 @@ export default function Calendar({ children }: Prop) {
             <Image
               src="/leftArrow.png"
               alt="왼쪽 화살표"
-              width={16}
-              height={16}
+              width={12}
+              height={12}
             />
           </ArrowContainer>
           <ArrowContainer onClick={goToRightMonth}>
             <Image
               src="/rightArrow.png"
               alt="왼쪽 화살표"
-              width={16}
-              height={16}
+              width={12}
+              height={12}
             />
           </ArrowContainer>
           <TodayContainer onClick={goToTodayMonth}>오늘</TodayContainer>

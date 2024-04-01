@@ -1,8 +1,4 @@
-"use client";
-
-import { createClient } from "@/libs/supabase/client";
-import useUserInfoStore from "@/store/user/info";
-import { useEffect } from "react";
+import { createClient } from "@/libs/supabase/server";
 
 interface Prop {
   children: React.ReactNode;
@@ -10,17 +6,16 @@ interface Prop {
 
 export default function AuthProvider({ children }: Prop) {
   const supabase = createClient();
-  const { setUser } = useUserInfoStore();
 
-  useEffect(() => {
-    const getUsers = async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (data.user) {
-        setUser(data.user);
-      }
-    };
-    getUsers();
-  }, []);
+  const getSessionOfUser = async () => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) return;
+  };
+
+  getSessionOfUser();
 
   return children;
 }

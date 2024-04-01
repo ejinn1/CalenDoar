@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 import { useState } from "react";
 import tw from "tailwind-styled-components";
-import BackGroundContainer from "../_components/backgroundContainer";
 
 const SimpleLoginBox = tw.div`
   w-full border-[0.1rem] p-[1rem] rounded-md text-r cursor-pointer
@@ -53,12 +52,9 @@ export default function Login() {
   };
 
   return (
-    <BackGroundContainer>
-      <div className="w-[70rem] h-full p-[4rem] flex flex-col justify-between">
-        <div>
-          <h1 className="text-l font-semibold">CalenDoar</h1>
-          <h3 className="text-xxl font-bold">Welcome</h3>
-        </div>
+    <main className="w-[40rem] flex flex-col items-center">
+      <div className="w-full h-full p-[4rem] flex flex-col justify-between">
+        <h1 className="text-xxl font-bold">Hi~</h1>
         <div>
           {/* 간편 로그인 예시 */}
           <div className="flex flex-col gap-2">
@@ -74,7 +70,7 @@ export default function Login() {
           </div>
           <div className="relative text-lightgray text-center pt-[3rem] pb-[2rem] flex gap-[1rem] justify-center items-center">
             <div className="flex-grow border-t-[0.1rem] border-lightgray"></div>
-            <span className="text-r uppercase">or login with email</span>
+            <span className="text-r uppercase">or</span>
             <div className="flex-grow border-t border-lightgray"></div>
           </div>
           <Form onSubmit={handleLogin}>
@@ -109,15 +105,16 @@ export default function Login() {
             </button>
           </Form>
         </div>
-        <div>
+        <div className="border-t-[0.1rem] border-lightgray w-full p-[1rem] text-center text-gray flex gap-[2rem] justify-center">
+          <span>계정이 없으신가요?</span>
           <button
             onClick={() => router.push("/signup")}
-            className="border-t-[0.1rem] border-lightgray w-full p-[1rem] text-center text-gray"
+            className="text-lightblue"
           >
-            회원가입
+            가입하기
           </button>
         </div>
       </div>
-    </BackGroundContainer>
+    </main>
   );
 }

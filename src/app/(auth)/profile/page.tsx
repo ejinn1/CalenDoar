@@ -1,18 +1,16 @@
 "use client";
 
 import { createClient } from "@/libs/supabase/client";
-import useUserInfoStore from "@/store/user/info";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoEyeOffOutline, IoEyeOutline, IoPersonCircle } from "react-icons/io5";
 import ContentsBox from "../_components/contentsBox";
 
 export default function Profile() {
-  const { user } = useUserInfoStore();
-
   const [changePassword, setChangePassword] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [visiblePassword, setVisiblePassword] = useState(false);
   const supabase = createClient();
+  const [name, setName] = useState("");
 
   const handleChangePassword = async () => {
     const { data, error } = await supabase.auth.updateUser({
@@ -21,10 +19,22 @@ export default function Profile() {
 
     if (error) {
       alert(error.message);
-    } else {
-      console.log(data);
     }
   };
+
+  useEffect(() => {
+    const getUserSession = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      setName(user.user_metadata.user_name);
+    };
+
+    getUserSession();
+  }, []);
 
   return (
     <ContentsBox>
@@ -32,9 +42,7 @@ export default function Profile() {
       <div className="w-full h-full flex">
         <div className="w-1/2 flex flex-col items-center">
           <IoPersonCircle className="w-[20rem] h-[20rem]" color="#D3D3D3" />
-          <div className="text-r font-bold">
-            {user?.user_metadata.user_name}
-          </div>
+          <div className="text-r font-bold">{name}</div>
         </div>
         <div className="w-1/2 gap-[2rem] flex flex-col">
           <div className="text-l font-semibold">유저 정보</div>

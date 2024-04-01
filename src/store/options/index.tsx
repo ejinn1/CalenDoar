@@ -11,8 +11,8 @@ export interface Option {
 interface OptionsState {
   options: Option[];
   setOptions: (options: Option[]) => void;
-  addOption: (option: Option) => void;
-  deleteOption: (optionName: string) => void;
+  isUpdate: boolean;
+  toggleUpdate: () => void;
 }
 
 const useOptionState = create<OptionsState>((set) => ({
@@ -53,14 +53,8 @@ const useOptionState = create<OptionsState>((set) => ({
         options: updatedOptions,
       };
     }),
-  addOption: (newOption: Option) =>
-    set((state) => ({
-      options: [...state.options, newOption],
-    })),
-  deleteOption: (optionName: string) =>
-    set((state) => ({
-      options: state.options.filter((option) => option.name !== optionName),
-    })),
+  isUpdate: false,
+  toggleUpdate: () => set((state) => ({ isUpdate: !state.isUpdate })),
 }));
 
 export default useOptionState;
