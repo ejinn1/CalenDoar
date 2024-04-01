@@ -54,6 +54,7 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
   const [isClickedDate, setIsClickedDate] = useState(false);
   const [title, setTitle] = useState(event.title);
   const [body, setBody] = useState(event.body);
+  const [isEdit, setIsEdit] = useState(false);
 
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -114,16 +115,22 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
   };
 
   useEffect(() => {
-    console.log(event);
-
     setStartDate(new Date(event.start_date));
     setEndDate(new Date(event.end_date));
   }, [event]);
 
+  useEffect(() => {
+    if (event.title !== title || event.body !== body) {
+      setIsEdit(true);
+    } else {
+      setIsEdit(false);
+    }
+  }, [title, body]);
+
   return (
     <Container>
       <header className="flex flex-col gap-[1rem] pb-[1rem]">
-        <h1 className="text-l font-bold">일정 수정</h1>
+        <h1 className="text-l font-bold">{event.title}</h1>
         <div className="relative bg-white text-black w-max">
           <div className="flex items-center justify-center p-2">
             <div className="overflow-auto">
@@ -242,22 +249,19 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
           >
             삭제
           </button>
-          <button
-            type="submit"
-            className="px-[1.4rem] py-[0.8rem] border-[0.1rem] rounded-lg bg-lightblue text-white text-m font-semibold"
-          >
-            수정
-          </button>
+          {isEdit && (
+            <button
+              type="submit"
+              className="px-[1.4rem] py-[0.8rem] border-[0.1rem] rounded-lg bg-lightblue text-white text-m font-semibold"
+            >
+              수정
+            </button>
+          )}
         </div>
       </Form>
       {isOpenDel && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-30 flex items-center justify-center z-10 drop-shadow-md">
           <div className="relative flex flex-col justify-center gap-[2rem] w-[30rem] h-[14rem] shadow-md rounded-lg bg-white">
-            {/* <IoClose
-              onClick={onClose}
-              size={16}
-              className="absolute top-[1rem] right-[1rem] cursor-pointer opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100"
-            /> */}
             <div className="text-l font-bold flex justify-center items-center">
               삭제 할꺼?
             </div>

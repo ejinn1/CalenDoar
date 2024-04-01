@@ -198,6 +198,7 @@ export default function AddEventModal({ day, onClose }: Prop) {
           <Field>
             <Label>제목</Label>
             <Input
+              autoFocus
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="제목을 입력해주세요"
