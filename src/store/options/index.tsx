@@ -5,7 +5,6 @@ export interface Option {
   name: string;
   color: string;
   link?: string;
-  number?: string;
 }
 
 interface OptionsState {

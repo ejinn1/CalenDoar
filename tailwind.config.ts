@@ -28,24 +28,62 @@ const config: Config = {
         xxs: "0.2rem",
       },
       backgroundColor: {
-        lightgray: "#D3D3D3",
         gray: "#808080",
+        lightgray: "#D3D3D3",
+        brightgray: "#efeeee",
+
+        red: "#be5656",
         lightred: "#F87171",
+        brightred: "#fcafaf",
+
+        orange: "#ce8320",
         lightorange: "#fb9e24",
+        brightorange: "#fbd9ad",
+
+        yellow: "#bb9537",
         lightyellow: "#FBBF24",
-        lightgreen: "#34D399",
+        brightyellow: "#f8e3ab",
+
+        green: "#23924c",
+        lightgreen: "#34d36e",
+        brightgreen: "#a8d6b9",
+
+        blue: "#366cae",
         lightblue: "#60A5FA",
+        brightblue: "#b3d0f3",
+
+        purple: "#856fc9",
         lightpurple: "#A78BFA",
+        brightpurple: "#d3c7f6",
       },
       colors: {
-        lightgray: "#D3D3D3",
         gray: "#808080",
+        lightgray: "#D3D3D3",
+        brightgray: "#efeeee",
+
+        red: "#be5656",
         lightred: "#F87171",
+        brightred: "#fcafaf",
+
+        orange: "#ce8320",
         lightorange: "#fb9e24",
+        brightorange: "#fbd9ad",
+
+        yellow: "#bb9537",
         lightyellow: "#FBBF24",
-        lightgreen: "#34D399",
+        brightyellow: "#f8e3ab",
+
+        green: "#23924c",
+        lightgreen: "#34d36e",
+        brightgreen: "#a8d6b9",
+
+        blue: "#366cae",
         lightblue: "#60A5FA",
+        brightblue: "#b3d0f3",
+
+        purple: "#856fc9",
         lightpurple: "#A78BFA",
+        brightpurple: "#d3c7f6",
       },
       keyframes: {
         pulse: {
