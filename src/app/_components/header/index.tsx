@@ -2,9 +2,11 @@
 
 import useOptionState from "@/store/options";
 import { getOptionIdOfPath } from "@/utils/path";
+import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
+import { MdDarkMode, MdLightMode } from "react-icons/md";
 import tw from "tailwind-styled-components";
 
 const Container = tw.header`
@@ -25,18 +27,18 @@ export default function Header() {
   const path = usePathname();
 
   const { options } = useOptionState();
+  const { theme, setTheme } = useTheme();
 
   const [extended, setExtended] = useState(false);
-  const [color, setColor] = useState("#D3D3D3");
   const [title, setTitle] = useState("Calendoar");
 
   useEffect(() => {
     const selectedOption = options.find(
       (option) => option.id === getOptionIdOfPath(path, options)
     );
-    const backgroundColor = selectedOption?.color;
+
     const optionName = selectedOption?.name;
-    backgroundColor && setColor(backgroundColor);
+
     if (optionName === "전체") {
       setTitle("Calendoar");
     } else {
@@ -47,14 +49,24 @@ export default function Header() {
   return (
     <Container>
       {extended && (
-        <div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-sm bg-black/20 "></div>
+        <div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-sm bg-black/20"></div>
       )}
       <Head
-        className={`${extended ? "h-[20rem]" : "h-[4rem]"}`}
-        style={{ backgroundColor: color }}
+        className={`${extended ? "h-[20rem]" : "h-[4rem]"} bg-white`}
+        // style={{ backgroundColor: color }}
       >
         <div className="text-l font-bold">{title}</div>
-        <div className="flex">
+        <div className="flex gap-[1rem]">
+          <div
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="pt-[0.2rem] cursor-pointer"
+          >
+            {theme === "dark" ? (
+              <MdLightMode size={14} />
+            ) : (
+              <MdDarkMode size={14} />
+            )}
+          </div>
           <div
             onClick={() => setExtended((prev) => !prev)}
             className={`cursor-pointer opacity-100 hover:opacity-50 transition-opacity duration-300 ease-in-out`}
