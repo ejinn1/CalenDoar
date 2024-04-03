@@ -18,7 +18,7 @@ interface Props {
 }
 
 const WeekContainer = tw.div`
-  grid grid-cols-7 h-max min-h-[10.2rem] h-1/6
+  grid grid-cols-7 h-max min-h-[10.2rem]
 `;
 
 const EventsContainer = tw.span`
