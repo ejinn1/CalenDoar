@@ -41,7 +41,6 @@ export default function BackGround({ children }: Prop) {
       colorGroup = settingBackGround.find((back) => back.key === colorValue);
     }
 
-    console.log(colorGroup);
     if (!colorGroup) return;
     setFrom(colorGroup.from);
     setTo(colorGroup.to);
