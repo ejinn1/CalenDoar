@@ -29,7 +29,9 @@ const EventItem = tw.span`
   relative w-full h-max text-r rounded-sm flex justify-center cursor-pointer
   transition duration-300 ease-in-out px-4
   hover:shadow-md
+  dark:hover:shadow-white-md
   hover:text-gray
+  dark:hover:text-lightgray
 `;
 
 export default function WeekRow({
