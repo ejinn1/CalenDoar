@@ -93,10 +93,6 @@ export default function OptionBox() {
     getOptions();
   }, [path, isUpdate]);
 
-  const [color, setColor] = useState("");
-
-  useEffect(() => {}, [theme]);
-
   return (
     <Container className="overflow-scroll dark:bg-darkgray">
       <div className="h-[3rem] w-full flex justify-end items-center opacity-20 hover:opacity-55 transition-opacity duration-300 ease-in-out">
