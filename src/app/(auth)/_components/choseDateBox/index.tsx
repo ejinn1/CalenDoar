@@ -82,7 +82,7 @@ export default function ChoseDateBox({ onClose, clickedDate }: Prop) {
   };
 
   return (
-    <div className="absolute top-[4rem] left-[1rem] shadow-md w-[30rem] h-[33rem] bg-white border-2 border-lightgray rounded-lg p-2 z-10">
+    <div className="absolute top-[4rem] left-[1rem] shadow-md w-[30rem] h-[33rem] bg-white dark:bg-darkgray border-2 border-lightgray dark:border-gray rounded-lg p-2 z-10">
       <div className="relative w-full h-full">
         <header className="flex px-[1rem] justify-between items-center">
           <div className="h-[4rem] text-l font-bold flex items-center justify-center">
@@ -176,7 +176,7 @@ export default function ChoseDateBox({ onClose, clickedDate }: Prop) {
         <div className="flex justify-end w-full absolute bottom-0 right-0">
           <button
             onClick={onClose}
-            className="px-[1rem] py-[0.6rem] border-[0.1rem] rounded-lg bg-lightblue text-white text-m font-semibold"
+            className="px-[1rem] py-[0.6rem] rounded-lg bg-lightblue text-white text-m font-semibold"
           >
             저장
           </button>

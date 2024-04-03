@@ -99,13 +99,13 @@ export default function Login() {
             </div>
             <button
               type="submit"
-              className="bg-lightgray p-[1.5rem] rounded-lg text-r transition-bg duration-300 ease-in-out hover:bg-lightblue"
+              className="bg-lightgray dark:bg-gray p-[1.5rem] rounded-lg text-r transition-bg duration-300 ease-in-out hover:bg-lightblue dark:hover:bg-blue"
             >
               로그인
             </button>
           </Form>
         </div>
-        <div className="border-t-[0.1rem] border-lightgray w-full p-[1rem] text-center text-gray flex gap-[2rem] justify-center">
+        <div className="w-full p-[1rem] text-center text-gray flex gap-[2rem] justify-center">
           <span>계정이 없으신가요?</span>
           <button
             onClick={() => router.push("/signup")}

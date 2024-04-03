@@ -26,15 +26,20 @@ const Label = tw.label`
 `;
 
 const Input = tw.input`
-  text-m font-medium bg-lightgray rounded-lg p-[1rem] outline-none
+  text-m font-medium bg-lightgray dark:bg-darkgray rounded-lg p-[1rem] outline-none
 `;
 
 const TextArea = tw.textarea`
-  text-m font-medium bg-lightgray rounded-lg p-[1rem] outline-none
+  text-m font-medium bg-lightgray dark:bg-darkgray rounded-lg p-[1rem] outline-none
 `;
 
 const Form = tw.form`
   flex flex-col justify-between gap-[2rem] h-[calc(100%-9rem)] pt-[1rem] border-t-2 border-lightgray
+`;
+
+const Button = tw.span`
+  hover:bg-lightgray dark:hover:bg-darkgray p-2 rounded-lg text-m font-semibold cursor-pointer
+  transition-bg duration-300 ease-in-out
 `;
 
 export default function EditEventModal({ event, day, onClose }: Prop) {
@@ -131,13 +136,13 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
     <Container>
       <header className="flex flex-col gap-[1rem] pb-[1rem]">
         <h1 className="text-l font-bold">{event.title}</h1>
-        <div className="relative bg-white text-black w-max">
+        <div className="relative bg-white dark:bg-gray  text-black w-max">
           <div className="flex items-center justify-center p-2">
             <div className="overflow-auto">
               <select
                 value={seletedOption}
                 onChange={(e) => setSelectedOption(e.target.value)}
-                className="text-m text-gray font-bold bg-transparent cursor-pointer outline-none"
+                className="text-m text-gray dark:text-white font-bold bg-transparent cursor-pointer outline-none"
               >
                 {options.map((option, index) => (
                   <option key={index} value={option.id}>
@@ -160,21 +165,20 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
             <div className="flex justify-between">
               <div className="relative text-m font-semibold flex gap-2 items-center">
                 <div>
-                  <span
-                    onClick={() => setIsClickedDate((prev) => !prev)}
-                    className="hover:bg-lightgray p-2 rounded-lg cursor-pointer"
-                  >{`${startDate.getMonth() + 1}월 ${startDate.getDate()}일 ${
+                  <Button onClick={() => setIsClickedDate((prev) => !prev)}>{`${
+                    startDate.getMonth() + 1
+                  }월 ${startDate.getDate()}일 ${
                     weekdays[startDate.getDay()]
-                  }`}</span>
+                  }`}</Button>
                   {isTimeConfig && (
                     <span>
-                      <span className="hover:bg-lightgray p-2 rounded-lg cursor-pointer">
+                      <Button>
                         {`${startTime.hour
                           .toString()
                           .padStart(2, "0")} : ${startTime.minute
                           .toString()
                           .padStart(2, "0")}`}
-                      </span>
+                      </Button>
                     </span>
                   )}
                 </div>
@@ -182,20 +186,19 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
                   <>
                     <div className="text-l font-medium">~</div>
                     <div>
-                      <span
+                      <Button
                         onClick={() => setIsClickedDate((prev) => !prev)}
-                        className="hover:bg-lightgray p-2 rounded-lg cursor-pointer"
                       >{`${endDate.getMonth() + 1}월 ${endDate.getDate()}일 ${
                         weekdays[endDate.getDay()]
-                      }`}</span>
+                      }`}</Button>
                       {isTimeConfig && (
-                        <span className="hover:bg-lightgray p-2 rounded-lg cursor-pointer">
+                        <Button>
                           <span>{`${endTime.hour
                             .toString()
                             .padStart(2, "0")} : ${endTime.minute
                             .toString()
                             .padStart(2, "0")}`}</span>
-                        </span>
+                        </Button>
                       )}
                     </div>
                   </>
@@ -209,14 +212,14 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
                   />
                 )}
               </div>
-              <div
+              <Button
                 onClick={() => setIsTimeConfig((prev) => !prev)}
-                className={`text-m font-semibold text-gray hover:bg-lightgray transition-bg duration-300 ease-in-out flex items-center p-2 rounded-lg cursor-pointer ${
-                  isTimeConfig && "bg-lightgray"
+                className={` ${
+                  isTimeConfig && "bg-lightgray dark:bg-darkgray"
                 }`}
               >
                 시간설정
-              </div>
+              </Button>
             </div>
           </Field>
           <Field>
@@ -245,14 +248,14 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
           <button
             type="button"
             onClick={openDel}
-            className="px-[1.4rem] py-[0.8rem] border-[0.1rem] rounded-lg bg-lightred text-white text-m font-semibold"
+            className="px-[1.4rem] py-[0.8rem] rounded-lg bg-lightred text-white text-m font-semibold"
           >
             삭제
           </button>
           {isEdit && (
             <button
               type="submit"
-              className="px-[1.4rem] py-[0.8rem] border-[0.1rem] rounded-lg bg-lightblue text-white text-m font-semibold"
+              className="px-[1.4rem] py-[0.8rem] rounded-lg bg-lightblue text-white text-m font-semibold"
             >
               수정
             </button>
@@ -261,20 +264,20 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
       </Form>
       {isOpenDel && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-30 flex items-center justify-center z-10 drop-shadow-md">
-          <div className="relative flex flex-col justify-center gap-[2rem] w-[30rem] h-[14rem] shadow-md rounded-lg bg-white">
+          <div className="relative flex flex-col justify-center gap-[2rem] w-[30rem] h-[14rem] shadow-md rounded-lg bg-white dark:bg-darkgray">
             <div className="text-l font-bold flex justify-center items-center">
               삭제 할꺼?
             </div>
             <div className="flex justify-center gap-[2rem] w-full">
               <button
                 onClick={closeDel}
-                className="px-[1.4rem] py-[0.8rem] border-[0.1rem] rounded-lg bg-lightgray text-white text-m font-semibold"
+                className="px-[1.4rem] py-[0.8rem] rounded-lg bg-lightgray dark:bg-gray text-white text-m font-semibold"
               >
                 아니
               </button>
               <button
                 onClick={handleDelete}
-                className="px-[1.4rem] py-[0.8rem] border-[0.1rem] rounded-lg bg-lightred text-white text-m font-semibold"
+                className="px-[1.4rem] py-[0.8rem] rounded-lg bg-lightred text-white text-m font-semibold"
               >
                 응
               </button>

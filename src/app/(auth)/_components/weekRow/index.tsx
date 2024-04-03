@@ -2,6 +2,7 @@
 
 import useModalOpen from "@/hooks/useModalOpen";
 import { Event } from "@/store/events";
+import useOptionState from "@/store/options";
 import { isAfter, isSameDay, isSameOrBefore } from "@/utils/date";
 import { useState } from "react";
 import tw from "tailwind-styled-components";
@@ -17,7 +18,7 @@ interface Props {
 }
 
 const WeekContainer = tw.div`
-  grid grid-cols-7 h-max min-h-[10.2rem] h-1/6
+  grid grid-cols-7 h-max min-h-[10.2rem]
 `;
 
 const EventsContainer = tw.span`
@@ -25,10 +26,12 @@ const EventsContainer = tw.span`
 `;
 
 const EventItem = tw.span`
-  w-full bg-lightgray h-max text-r rounded-sm flex justify-center cursor-pointer
-  transition duration-300 ease-in-out
+  relative w-full h-max text-r rounded-sm flex justify-center cursor-pointer
+  transition duration-300 ease-in-out px-4
   hover:shadow-md
+  dark:hover:shadow-white-md
   hover:text-gray
+  dark:hover:text-lightgray
 `;
 
 export default function WeekRow({
@@ -42,10 +45,17 @@ export default function WeekRow({
     openModal: openEdit,
     closeModal: closeEdit,
   } = useModalOpen();
+  const { options } = useOptionState();
 
   const [selectedEvent, setSelectedEvent] = useState<Event>();
   const [eventDay, setEventDay] = useState<Date>();
 
+  // 이벤트에 맞는 옵션 컬러 반환
+  const getOptionColor = (event: Event) => {
+    const curOption = options.find((option) => option.id === event.option_id);
+
+    return curOption?.color;
+  };
   return (
     <WeekContainer>
       {days.map((day, index) => (
@@ -78,7 +88,12 @@ export default function WeekRow({
                       setSelectedEvent(event);
                       openEdit();
                     }}
+                    className="bg-lightgray dark:bg-gray"
                   >
+                    <span
+                      style={{ backgroundColor: getOptionColor(event) }}
+                      className="absolute top-0 left-0 w-[0.5rem] h-full rounded-l rounded-sm dark:bg-gray"
+                    />
                     {event.title}
                   </EventItem>
                 ))}

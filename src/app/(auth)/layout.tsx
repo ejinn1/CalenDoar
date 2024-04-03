@@ -1,7 +1,7 @@
 import AuthProvider from "@/providers/AuthProvider";
+import BackGround from "../_components/backGround";
 import Header from "../_components/header";
 import SideMenu from "../_components/sideMenu";
-
 interface Prop {
   children: React.ReactNode;
 }
@@ -9,11 +9,11 @@ interface Prop {
 export default function Layout({ children }: Prop) {
   return (
     <AuthProvider>
-      <div className="pt-[6rem] w-screen h-screen bg-gray flex gap-[1rem] p-[1rem]">
+      <BackGround>
         <Header />
         <SideMenu />
         {children}
-      </div>
+      </BackGround>
     </AuthProvider>
   );
 }

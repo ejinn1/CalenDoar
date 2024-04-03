@@ -48,7 +48,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="flex flex-col rounded-lg bg-white px-[1rem] w-[16rem] py-[1.5rem]">
+    <div className="flex flex-col rounded-lg bg-white px-[1rem] w-[16rem] py-[1.5rem] dark:bg-darkgray">
       <div className="flex gap-[2rem]">
         <IoPersonCircle className="w-[4rem] h-[4rem]" color="#D3D3D3" />
         <div className="flex flex-col justify-around">

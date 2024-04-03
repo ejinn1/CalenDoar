@@ -21,7 +21,7 @@ const Label = tw.label`
 `;
 
 const Input = tw.input`
-  text-m font-medium bg-lightgray rounded-lg p-[1rem] outline-none
+  text-m font-medium bg-lightgray dark:bg-darkgray rounded-lg p-[1rem] outline-none
 `;
 
 const ButtonContainer = tw.div`
@@ -35,7 +35,7 @@ const ColorButton = tw.button`
 `;
 
 const AddButton = tw.button`
-  w-full rounded-xl bg-lightgray h-[4rem] text-m font-semibold
+  w-full rounded-xl bg-lightgray dark:bg-darkgray h-[4rem] text-m font-semibold
 `;
 
 export default function AddOptionModal({ onClose }: Prop) {
@@ -100,14 +100,14 @@ export default function AddOptionModal({ onClose }: Prop) {
               onChange={(e) => setName(e.target.value)}
             />
             {!name && (
-              <span className="absolute -bottom-[2rem] left-0 text-lightred flex items-center gap-[0.3rem]">
+              <span className="absolute -bottom-[2rem] left-0 text-lightred dark:text-lightyellow flex items-center gap-[0.3rem]">
                 추가할 옵션의 이름을 입력해주세요
               </span>
             )}
           </Field>
           <Field>
             <Label htmlFor="optionColor">색상</Label>
-            <div className="grid grid-cols-7 gap-[1rem] justify-center items-center bg-lightgray rounded-lg p-[2rem]">
+            <div className="grid grid-cols-7 gap-[1rem] justify-center items-center bg-lightgray dark:bg-darkgray rounded-lg p-[2rem]">
               {optionColors.map((option, index) => (
                 <ButtonContainer key={index}>
                   <ColorButton
@@ -122,7 +122,7 @@ export default function AddOptionModal({ onClose }: Prop) {
               ))}
             </div>
             {!color && (
-              <span className="absolute -bottom-[2rem] left-0 text-lightred flex items-center gap-[0.3rem]">
+              <span className="absolute -bottom-[2rem] left-0 text-lightred dark:text-lightyellow flex items-center gap-[0.3rem]">
                 추가할 옵션의 색상을 선택해주세요
               </span>
             )}
