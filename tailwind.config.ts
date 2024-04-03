@@ -28,6 +28,7 @@ const config: Config = {
         xxs: "0.2rem",
       },
       backgroundColor: {
+        darkgray: "#232323",
         gray: "#808080",
         lightgray: "#D3D3D3",
         brightgray: "#efeeee",

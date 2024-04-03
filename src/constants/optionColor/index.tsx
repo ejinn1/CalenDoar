@@ -17,3 +17,13 @@ export const settingBackGround = [
   { key: "#60A5FA", from: "#366cae", via: "#F87171", to: "#A78BFA" },
   { key: "#A78BFA", from: "#856fc9", via: "#F87171", to: "#34d36e" },
 ];
+
+export const settingBackGroundDark = [
+  { key: "#D3D3D3", from: "#808080", via: "#808080", to: "#808080" },
+  { key: "#F87171", from: "#808080", via: "#808080", to: "#808080" },
+  { key: "#FB9E24", from: "#808080", via: "#808080", to: "#808080" },
+  { key: "#FBBF24", from: "#808080", via: "#808080", to: "#808080" },
+  { key: "#34D399", from: "#808080", via: "#808080", to: "#808080" },
+  { key: "#60A5FA", from: "#808080", via: "#808080", to: "#808080" },
+  { key: "#A78BFA", from: "#808080", via: "#808080", to: "#808080" },
+];

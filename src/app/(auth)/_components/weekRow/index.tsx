@@ -26,7 +26,7 @@ const EventsContainer = tw.span`
 `;
 
 const EventItem = tw.span`
-  relative w-full bg-lightgray h-max text-r rounded-sm flex justify-center cursor-pointer
+  relative w-full h-max text-r rounded-sm flex justify-center cursor-pointer
   transition duration-300 ease-in-out px-4
   hover:shadow-md
   hover:text-gray
@@ -86,10 +86,11 @@ export default function WeekRow({
                       setSelectedEvent(event);
                       openEdit();
                     }}
+                    className="bg-lightgray dark:bg-gray"
                   >
                     <span
                       style={{ backgroundColor: getOptionColor(event) }}
-                      className="absolute top-0 left-0 w-[0.5rem] h-full rounded-l rounded-sm bg-gray"
+                      className="absolute top-0 left-0 w-[0.5rem] h-full rounded-l rounded-sm dark:bg-gray"
                     />
                     {event.title}
                   </EventItem>

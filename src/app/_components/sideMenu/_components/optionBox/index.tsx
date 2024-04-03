@@ -5,10 +5,11 @@ import useModalOpen from "@/hooks/useModalOpen";
 import { createClient } from "@/libs/supabase/client";
 import useOptionState, { Option } from "@/store/options";
 import { getOptionIdOfPath } from "@/utils/path";
-import Image from "next/image";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { IoIosAdd } from "react-icons/io";
 import tw from "tailwind-styled-components";
 
 const Container = tw.nav`
@@ -30,7 +31,7 @@ const SkeletonLi = tw.li`
 `;
 
 const AddBox = tw.div`
-  w-full h-[4rem] border-lightgray border-2 border-dotted rounded-lg
+  w-full h-[4rem] border-lightgray dark:border-gray border-2 border-dotted rounded-lg
   transition-opcatity duration-300 ease-in-out
   flex justify-center items-center font-bold
 `;
@@ -47,6 +48,7 @@ export default function OptionBox() {
   const [clickedOption, setClickedOption] = useState(
     getOptionIdOfPath(path, options)
   );
+  const { theme } = useTheme();
 
   const handleOpenModal = () => {
     openModal();
@@ -91,16 +93,23 @@ export default function OptionBox() {
     getOptions();
   }, [path, isUpdate]);
 
+  const [color, setColor] = useState("");
+
+  useEffect(() => {}, [theme]);
+
   return (
-    <Container className="overflow-scroll">
+    <Container className="overflow-scroll dark:bg-darkgray">
       <div className="h-[3rem] w-full flex justify-end items-center opacity-20 hover:opacity-55 transition-opacity duration-300 ease-in-out">
         <button
-          className="hover:bg-lightgray rounded-full cursor-pointer transition-bg duration-300 ease-in-out"
+          className="hover:bg-lightgray dark:hover:bg-gray rounded-full cursor-pointer transition-bg duration-300 ease-in-out"
           onMouseOver={() => setIsHover(true)}
           onMouseLeave={handleMouseLeave}
           onClick={handleOpenModal}
         >
-          <Image src="/add.png" alt="더하기" width={16} height={16} />
+          <IoIosAdd
+            size={24}
+            color={`${theme === "dark" ? "#D3D3D3" : "#232323"} `}
+          />
         </button>
       </div>
       {isLoading ? (
@@ -117,10 +126,16 @@ export default function OptionBox() {
               href={`${option.link ? option.link : `/options/${option.id}`}`}
             >
               <Li
-                style={{ backgroundColor: option.color }}
+                style={{
+                  backgroundColor: theme === "dark" ? "#232323" : option.color,
+                  color: theme === "dark" ? option.color : "",
+                }}
                 className={`${
                   clickedOption === option.id ? "border-2 border-gray" : ""
-                }`}
+                }
+                  dark:hover:border-2
+                 dark:hover:border-gray
+                `}
                 onClick={() => setClickedOption(option.id)}
               >
                 {option.name}

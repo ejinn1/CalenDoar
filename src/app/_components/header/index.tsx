@@ -13,7 +13,6 @@ const Container = tw.header`
   group
   fixed top-0 left-0 w-full px-[1rem] pt-[1rem] z-10 h-[8rem]
   flex justify-center items-start
-
 `;
 
 const Head = tw.div`
@@ -31,6 +30,7 @@ export default function Header() {
 
   const [extended, setExtended] = useState(false);
   const [title, setTitle] = useState("Calendoar");
+  const [color, setColor] = useState("");
 
   useEffect(() => {
     const selectedOption = options.find(
@@ -38,13 +38,22 @@ export default function Header() {
     );
 
     const optionName = selectedOption?.name;
+    const colorValue = selectedOption?.color;
 
     if (optionName === "전체") {
       setTitle("Calendoar");
+      if (theme === "dark") {
+        setColor("#efeeee");
+      } else {
+        setColor("#000000");
+      }
     } else {
       optionName && setTitle(optionName);
+      if (theme === "dark") {
+        colorValue && setColor(colorValue);
+      }
     }
-  }, [path, options]);
+  }, [path, options, theme]);
 
   return (
     <Container>
@@ -52,14 +61,17 @@ export default function Header() {
         <div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-sm bg-black/20"></div>
       )}
       <Head
-        className={`${extended ? "h-[20rem]" : "h-[4rem]"} bg-white`}
-        // style={{ backgroundColor: color }}
+        className={`${
+          extended ? "h-[20rem]" : "h-[4rem]"
+        } bg-white dark:bg-darkgray`}
       >
-        <div className="text-l font-bold">{title}</div>
+        <div className="text-l font-bold" style={{ color: color }}>
+          {title}
+        </div>
         <div className="flex gap-[1rem]">
           <div
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="pt-[0.2rem] cursor-pointer"
+            className="pt-[0.3rem] cursor-pointer opacity-100 hover:opacity-50 transition-opacity duration-300 ease-in-out"
           >
             {theme === "dark" ? (
               <MdLightMode size={14} />
@@ -69,7 +81,7 @@ export default function Header() {
           </div>
           <div
             onClick={() => setExtended((prev) => !prev)}
-            className={`cursor-pointer opacity-100 hover:opacity-50 transition-opacity duration-300 ease-in-out`}
+            className="cursor-pointer opacity-100 hover:opacity-50 transition-opacity duration-300 ease-in-out"
           >
             {extended ? <IoClose size={20} /> : <IoMenu size={20} />}
           </div>

@@ -1,8 +1,12 @@
 "use client";
 
-import { settingBackGround } from "@/constants/optionColor";
+import {
+  settingBackGround,
+  settingBackGroundDark,
+} from "@/constants/optionColor";
 import useOptionState from "@/store/options";
 import { getOptionIdOfPath } from "@/utils/path";
+import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
@@ -18,7 +22,7 @@ export default function BackGround({ children }: Prop) {
 
   const { options } = useOptionState();
 
-  const [color, setColor] = useState("#808080");
+  const { theme } = useTheme();
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
 
@@ -27,26 +31,26 @@ export default function BackGround({ children }: Prop) {
       (option) => option.id === getOptionIdOfPath(path, options)
     )?.color;
 
-    const colorGroup = settingBackGround.find(
-      (back) => back.key === colorValue
-    );
+    let colorGroup;
+
+    if (theme === "dark") {
+      colorGroup = settingBackGroundDark.find(
+        (back) => back.key === colorValue
+      );
+    } else {
+      colorGroup = settingBackGround.find((back) => back.key === colorValue);
+    }
 
     console.log(colorGroup);
     if (!colorGroup) return;
     setFrom(colorGroup.from);
     setTo(colorGroup.to);
-
-    // const gradient = `bg-gradient-to-tr from-[${colorGroup?.from}] via-[${colorGroup?.via}] to-[${colorGroup?.to}]`;
-
-    // console.log(backgroundColor);
-
-    // gradient && setColor(gradient);
   }, [path, options]);
 
   return (
     <div
       style={{ backgroundImage: `linear-gradient(to right, ${from}, ${to})` }}
-      className="pt-[6rem] w-screen h-screen flex gap-[1rem] p-[1rem]"
+      className="pt-[6rem] w-screen h-screen flex gap-[1rem] p-[1rem] dark:bg-black"
     >
       {children}
     </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import useCalendarState from "@/store/calendarDay";
-import Image from "next/image";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import tw from "tailwind-styled-components";
 import ContentsBox from "../contentsBox";
 
@@ -19,15 +19,19 @@ const WeekCell = tw.div`
 `;
 
 const ArrowContainer = tw.div`
-  flex justify-center items-center opacity-30 cursor-pointer
-  hover:opacity-100 transition-opacity duration-300 ease-in-out
+  flex justify-center items-center opacity-30 cursor-pointer rounded-lg
+  hover:opacity-100
+  hover:bg-lightgray dark:hover:bg-gray
+  transition duration-300 ease-in-out
 `;
 
 const TodayContainer = tw.div`
-  w-[4rem] ml-2 flex justify-center items-center text-r
-  border-2 rounded-lg p-2 border-lightgray border-dotted
+  ml-2 flex justify-center items-center text-r p-[1rem]
+  border-2 rounded-lg p-2 border-lightgray border-dotted dark:border-gray
   cursor-pointer
-  hover:bg-lightgray transition-bg duration-300 ease-in-out
+  hover:bg-lightgray
+  dark:hover:bg-gray
+  transition-bg duration-300 ease-in-out
 `;
 
 export default function Calendar({ children }: Prop) {
@@ -43,23 +47,12 @@ export default function Calendar({ children }: Prop) {
         )
           .toString()
           .padStart(2, "0")}`}</div>
-
         <div className="flex">
           <ArrowContainer onClick={goToLeftMonth}>
-            <Image
-              src="/leftArrow.png"
-              alt="왼쪽 화살표"
-              width={12}
-              height={12}
-            />
+            <IoIosArrowBack size={20} />
           </ArrowContainer>
           <ArrowContainer onClick={goToRightMonth}>
-            <Image
-              src="/rightArrow.png"
-              alt="왼쪽 화살표"
-              width={12}
-              height={12}
-            />
+            <IoIosArrowForward size={20} />
           </ArrowContainer>
           <TodayContainer onClick={goToTodayMonth}>오늘</TodayContainer>
         </div>
