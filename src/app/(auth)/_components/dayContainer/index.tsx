@@ -3,7 +3,7 @@ import { createClient } from "@/libs/supabase/client";
 import useCalendarState from "@/store/calendarDay";
 import useEventState from "@/store/events";
 import useOptionState from "@/store/options";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 import AddEventModal from "../_modal/addEventModal";
 import WeekRow from "../weekRow";
@@ -15,8 +15,6 @@ const Container = tw.div`
 
 export default function DayContainer() {
   const supabase = createClient();
-
-  const now = useMemo(() => new Date(), []);
 
   const {
     viewDate,
@@ -91,7 +89,7 @@ export default function DayContainer() {
         events.filter((event) => event.option_id === selectedOption.id)
       );
     }
-  }, [selectedOption]);
+  }, [selectedOption, events]);
 
   useEffect(() => {
     return () => {
