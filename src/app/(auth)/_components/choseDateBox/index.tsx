@@ -49,7 +49,7 @@ export default function ChoseDateBox({ onClose, clickedDate }: Prop) {
   const [days, setDays] = useState(
     getDaysInMonth(clickedDate.getFullYear(), clickedDate.getMonth())
   );
-  const [viewDate, setViewDate] = useState(clickedDate);
+  const [pickedDate, setPickedDate] = useState(clickedDate);
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
 
   const { startDate, setStartDate, endDate, setEndDate } = useEventScheduler();
@@ -86,7 +86,7 @@ export default function ChoseDateBox({ onClose, clickedDate }: Prop) {
       <div className="relative w-full h-full">
         <header className="flex px-[1rem] justify-between items-center">
           <div className="h-[4rem] text-l font-bold flex items-center justify-center">
-            {`${viewDate.getFullYear()}.${(viewDate.getMonth() + 1)
+            {`${pickedDate.getFullYear()}.${(pickedDate.getMonth() + 1)
               .toString()
               .padStart(2, "0")}`}
           </div>
@@ -96,8 +96,8 @@ export default function ChoseDateBox({ onClose, clickedDate }: Prop) {
                 size={20}
                 onClick={() => {
                   const prevMonth = new Date(
-                    viewDate.getFullYear(),
-                    viewDate.getMonth() - 1,
+                    pickedDate.getFullYear(),
+                    pickedDate.getMonth() - 1,
                     1
                   );
                   const days = getDaysInMonth(
@@ -105,7 +105,7 @@ export default function ChoseDateBox({ onClose, clickedDate }: Prop) {
                     prevMonth.getMonth()
                   );
                   setDays(days);
-                  setViewDate(prevMonth);
+                  setPickedDate(prevMonth);
                 }}
               />
             </ArrowContainer>
@@ -114,8 +114,8 @@ export default function ChoseDateBox({ onClose, clickedDate }: Prop) {
                 size={20}
                 onClick={() => {
                   const nextMonth = new Date(
-                    viewDate.getFullYear(),
-                    viewDate.getMonth() + 1,
+                    pickedDate.getFullYear(),
+                    pickedDate.getMonth() + 1,
                     1
                   );
                   const days = getDaysInMonth(
@@ -123,7 +123,7 @@ export default function ChoseDateBox({ onClose, clickedDate }: Prop) {
                     nextMonth.getMonth()
                   );
                   setDays(days);
-                  setViewDate(nextMonth);
+                  setPickedDate(nextMonth);
                 }}
               />
             </ArrowContainer>
