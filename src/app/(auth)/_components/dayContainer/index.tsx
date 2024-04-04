@@ -3,8 +3,6 @@ import { createClient } from "@/libs/supabase/client";
 import useCalendarState from "@/store/calendarDay";
 import useEventState from "@/store/events";
 import useOptionState from "@/store/options";
-import { getOptionIdOfPath } from "@/utils/path";
-import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import tw from "tailwind-styled-components";
 import AddEventModal from "../_modal/addEventModal";
@@ -17,7 +15,7 @@ const Container = tw.div`
 
 export default function DayContainer() {
   const supabase = createClient();
-  const path = usePathname();
+  // const path = usePathname();
 
   const now = useMemo(() => new Date(), []);
 
@@ -36,12 +34,13 @@ export default function DayContainer() {
   } = useModalOpen();
 
   const { events, setEvents } = useEventState();
-  const { options, isUpdate } = useOptionState();
+  const { selectedOption, options, isUpdate } = useOptionState();
 
   const [selectedDay, setSelectedDay] = useState<Date>();
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(
     null
   );
+  const [viewEvents, setViewEvents] = useState(events);
 
   // 타이머를 활용한 스크롤 이벤트
   const handleWheelEvent = (e: React.WheelEvent) => {
@@ -63,13 +62,6 @@ export default function DayContainer() {
   }, [viewDate, setDays, goToLeftMonth, goToRightMonth, goToTodayMonth]);
 
   useEffect(() => {
-    const optionId = getOptionIdOfPath(path, options);
-
-    if (!optionId) {
-      console.error("주소가 유효하지 않습니다.");
-      return;
-    }
-
     const getEvents = async () => {
       const {
         data: { user },
@@ -77,13 +69,10 @@ export default function DayContainer() {
 
       if (!user) return;
 
-      let query = supabase.from("events").select().eq("user_id", user.id);
-
-      if (path !== "/") {
-        query = query.eq("option_id", optionId);
-      }
-
-      const { data, error } = await query;
+      const { data, error } = await supabase
+        .from("events")
+        .select()
+        .eq("user_id", user.id);
 
       if (error) {
         console.log("조회오류", error);
@@ -93,7 +82,17 @@ export default function DayContainer() {
     };
 
     getEvents();
-  }, [path, isUpdate]);
+  }, [isUpdate]);
+
+  useEffect(() => {
+    if (selectedOption.id === "a7a9a629-fc06-4fc3-99bd-7ba881e4fb0f") {
+      setViewEvents(events);
+    } else {
+      setViewEvents(
+        events.filter((event) => event.option_id === selectedOption.id)
+      );
+    }
+  }, [selectedOption]);
 
   useEffect(() => {
     return () => {
@@ -105,35 +104,35 @@ export default function DayContainer() {
     <Container onWheel={handleWheelEvent}>
       <WeekRow
         days={days.slice(0, 7)}
-        events={events}
+        events={viewEvents}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
         openAdd={openAddModal}
       />
       <WeekRow
         days={days.slice(7, 14)}
-        events={events}
+        events={viewEvents}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
         openAdd={openAddModal}
       />
       <WeekRow
         days={days.slice(14, 21)}
-        events={events}
+        events={viewEvents}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
         openAdd={openAddModal}
       />
       <WeekRow
         days={days.slice(21, 28)}
-        events={events}
+        events={viewEvents}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
         openAdd={openAddModal}
       />
       <WeekRow
         days={days.slice(28, 35)}
-        events={events}
+        events={viewEvents}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}
         openAdd={openAddModal}
@@ -141,7 +140,7 @@ export default function DayContainer() {
       {days.slice(35, 42).length !== 0 && (
         <WeekRow
           days={days.slice(35, 42)}
-          events={events}
+          events={viewEvents}
           selectedDay={selectedDay}
           setSelectedDay={setSelectedDay}
           openAdd={openAddModal}

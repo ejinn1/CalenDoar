@@ -11,15 +11,19 @@ import tw from "tailwind-styled-components";
 
 const Container = tw.header`
   group
+  relative
   w-full z-10
-  flex justify-center items-start
 `;
 
 const Head = tw.div`
   relative
-  w-full rounded-lg px-[2rem] pt-[1rem]
-  flex justify-between
+  w-full h-[4rem] rounded-lg px-[2rem]
+  flex justify-between items-center
   transition duration-300 ease-in-out
+`;
+
+const ExtendedHead = tw.div`
+
 `;
 
 export default function Header() {
@@ -43,7 +47,7 @@ export default function Header() {
     if (optionName === "전체") {
       setTitle("Calendoar");
       if (theme === "dark") {
-        setColor("#efeeee");
+        colorValue && setColor(colorValue);
       } else {
         setColor("#000000");
       }
@@ -57,14 +61,7 @@ export default function Header() {
 
   return (
     <Container>
-      {extended && (
-        <div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-sm bg-black/20"></div>
-      )}
-      <Head
-        className={`${
-          extended ? "h-[20rem]" : "h-[4rem]"
-        } bg-white dark:bg-darkgray`}
-      >
+      <Head className="bg-white dark:bg-darkgray">
         <div className="text-l font-bold" style={{ color: color }}>
           {title}
         </div>

@@ -4,10 +4,7 @@ import AddOptionModal from "@/app/(auth)/_components/_modal/addOptionModal";
 import useModalOpen from "@/hooks/useModalOpen";
 import { createClient } from "@/libs/supabase/client";
 import useOptionState, { Option } from "@/store/options";
-import { getOptionIdOfPath } from "@/utils/path";
 import { useTheme } from "next-themes";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoIosAdd, IoIosSettings } from "react-icons/io";
 import tw from "tailwind-styled-components";
@@ -38,16 +35,15 @@ const AddBox = tw.div`
 
 export default function OptionBox() {
   const supabase = createClient();
-  const path = usePathname();
+  // const path = usePathname();
 
   const { isOpen, openModal, closeModal } = useModalOpen();
-  const { options, setOptions, isUpdate } = useOptionState();
+  const { selectedOption, setSelectedOption, options, setOptions, isUpdate } =
+    useOptionState();
 
   const [isHover, setIsHover] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [clickedOption, setClickedOption] = useState(
-    getOptionIdOfPath(path, options)
-  );
+
   const { theme } = useTheme();
 
   const handleOpenModal = () => {
@@ -61,9 +57,9 @@ export default function OptionBox() {
     }
   };
 
-  useEffect(() => {
-    setClickedOption(getOptionIdOfPath(path, options));
-  }, [path]);
+  // useEffect(() => {
+  //   setClickedOption(getOptionIdOfPath(path, options));
+  // }, [path]);
 
   useEffect(() => {
     handleMouseLeave();
@@ -91,7 +87,7 @@ export default function OptionBox() {
     };
 
     getOptions();
-  }, [path, isUpdate]);
+  }, [isUpdate]);
 
   return (
     <Container className="group overflow-scroll dark:bg-darkgray">
@@ -123,26 +119,26 @@ export default function OptionBox() {
       ) : (
         <Ul>
           {options.map((option, index) => (
-            <Link
+            <Li
               key={index}
-              href={`${option.link ? option.link : `/options/${option.id}`}`}
-            >
-              <Li
-                style={{
-                  backgroundColor: theme === "dark" ? "#232323" : option.color,
-                  color: theme === "dark" ? option.color : "",
-                }}
-                className={`${
-                  clickedOption === option.id ? "border-2 border-gray" : ""
-                }
+              style={{
+                backgroundColor: theme === "dark" ? "#232323" : option.color,
+                color: theme === "dark" ? option.color : "",
+              }}
+              className={`${
+                selectedOption.id === option.id ? "border-2 border-gray" : ""
+              }
                   dark:hover:border-2
                  dark:hover:border-gray
                 `}
-                onClick={() => setClickedOption(option.id)}
-              >
-                {option.name}
-              </Li>
-            </Link>
+              onClick={() => {
+                setSelectedOption(option);
+
+                console.log(option.name);
+              }}
+            >
+              {option.name}
+            </Li>
           ))}
         </Ul>
       )}
