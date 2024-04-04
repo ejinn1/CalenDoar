@@ -49,7 +49,7 @@ export default function BackGround({ children }: Prop) {
   return (
     <div
       style={{ backgroundImage: `linear-gradient(to right, ${from}, ${to})` }}
-      className="pt-[6rem] w-screen h-screen flex gap-[1rem] p-[1rem] dark:bg-black"
+      className="w-screen h-screen flex p-[1rem] dark:bg-black"
     >
       {children}
     </div>

@@ -13,7 +13,7 @@ import { IoIosAdd, IoIosSettings } from "react-icons/io";
 import tw from "tailwind-styled-components";
 
 const Container = tw.nav`
-  w-[16rem] bg-white rounded-lg h-full flex flex-col p-[1rem] gap-[1rem]
+  w-full bg-white rounded-lg h-full flex flex-col p-[1rem] gap-[1rem]
 `;
 
 const Ul = tw.ul`

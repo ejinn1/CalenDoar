@@ -11,7 +11,7 @@ import tw from "tailwind-styled-components";
 
 const Container = tw.header`
   group
-  fixed top-0 left-0 w-full px-[1rem] pt-[1rem] z-10 h-[8rem]
+  w-full z-10
   flex justify-center items-start
 `;
 
