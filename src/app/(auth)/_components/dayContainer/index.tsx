@@ -1,3 +1,4 @@
+import Loading from "@/app/_components/loading";
 import useModalOpen from "@/hooks/useModalOpen";
 import { createClient } from "@/libs/supabase/client";
 import useCalendarState from "@/store/calendarDay";
@@ -38,6 +39,7 @@ export default function DayContainer() {
     null
   );
   const [viewEvents, setViewEvents] = useState(events);
+  const [isLoading, setIsLoading] = useState(true);
 
   // 타이머를 활용한 스크롤 이벤트
   const handleWheelEvent = (e: React.WheelEvent) => {
@@ -82,10 +84,12 @@ export default function DayContainer() {
   useEffect(() => {
     if (selectedOption.id === "a7a9a629-fc06-4fc3-99bd-7ba881e4fb0f") {
       setViewEvents(events);
+      setIsLoading(false);
     } else {
       setViewEvents(
         events.filter((event) => event.option_id === selectedOption.id)
       );
+      setIsLoading(false);
     }
   }, [selectedOption, events]);
 
@@ -97,6 +101,7 @@ export default function DayContainer() {
 
   return (
     <Container onWheel={handleWheelEvent}>
+      {isLoading && <Loading size={40} />}
       <WeekRow
         days={days.slice(0, 7)}
         events={viewEvents}

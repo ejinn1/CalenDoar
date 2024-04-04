@@ -2,6 +2,7 @@
 
 import useOptionState from "@/store/options";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
@@ -52,9 +53,11 @@ export default function Header() {
   return (
     <Container>
       <Head className="bg-white dark:bg-darkgray">
-        <div className="text-l font-bold" style={{ color: color }}>
-          {title}
-        </div>
+        <Link href={"/"}>
+          <div className="text-l font-bold" style={{ color: color }}>
+            {title}
+          </div>
+        </Link>
         <div className="flex gap-[1rem]">
           <div
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
