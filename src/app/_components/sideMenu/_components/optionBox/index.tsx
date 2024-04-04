@@ -9,7 +9,7 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { IoIosAdd } from "react-icons/io";
+import { IoIosAdd, IoIosSettings } from "react-icons/io";
 import tw from "tailwind-styled-components";
 
 const Container = tw.nav`
@@ -94,8 +94,14 @@ export default function OptionBox() {
   }, [path, isUpdate]);
 
   return (
-    <Container className="overflow-scroll dark:bg-darkgray">
-      <div className="h-[3rem] w-full flex justify-end items-center opacity-20 hover:opacity-55 transition-opacity duration-300 ease-in-out">
+    <Container className="group overflow-scroll dark:bg-darkgray">
+      <div className="h-[3rem] w-full flex justify-between items-center opacity-20 group-hover:opacity-55 transition-opacity duration-300 ease-in-out">
+        <button className="hover:bg-lightgray dark:hover:bg-gray p-1 rounded-full cursor-pointer transition-bg duration-300 ease-in-out">
+          <IoIosSettings
+            size={20}
+            color={`${theme === "dark" ? "#D3D3D3" : "#232323"} `}
+          />
+        </button>
         <button
           className="hover:bg-lightgray dark:hover:bg-gray rounded-full cursor-pointer transition-bg duration-300 ease-in-out"
           onMouseOver={() => setIsHover(true)}
