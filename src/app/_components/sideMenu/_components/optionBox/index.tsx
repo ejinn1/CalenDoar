@@ -35,16 +35,14 @@ const AddBox = tw.div`
 
 export default function OptionBox() {
   const supabase = createClient();
-  // const path = usePathname();
 
   const { isOpen, openModal, closeModal } = useModalOpen();
   const { selectedOption, setSelectedOption, options, setOptions, isUpdate } =
     useOptionState();
+  const { theme } = useTheme();
 
   const [isHover, setIsHover] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
-  const { theme } = useTheme();
 
   const handleOpenModal = () => {
     openModal();
@@ -56,10 +54,6 @@ export default function OptionBox() {
       setIsHover(false);
     }
   };
-
-  // useEffect(() => {
-  //   setClickedOption(getOptionIdOfPath(path, options));
-  // }, [path]);
 
   useEffect(() => {
     handleMouseLeave();

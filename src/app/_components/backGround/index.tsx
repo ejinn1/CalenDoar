@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  settingBackGround,
-  settingBackGroundDark,
-} from "@/constants/optionColor";
+import { settingBackGround } from "@/constants/optionColor";
 import useOptionState from "@/store/options";
-import { getOptionIdOfPath } from "@/utils/path";
 import { useTheme } from "next-themes";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 
@@ -18,34 +13,37 @@ interface Prop {
 const Back = tw.div;
 
 export default function BackGround({ children }: Prop) {
-  const path = usePathname();
-
   const { options } = useOptionState();
 
   const { theme } = useTheme();
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const { selectedOption } = useOptionState();
 
   useEffect(() => {
-    const colorValue = options.find(
-      (option) => option.id === getOptionIdOfPath(path, options)
-    )?.color;
-
     let colorGroup;
 
-    if (theme === "dark") {
-      colorGroup = settingBackGroundDark.find(
-        (back) => back.key === colorValue
+    if (theme !== "dark") {
+      colorGroup = settingBackGround.find(
+        (back) => back.key === selectedOption.color
       );
-    } else {
-      colorGroup = settingBackGround.find((back) => back.key === colorValue);
     }
 
     if (!colorGroup) return;
     setFrom(colorGroup.from);
     setTo(colorGroup.to);
-  }, [path, options]);
+  }, [options, selectedOption, theme]);
 
+  // 다크 모드
+  if (theme === "dark") {
+    return (
+      <div className="w-screen h-screen flex p-[1rem] dark:bg-black">
+        {children}
+      </div>
+    );
+  }
+
+  // 라이트 모드
   return (
     <div
       style={{ backgroundImage: `linear-gradient(to right, ${from}, ${to})` }}

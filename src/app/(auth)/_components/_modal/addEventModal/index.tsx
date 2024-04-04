@@ -3,8 +3,6 @@
 import { createClient } from "@/libs/supabase/client";
 import useEventScheduler from "@/store/eventScheduler";
 import useOptionState from "@/store/options";
-import { getOptionIdOfPath } from "@/utils/path";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import tw from "tailwind-styled-components";
@@ -43,16 +41,13 @@ const Button = tw.span`
 
 export default function AddEventModal({ day, onClose }: Prop) {
   const supabase = createClient();
-  const path = usePathname();
 
-  const { options, toggleUpdate } = useOptionState();
+  const { selectedOption, options, toggleUpdate } = useOptionState();
   const { startDate, setStartDate, endDate, setEndDate, startTime, endTime } =
     useEventScheduler();
 
   const [isTimeConfig, setIsTimeConfig] = useState(false);
-  const [seletedOption, setSelectedOption] = useState(
-    getOptionIdOfPath(path, options)
-  );
+  const [pickedOption, setPickedOption] = useState(selectedOption.id);
   const [isClickedDate, setIsClickedDate] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -89,7 +84,7 @@ export default function AddEventModal({ day, onClose }: Prop) {
       end_date: end_date,
       start_time: start_time,
       end_time: end_time,
-      option_id: seletedOption,
+      option_id: pickedOption,
       user_id: user.id,
     };
 
@@ -116,8 +111,8 @@ export default function AddEventModal({ day, onClose }: Prop) {
           <div className="flex items-center justify-center p-2">
             <div className="overflow-auto">
               <select
-                value={seletedOption}
-                onChange={(e) => setSelectedOption(e.target.value)}
+                value={pickedOption}
+                onChange={(e) => setPickedOption(e.target.value)}
                 className="text-m text-gray dark:text-white font-bold bg-transparent cursor-pointer outline-none"
               >
                 {options.map((option, index) => (

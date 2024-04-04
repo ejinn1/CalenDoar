@@ -1,9 +1,7 @@
 "use client";
 
 import useOptionState from "@/store/options";
-import { getOptionIdOfPath } from "@/utils/path";
 import { useTheme } from "next-themes";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
@@ -27,9 +25,7 @@ const ExtendedHead = tw.div`
 `;
 
 export default function Header() {
-  const path = usePathname();
-
-  const { options } = useOptionState();
+  const { selectedOption, options } = useOptionState();
   const { theme, setTheme } = useTheme();
 
   const [extended, setExtended] = useState(false);
@@ -37,27 +33,23 @@ export default function Header() {
   const [color, setColor] = useState("");
 
   useEffect(() => {
-    const selectedOption = options.find(
-      (option) => option.id === getOptionIdOfPath(path, options)
-    );
-
-    const optionName = selectedOption?.name;
-    const colorValue = selectedOption?.color;
+    const optionName = selectedOption.name;
+    const colorValue = selectedOption.color;
 
     if (optionName === "전체") {
       setTitle("Calendoar");
       if (theme === "dark") {
-        colorValue && setColor(colorValue);
+        setColor(colorValue);
       } else {
         setColor("#000000");
       }
     } else {
-      optionName && setTitle(optionName);
+      setTitle(optionName);
       if (theme === "dark") {
-        colorValue && setColor(colorValue);
+        setColor(colorValue);
       }
     }
-  }, [path, options, theme]);
+  }, [options, theme]);
 
   return (
     <Container>

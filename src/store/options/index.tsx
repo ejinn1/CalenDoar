@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 export interface Option {
-  id?: string;
+  id: string;
   name: string;
   color: string;
   link?: string;
@@ -23,7 +23,7 @@ const useOptionState = create<OptionsState>((set) => ({
     id: "a7a9a629-fc06-4fc3-99bd-7ba881e4fb0f",
   },
   setSelectedOption: (option: Option) =>
-    set((state) => ({ selectedOption: option })),
+    set(() => ({ selectedOption: option })),
   options: [
     {
       name: "전체",

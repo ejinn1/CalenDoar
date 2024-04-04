@@ -15,7 +15,6 @@ const Container = tw.div`
 
 export default function DayContainer() {
   const supabase = createClient();
-  // const path = usePathname();
 
   const now = useMemo(() => new Date(), []);
 
