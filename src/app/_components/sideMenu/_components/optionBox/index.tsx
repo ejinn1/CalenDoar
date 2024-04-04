@@ -125,11 +125,7 @@ export default function OptionBox() {
                   dark:hover:border-2
                  dark:hover:border-gray
                 `}
-              onClick={() => {
-                setSelectedOption(option);
-
-                console.log(option.name);
-              }}
+              onClick={() => setSelectedOption(option)}
             >
               {option.name}
             </Li>
