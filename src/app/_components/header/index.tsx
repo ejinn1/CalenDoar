@@ -20,10 +20,6 @@ const Head = tw.div`
   transition duration-300 ease-in-out
 `;
 
-const ExtendedHead = tw.div`
-
-`;
-
 export default function Header() {
   const { selectedOption, options } = useOptionState();
   const { theme, setTheme } = useTheme();
@@ -47,9 +43,11 @@ export default function Header() {
       setTitle(optionName);
       if (theme === "dark") {
         setColor(colorValue);
+      } else {
+        setColor("#000000");
       }
     }
-  }, [options, theme]);
+  }, [options, theme, selectedOption]);
 
   return (
     <Container>
