@@ -41,17 +41,15 @@ export default function DayContainer() {
 
   // 타이머를 활용한 스크롤 이벤트
   const handleWheelEvent = (e: React.WheelEvent) => {
-    if (debounceTimer) clearTimeout(debounceTimer);
-
-    const newTimer = setTimeout(() => {
-      if (e.deltaX > 20) {
-        goToRightMonth();
-      } else if (e.deltaX < -20) {
-        goToLeftMonth();
-      }
-    }, 100);
-
-    setDebounceTimer(newTimer);
+    // if (debounceTimer) clearTimeout(debounceTimer);
+    // const newTimer = setTimeout(() => {
+    //   if (e.deltaX > 20) {
+    //     goToRightMonth();
+    //   } else if (e.deltaX < -20) {
+    //     goToLeftMonth();
+    //   }
+    // }, 100);
+    // setDebounceTimer(newTimer);
   };
 
   useEffect(() => {

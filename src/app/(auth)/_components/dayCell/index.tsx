@@ -1,6 +1,7 @@
 "use client";
 
 import { isSameDay } from "@/utils/date";
+import Link from "next/link";
 import { IoIosAdd } from "react-icons/io";
 import tw from "tailwind-styled-components";
 
@@ -22,9 +23,9 @@ const TopDiv = tw.div`
 `;
 
 const DayContainer = tw.span`
-  flex justify-center items-center rounded-full w-[1.7rem] h-[1.7rem]
+  flex justify-center items-center rounded-full w-[1.7rem] h-[1.7rem] cursor-pointer
   transition-bg duration-300 ease-in-out
-  hover:bg-lightgray
+  hover:bg-lightgray dark:hover:bg-gray
 `;
 
 const AddContainer = tw.span`
@@ -59,17 +60,24 @@ export default function DayCell({
       className={`${className}`}
     >
       <TopDiv>
-        <DayContainer
-          className={`${
-            day && isSameDay(now, day)
-              ? "bg-lightred text-white"
-              : day.getDay() === 0
-              ? "text-lightred"
-              : ""
-          }`}
+        <Link
+          onClick={(e) => e.stopPropagation()}
+          href={`days/${day.getFullYear()}-${
+            day.getMonth() + 1
+          }-${day.getDate()}`}
         >
-          {day ? day.getDate() : ""}
-        </DayContainer>
+          <DayContainer
+            className={`${
+              day && isSameDay(now, day)
+                ? "bg-lightred text-white"
+                : day.getDay() === 0
+                ? "text-lightred"
+                : ""
+            }`}
+          >
+            {day ? day.getDate() : ""}
+          </DayContainer>
+        </Link>
         <AddContainer>
           <IoIosAdd size={16} />
         </AddContainer>
