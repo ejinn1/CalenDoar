@@ -1,13 +1,15 @@
 import { create } from "zustand";
 
 export interface Option {
-  id?: string;
+  id: string;
   name: string;
   color: string;
   link?: string;
 }
 
 interface OptionsState {
+  selectedOption: Option;
+  setSelectedOption: (option: Option) => void;
   options: Option[];
   setOptions: (options: Option[]) => void;
   isUpdate: boolean;
@@ -15,11 +17,18 @@ interface OptionsState {
 }
 
 const useOptionState = create<OptionsState>((set) => ({
+  selectedOption: {
+    name: "전체",
+    color: "#D3D3D3",
+    id: "a7a9a629-fc06-4fc3-99bd-7ba881e4fb0f",
+  },
+  setSelectedOption: (option: Option) =>
+    set(() => ({ selectedOption: option })),
   options: [
     {
       name: "전체",
       color: "#D3D3D3",
-      link: "/",
+
       id: "a7a9a629-fc06-4fc3-99bd-7ba881e4fb0f",
     },
   ],

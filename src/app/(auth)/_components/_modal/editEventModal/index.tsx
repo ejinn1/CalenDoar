@@ -5,6 +5,7 @@ import { createClient } from "@/libs/supabase/client";
 import useEventScheduler from "@/store/eventScheduler";
 import { Event } from "@/store/events";
 import useOptionState from "@/store/options";
+import { isSameDay } from "@/utils/date";
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import tw from "tailwind-styled-components";
@@ -125,12 +126,17 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
   }, [event]);
 
   useEffect(() => {
-    if (event.title !== title || event.body !== body) {
+    if (
+      event.title !== title ||
+      event.body !== body ||
+      !isSameDay(new Date(event.start_date), startDate) ||
+      !isSameDay(new Date(event.end_date), endDate)
+    ) {
       setIsEdit(true);
     } else {
       setIsEdit(false);
     }
-  }, [title, body]);
+  }, [title, body, startDate, endDate]);
 
   return (
     <Container>

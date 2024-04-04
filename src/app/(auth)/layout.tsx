@@ -10,9 +10,13 @@ export default function Layout({ children }: Prop) {
   return (
     <AuthProvider>
       <BackGround>
-        <Header />
-        <SideMenu />
-        {children}
+        <div className="w-screen h-screen gap-[1rem] flex flex-col">
+          <Header />
+          <div className="w-full h-[calc(100%-7rem)] gap-[1rem] flex">
+            <SideMenu />
+            {children}
+          </div>
+        </div>
       </BackGround>
     </AuthProvider>
   );

@@ -1,9 +1,7 @@
 "use client";
 
 import useOptionState from "@/store/options";
-import { getOptionIdOfPath } from "@/utils/path";
 import { useTheme } from "next-themes";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
@@ -11,21 +9,19 @@ import tw from "tailwind-styled-components";
 
 const Container = tw.header`
   group
-  fixed top-0 left-0 w-full px-[1rem] pt-[1rem] z-10 h-[8rem]
-  flex justify-center items-start
+  relative
+  w-full z-10
 `;
 
 const Head = tw.div`
   relative
-  w-full rounded-lg px-[2rem] pt-[1rem]
-  flex justify-between
+  w-full h-[4rem] rounded-lg px-[2rem]
+  flex justify-between items-center
   transition duration-300 ease-in-out
 `;
 
 export default function Header() {
-  const path = usePathname();
-
-  const { options } = useOptionState();
+  const { selectedOption, options } = useOptionState();
   const { theme, setTheme } = useTheme();
 
   const [extended, setExtended] = useState(false);
@@ -33,38 +29,29 @@ export default function Header() {
   const [color, setColor] = useState("");
 
   useEffect(() => {
-    const selectedOption = options.find(
-      (option) => option.id === getOptionIdOfPath(path, options)
-    );
-
-    const optionName = selectedOption?.name;
-    const colorValue = selectedOption?.color;
+    const optionName = selectedOption.name;
+    const colorValue = selectedOption.color;
 
     if (optionName === "전체") {
       setTitle("Calendoar");
       if (theme === "dark") {
-        setColor("#efeeee");
+        setColor(colorValue);
       } else {
         setColor("#000000");
       }
     } else {
-      optionName && setTitle(optionName);
+      setTitle(optionName);
       if (theme === "dark") {
-        colorValue && setColor(colorValue);
+        setColor(colorValue);
+      } else {
+        setColor("#000000");
       }
     }
-  }, [path, options, theme]);
+  }, [options, theme, selectedOption]);
 
   return (
     <Container>
-      {extended && (
-        <div className="fixed top-0 left-0 w-screen h-screen backdrop-blur-sm bg-black/20"></div>
-      )}
-      <Head
-        className={`${
-          extended ? "h-[20rem]" : "h-[4rem]"
-        } bg-white dark:bg-darkgray`}
-      >
+      <Head className="bg-white dark:bg-darkgray">
         <div className="text-l font-bold" style={{ color: color }}>
           {title}
         </div>
