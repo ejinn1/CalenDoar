@@ -10,7 +10,10 @@ import { IoIosAdd, IoIosSettings } from "react-icons/io";
 import tw from "tailwind-styled-components";
 
 const Container = tw.nav`
-  w-full bg-white rounded-lg h-full flex flex-col p-[1rem] gap-[1rem]
+  group
+  w-full bg-white dark:bg-darkgray rounded-lg h-full flex flex-col p-[1rem] gap-[1rem]
+  overflow-scroll
+  transition-bg duration-300 ease-in-out
 `;
 
 const Ul = tw.ul`
@@ -84,7 +87,7 @@ export default function OptionBox() {
   }, [isUpdate]);
 
   return (
-    <Container className="group overflow-scroll dark:bg-darkgray">
+    <Container>
       <div className="h-[3rem] w-full flex justify-between items-center opacity-20 group-hover:opacity-55 transition-opacity duration-300 ease-in-out">
         <button className="hover:bg-lightgray dark:hover:bg-gray p-1 rounded-full cursor-pointer transition-bg duration-300 ease-in-out">
           <IoIosSettings

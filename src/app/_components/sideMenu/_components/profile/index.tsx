@@ -8,6 +8,11 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoPersonCircle } from "react-icons/io5";
 import tw from "tailwind-styled-components";
 
+const Container = tw.div`
+  flex flex-col rounded-lg bg-white dark:bg-darkgray px-[1rem] w-full py-[1.5rem]
+  transition-bg duration-300 ease-in-out
+`;
+
 const ProfileButton = tw.div`
   group
   text-m font-semibold flex items-center cursor-pointer
@@ -48,7 +53,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="flex flex-col rounded-lg bg-white px-[1rem] w-full py-[1.5rem] dark:bg-darkgray">
+    <Container>
       <div className="flex gap-[2rem]">
         <IoPersonCircle className="w-[4rem] h-[4rem]" color="#D3D3D3" />
         <div className="flex flex-col justify-around">
@@ -64,6 +69,6 @@ export default function Profile() {
           <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
