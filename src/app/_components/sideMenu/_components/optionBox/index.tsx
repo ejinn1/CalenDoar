@@ -11,29 +11,22 @@ import tw from "tailwind-styled-components";
 
 const Container = tw.nav`
   group
-  w-full bg-white dark:bg-darkgray rounded-lg h-full flex flex-col p-[1rem] gap-[1rem]
-  overflow-scroll
+  relative w-full h-[calc(100%-8rem)] bg-white dark:bg-darkgray rounded-lg flex flex-col p-[1rem] gap-[1rem]
   transition-bg duration-300 ease-in-out
 `;
 
 const Ul = tw.ul`
-  flex flex-col gap-[1rem] w-full
+  flex flex-col gap-[1rem] w-full h-full items-center
 `;
 
 const Li = tw.li`
-  w-full h-[3.5rem] bg-lightgray rounded-lg font-semibold text-r
+  w-full min-h-[3.5rem] bg-lightgray rounded-lg font-semibold text-r
   flex justify-center items-center
 `;
 
 const SkeletonLi = tw.li`
   w-full h-[3.5rem] bg-lightgray rounded-lg font-semibold
   animate-pulse
-`;
-
-const AddBox = tw.div`
-  w-full h-[4rem] border-lightgray dark:border-gray border-2 border-dotted rounded-lg
-  transition-opcatity duration-300 ease-in-out
-  flex justify-center items-center font-bold
 `;
 
 export default function OptionBox() {
@@ -44,23 +37,7 @@ export default function OptionBox() {
     useOptionState();
   const { theme } = useTheme();
 
-  const [isHover, setIsHover] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
-  const handleOpenModal = () => {
-    openModal();
-    setIsHover(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (!isOpen) {
-      setIsHover(false);
-    }
-  };
-
-  useEffect(() => {
-    handleMouseLeave();
-  }, [isOpen, handleMouseLeave]);
 
   useEffect(() => {
     const getOptions = async () => {
@@ -97,9 +74,7 @@ export default function OptionBox() {
         </button>
         <button
           className="hover:bg-lightgray dark:hover:bg-gray rounded-full cursor-pointer transition-bg duration-300 ease-in-out"
-          onMouseOver={() => setIsHover(true)}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleOpenModal}
+          onClick={openModal}
         >
           <IoIosAdd
             size={24}
@@ -107,35 +82,36 @@ export default function OptionBox() {
           />
         </button>
       </div>
-      {isLoading ? (
-        <Ul>
-          {Array.from({ length: 3 }).map((_, index) => (
-            <SkeletonLi key={index} />
-          ))}
-        </Ul>
-      ) : (
-        <Ul>
-          {options.map((option, index) => (
-            <Li
-              key={index}
-              style={{
-                backgroundColor: theme === "dark" ? "#232323" : option.color,
-                color: theme === "dark" ? option.color : "",
-              }}
-              className={`${
-                selectedOption.id === option.id ? "border-2 border-gray" : ""
-              }
+      <div className="h-full overflow-scroll">
+        {isLoading ? (
+          <Ul>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <SkeletonLi key={index} />
+            ))}
+          </Ul>
+        ) : (
+          <Ul>
+            {options.map((option, index) => (
+              <Li
+                key={index}
+                style={{
+                  backgroundColor: theme === "dark" ? "#232323" : option.color,
+                  color: theme === "dark" ? option.color : "",
+                }}
+                className={`${
+                  selectedOption.id === option.id ? "border-2 border-gray" : ""
+                }
                   dark:hover:border-2
                  dark:hover:border-gray
                 `}
-              onClick={() => setSelectedOption(option)}
-            >
-              {option.name}
-            </Li>
-          ))}
-        </Ul>
-      )}
-      <AddBox className={isHover ? "opacity-100" : "opacity-0"}>추가</AddBox>
+                onClick={() => setSelectedOption(option)}
+              >
+                {option.name}
+              </Li>
+            ))}
+          </Ul>
+        )}
+      </div>
       {isOpen && <AddOptionModal onClose={closeModal} />}
     </Container>
   );
