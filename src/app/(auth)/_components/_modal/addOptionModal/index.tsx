@@ -1,6 +1,10 @@
 "use client";
 
-import { optionColors } from "@/constants/optionColor";
+import {
+  optionBrightColors,
+  optionColors,
+  optionLightColors,
+} from "@/constants/optionColor";
 import { createClient } from "@/libs/supabase/client";
 import useOptionState from "@/store/options";
 import React, { useState } from "react";
@@ -109,6 +113,30 @@ export default function AddOptionModal({ onClose }: Prop) {
             <Label htmlFor="optionColor">색상</Label>
             <div className="grid grid-cols-7 gap-[1rem] justify-center items-center bg-lightgray dark:bg-darkgray rounded-lg p-[2rem]">
               {optionColors.map((option, index) => (
+                <ButtonContainer key={index}>
+                  <ColorButton
+                    type="button"
+                    style={{ backgroundColor: option.value }}
+                    className={`${
+                      color === option.value ? "w-[2.5rem] h-[2.5rem]" : ""
+                    }`}
+                    onClick={() => handleSelectedColor(option.value)}
+                  />
+                </ButtonContainer>
+              ))}
+              {optionLightColors.map((option, index) => (
+                <ButtonContainer key={index}>
+                  <ColorButton
+                    type="button"
+                    style={{ backgroundColor: option.value }}
+                    className={`${
+                      color === option.value ? "w-[2.5rem] h-[2.5rem]" : ""
+                    }`}
+                    onClick={() => handleSelectedColor(option.value)}
+                  />
+                </ButtonContainer>
+              ))}
+              {optionBrightColors.map((option, index) => (
                 <ButtonContainer key={index}>
                   <ColorButton
                     type="button"
