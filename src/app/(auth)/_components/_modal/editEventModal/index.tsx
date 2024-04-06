@@ -56,7 +56,7 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
   } = useModalOpen();
 
   const [isTimeConfig, setIsTimeConfig] = useState(false);
-  const [seletedOption, setSelectedOption] = useState(event.option_id);
+  const [PickedOption, setPickedOption] = useState(event.option_id);
   const [isClickedDate, setIsClickedDate] = useState(false);
   const [title, setTitle] = useState(event.title);
   const [body, setBody] = useState(event.body);
@@ -94,6 +94,7 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
       end_date: end_date,
       start_time: start_time,
       end_time: end_time,
+      option_id: PickedOption,
     };
 
     const { error } = await supabase
@@ -130,13 +131,14 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
       event.title !== title ||
       event.body !== body ||
       !isSameDay(new Date(event.start_date), startDate) ||
-      !isSameDay(new Date(event.end_date), endDate)
+      !isSameDay(new Date(event.end_date), endDate) ||
+      event.option_id !== PickedOption
     ) {
       setIsEdit(true);
     } else {
       setIsEdit(false);
     }
-  }, [title, body, startDate, endDate]);
+  }, [title, body, startDate, endDate, PickedOption]);
 
   return (
     <Container>
@@ -146,8 +148,8 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
           <div className="flex items-center justify-center p-2">
             <div className="overflow-auto">
               <select
-                value={seletedOption}
-                onChange={(e) => setSelectedOption(e.target.value)}
+                value={PickedOption}
+                onChange={(e) => setPickedOption(e.target.value)}
                 className="text-m text-gray dark:text-white font-bold bg-transparent cursor-pointer outline-none"
               >
                 {options.map((option, index) => (
