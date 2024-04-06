@@ -222,12 +222,16 @@ export default function AddEventModal({ day, onClose }: Prop) {
           >
             취소
           </button>
-          <button
-            type="submit"
-            className="px-[1.4rem] py-[0.8rem] rounded-lg bg-lightblue text-white text-m font-semibold"
-          >
-            저장
-          </button>
+          {title === "" ? (
+            ""
+          ) : (
+            <button
+              type="submit"
+              className="px-[1.4rem] py-[0.8rem] rounded-lg bg-lightblue text-white text-m font-semibold"
+            >
+              저장
+            </button>
+          )}
         </div>
       </Form>
     </Container>
