@@ -10,6 +10,13 @@ import Container from "../_components/Container";
 import TimeSelect from "../_components/TimeSelect";
 import ChoseDateBox from "../_components/choseDateBox";
 
+interface Timeconfig {
+  startHour: boolean;
+  startMinute: boolean;
+  EndHour: boolean;
+  EndMinute: boolean;
+}
+
 interface Prop {
   day: Date;
   onClose: () => void;
@@ -60,10 +67,12 @@ export default function AddEventModal({ day, onClose }: Prop) {
   const [isClickedDate, setIsClickedDate] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [isConfigStartHour, setIsConfigStartHour] = useState(false);
-  const [isConfigStartMin, setIsConfigStartMin] = useState(false);
-  const [isConfigEndHour, setIsConfigEndHour] = useState(false);
-  const [isConfigEndMin, setIsConfigEndMin] = useState(false);
+  const [timeConfig, setTimeConfig] = useState<Partial<Timeconfig>>({
+    startHour: false,
+    startMinute: false,
+    EndHour: false,
+    EndMinute: false,
+  });
 
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -157,29 +166,31 @@ export default function AddEventModal({ day, onClose }: Prop) {
                   {isTimeConfig && (
                     <span>
                       <Button
-                        onClick={() => setIsConfigStartHour(true)}
+                        onClick={() => setTimeConfig({ startHour: true })}
                         className="relative"
                       >
                         {startTime.hour.toString().padStart(2, "0")}
-                        {isConfigStartHour && (
+                        {timeConfig.startHour && (
                           <TimeSelect
                             type="hour"
                             onSelect={(hour) => setStartTime({ hour })}
-                            onClose={() => setIsConfigStartHour(false)}
+                            onClose={() => setTimeConfig({ startHour: false })}
                           />
                         )}
                       </Button>
                       <span>:</span>
                       <Button
-                        onClick={() => setIsConfigStartMin(true)}
+                        onClick={() => setTimeConfig({ startMinute: true })}
                         className="relative"
                       >
                         {startTime.minute.toString().padStart(2, "0")}
-                        {isConfigStartMin && (
+                        {timeConfig.startMinute && (
                           <TimeSelect
                             type="minute"
                             onSelect={(minute) => setStartTime({ minute })}
-                            onClose={() => setIsConfigStartMin(false)}
+                            onClose={() =>
+                              setTimeConfig({ startMinute: false })
+                            }
                           />
                         )}
                       </Button>
@@ -198,29 +209,33 @@ export default function AddEventModal({ day, onClose }: Prop) {
                       {isTimeConfig && (
                         <span>
                           <Button
-                            onClick={() => setIsConfigEndHour(true)}
+                            onClick={() => setTimeConfig({ EndHour: true })}
                             className="relative"
                           >
                             {endTime.hour.toString().padStart(2, "0")}
-                            {isConfigEndHour && (
+                            {timeConfig.EndHour && (
                               <TimeSelect
                                 type="hour"
                                 onSelect={(hour) => setEndTime({ hour })}
-                                onClose={() => setIsConfigEndHour(false)}
+                                onClose={() =>
+                                  setTimeConfig({ EndHour: false })
+                                }
                               />
                             )}
                           </Button>
                           <span>:</span>
                           <Button
-                            onClick={() => setIsConfigEndMin(true)}
+                            onClick={() => setTimeConfig({ EndMinute: true })}
                             className="relative"
                           >
                             {endTime.minute.toString().padStart(2, "0")}
-                            {isConfigEndMin && (
+                            {timeConfig.EndMinute && (
                               <TimeSelect
                                 type="minute"
                                 onSelect={(minute) => setEndTime({ minute })}
-                                onClose={() => setIsConfigEndMin(false)}
+                                onClose={() =>
+                                  setTimeConfig({ EndMinute: false })
+                                }
                               />
                             )}
                           </Button>
@@ -281,16 +296,16 @@ export default function AddEventModal({ day, onClose }: Prop) {
           >
             취소
           </button>
-          {title === "" ? (
-            ""
-          ) : (
-            <button
-              type="submit"
-              className="px-[1.4rem] py-[0.8rem] rounded-lg bg-lightblue text-white text-m font-semibold"
-            >
-              저장
-            </button>
-          )}
+          <button
+            type="submit"
+            disabled={!title.trim()}
+            className={`px-[1.4rem] py-[0.8rem] rounded-lg text-white text-m font-semibold
+              ${!title.trim() ? "bg-lightgray" : "bg-lightblue"}
+              transition-bg duration-200 ease-in-out
+            `}
+          >
+            저장
+          </button>
         </div>
       </Form>
     </Container>
