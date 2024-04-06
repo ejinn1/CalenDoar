@@ -92,7 +92,7 @@ export default function AddOptionModal({ onClose }: Prop) {
       />
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col justify-between gap-[2rem] h-[calc(100%-2rem)] pt-[4rem]"
+        className="flex flex-col justify-between gap-[4rem] h-full pt-[2rem]"
       >
         <div className="flex flex-col gap-[4rem]">
           <Field>
@@ -156,7 +156,7 @@ export default function AddOptionModal({ onClose }: Prop) {
             )}
           </Field>
         </div>
-        <AddButton>추가</AddButton>
+        <AddButton type="submit">추가</AddButton>
       </form>
     </Container>
   );
