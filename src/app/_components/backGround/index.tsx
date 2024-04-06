@@ -34,19 +34,12 @@ export default function BackGround({ children }: Prop) {
     setTo(colorGroup.to);
   }, [options, selectedOption, theme]);
 
-  // 다크 모드
-  if (theme === "dark") {
-    return (
-      <div className="w-screen h-screen flex p-[1rem] dark:bg-black">
-        {children}
-      </div>
-    );
-  }
-
-  // 라이트 모드
   return (
     <div
-      style={{ backgroundImage: `linear-gradient(to right, ${from}, ${to})` }}
+      style={{
+        backgroundImage:
+          theme === "dark" ? "" : `linear-gradient(to right, ${from}, ${to})`,
+      }}
       className="w-screen h-screen flex p-[1rem] dark:bg-black"
     >
       {children}
