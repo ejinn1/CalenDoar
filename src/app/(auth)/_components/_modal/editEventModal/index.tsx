@@ -10,7 +10,15 @@ import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import tw from "tailwind-styled-components";
 import Container from "../_components/Container";
+import TimeSelect from "../_components/TimeSelect";
 import ChoseDateBox from "../_components/choseDateBox";
+
+interface Timeconfig {
+  startHour: boolean;
+  startMinute: boolean;
+  EndHour: boolean;
+  EndMinute: boolean;
+}
 
 interface Prop {
   event: Event;
@@ -47,8 +55,16 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
   const supabase = createClient();
 
   const { options, toggleUpdate } = useOptionState();
-  const { startDate, setStartDate, endDate, setEndDate, startTime, endTime } =
-    useEventScheduler();
+  const {
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+  } = useEventScheduler();
   const {
     isOpen: isOpenDel,
     openModal: openDel,
@@ -61,6 +77,13 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
   const [title, setTitle] = useState(event.title);
   const [body, setBody] = useState(event.body);
   const [isEdit, setIsEdit] = useState(false);
+
+  const [timeConfig, setTimeConfig] = useState<Partial<Timeconfig>>({
+    startHour: false,
+    startMinute: false,
+    EndHour: false,
+    EndMinute: false,
+  });
 
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -124,21 +147,50 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
   useEffect(() => {
     setStartDate(new Date(event.start_date));
     setEndDate(new Date(event.end_date));
+
+    const [startHour, startMinute] = event.start_time.split(":");
+    setStartTime({ hour: Number(startHour), minute: Number(startMinute) });
+
+    const [endHour, endMinute] = event.end_time.split(":");
+    setEndTime({ hour: Number(endHour), minute: Number(endMinute) });
   }, [event]);
 
   useEffect(() => {
+    const isChangeTime = () => {
+      const [startHour, startMinute] = event.start_time.split(":");
+      const [endHour, endMinute] = event.end_time.split(":");
+
+      return (
+        Number(startHour) !== startTime.hour ||
+        Number(startMinute) !== startTime.minute ||
+        Number(endHour) !== endTime.hour ||
+        Number(endMinute) !== endTime.minute
+      );
+    };
+
     if (
       event.title !== title ||
       event.body !== body ||
       !isSameDay(new Date(event.start_date), startDate) ||
       !isSameDay(new Date(event.end_date), endDate) ||
-      event.option_id !== PickedOption
+      event.option_id !== PickedOption ||
+      isChangeTime()
     ) {
       setIsEdit(true);
     } else {
       setIsEdit(false);
     }
-  }, [title, body, startDate, endDate, PickedOption]);
+  }, [
+    title,
+    body,
+    startDate,
+    endDate,
+    PickedOption,
+    startTime.hour,
+    startTime.minute,
+    endTime.hour,
+    endTime.minute,
+  ]);
 
   return (
     <Container>
@@ -180,12 +232,34 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
                   }`}</Button>
                   {isTimeConfig && (
                     <span>
-                      <Button>
-                        {`${startTime.hour
-                          .toString()
-                          .padStart(2, "0")} : ${startTime.minute
-                          .toString()
-                          .padStart(2, "0")}`}
+                      <Button
+                        onClick={() => setTimeConfig({ startHour: true })}
+                        className="relative"
+                      >
+                        {startTime.hour.toString().padStart(2, "0")}
+                        {timeConfig.startHour && (
+                          <TimeSelect
+                            type="hour"
+                            onSelect={(hour) => setStartTime({ hour })}
+                            onClose={() => setTimeConfig({ startHour: false })}
+                          />
+                        )}
+                      </Button>
+                      <span>:</span>
+                      <Button
+                        onClick={() => setTimeConfig({ startMinute: true })}
+                        className="relative"
+                      >
+                        {startTime.minute.toString().padStart(2, "0")}
+                        {timeConfig.startMinute && (
+                          <TimeSelect
+                            type="minute"
+                            onSelect={(minute) => setStartTime({ minute })}
+                            onClose={() =>
+                              setTimeConfig({ startMinute: false })
+                            }
+                          />
+                        )}
                       </Button>
                     </span>
                   )}
@@ -200,13 +274,39 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
                         weekdays[endDate.getDay()]
                       }`}</Button>
                       {isTimeConfig && (
-                        <Button>
-                          <span>{`${endTime.hour
-                            .toString()
-                            .padStart(2, "0")} : ${endTime.minute
-                            .toString()
-                            .padStart(2, "0")}`}</span>
-                        </Button>
+                        <span>
+                          <Button
+                            onClick={() => setTimeConfig({ EndHour: true })}
+                            className="relative"
+                          >
+                            {endTime.hour.toString().padStart(2, "0")}
+                            {timeConfig.EndHour && (
+                              <TimeSelect
+                                type="hour"
+                                onSelect={(hour) => setEndTime({ hour })}
+                                onClose={() =>
+                                  setTimeConfig({ EndHour: false })
+                                }
+                              />
+                            )}
+                          </Button>
+                          <span>:</span>
+                          <Button
+                            onClick={() => setTimeConfig({ EndMinute: true })}
+                            className="relative"
+                          >
+                            {endTime.minute.toString().padStart(2, "0")}
+                            {timeConfig.EndMinute && (
+                              <TimeSelect
+                                type="minute"
+                                onSelect={(minute) => setEndTime({ minute })}
+                                onClose={() =>
+                                  setTimeConfig({ EndMinute: false })
+                                }
+                              />
+                            )}
+                          </Button>
+                        </span>
                       )}
                     </div>
                   </>
@@ -260,14 +360,16 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
           >
             삭제
           </button>
-          {isEdit && (
-            <button
-              type="submit"
-              className="px-[1.4rem] py-[0.8rem] rounded-lg bg-lightblue text-white text-m font-semibold"
-            >
-              수정
-            </button>
-          )}
+          <button
+            type="submit"
+            disabled={!isEdit}
+            className={`px-[1.4rem] py-[0.8rem] rounded-lg text-white text-m font-semibold
+              ${!isEdit ? "bg-lightgray" : "bg-lightblue"}
+              transition-bg duration-200 ease-in-out
+            `}
+          >
+            수정
+          </button>
         </div>
       </Form>
       {isOpenDel && (
