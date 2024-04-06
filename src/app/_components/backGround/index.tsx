@@ -4,13 +4,10 @@ import { settingBackGround } from "@/constants/optionColor";
 import useOptionState from "@/store/options";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import tw from "tailwind-styled-components";
 
 interface Prop {
   children: React.ReactNode;
 }
-
-const Back = tw.div;
 
 export default function BackGround({ children }: Prop) {
   const { options } = useOptionState();
