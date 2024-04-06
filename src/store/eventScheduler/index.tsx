@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface Time {
+export interface Time {
   hour: number;
   minute: number;
 }
@@ -11,9 +11,9 @@ interface EventSchedulerState {
   endDate: Date;
   setEndDate: (date: Date) => void;
   startTime: Time;
-  setStartTime: (time: Time) => void;
+  setStartTime: (time: Partial<Time>) => void;
   endTime: Time;
-  setEndTime: (time: Time) => void;
+  setEndTime: (time: Partial<Time>) => void;
 }
 
 const useEventScheduler = create<EventSchedulerState>((set) => ({
@@ -26,12 +26,18 @@ const useEventScheduler = create<EventSchedulerState>((set) => ({
     hour: 0,
     minute: 0,
   },
-  setStartTime: (startTime: Time) => set(() => ({ startTime })),
+  setStartTime: (newTime) =>
+    set((state) => ({
+      startTime: { ...state.startTime, ...newTime },
+    })),
   endTime: {
     hour: 24,
     minute: 0,
   },
-  setEndTime: (endTime: Time) => set(() => ({ endTime })),
+  setEndTime: (newTime) =>
+    set((state) => ({
+      endTime: { ...state.endTime, ...newTime },
+    })),
 }));
 
 export default useEventScheduler;

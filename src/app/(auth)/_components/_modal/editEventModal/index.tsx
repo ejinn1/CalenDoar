@@ -9,8 +9,8 @@ import { isSameDay } from "@/utils/date";
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import tw from "tailwind-styled-components";
-import ChoseDateBox from "../../choseDateBox";
 import Container from "../_components/Container";
+import ChoseDateBox from "../_components/choseDateBox";
 
 interface Prop {
   event: Event;

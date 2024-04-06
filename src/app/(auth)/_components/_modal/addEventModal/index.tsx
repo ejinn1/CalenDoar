@@ -6,8 +6,9 @@ import useOptionState from "@/store/options";
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import tw from "tailwind-styled-components";
-import ChoseDateBox from "../../choseDateBox";
 import Container from "../_components/Container";
+import TimeSelect from "../_components/TimeSelect";
+import ChoseDateBox from "../_components/choseDateBox";
 
 interface Prop {
   day: Date;
@@ -43,14 +44,26 @@ export default function AddEventModal({ day, onClose }: Prop) {
   const supabase = createClient();
 
   const { selectedOption, options, toggleUpdate } = useOptionState();
-  const { startDate, setStartDate, endDate, setEndDate, startTime, endTime } =
-    useEventScheduler();
+  const {
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+  } = useEventScheduler();
 
   const [isTimeConfig, setIsTimeConfig] = useState(false);
   const [pickedOption, setPickedOption] = useState(selectedOption.id);
   const [isClickedDate, setIsClickedDate] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [isConfigStartHour, setIsConfigStartHour] = useState(false);
+  const [isConfigStartMin, setIsConfigStartMin] = useState(false);
+  const [isConfigEndHour, setIsConfigEndHour] = useState(false);
+  const [isConfigEndMin, setIsConfigEndMin] = useState(false);
 
   const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -143,12 +156,32 @@ export default function AddEventModal({ day, onClose }: Prop) {
                   }`}</Button>
                   {isTimeConfig && (
                     <span>
-                      <Button>
-                        {`${startTime.hour
-                          .toString()
-                          .padStart(2, "0")} : ${startTime.minute
-                          .toString()
-                          .padStart(2, "0")}`}
+                      <Button
+                        onClick={() => setIsConfigStartHour(true)}
+                        className="relative"
+                      >
+                        {startTime.hour.toString().padStart(2, "0")}
+                        {isConfigStartHour && (
+                          <TimeSelect
+                            type="hour"
+                            onSelect={(hour) => setStartTime({ hour })}
+                            onClose={() => setIsConfigStartHour(false)}
+                          />
+                        )}
+                      </Button>
+                      <span>:</span>
+                      <Button
+                        onClick={() => setIsConfigStartMin(true)}
+                        className="relative"
+                      >
+                        {startTime.minute.toString().padStart(2, "0")}
+                        {isConfigStartMin && (
+                          <TimeSelect
+                            type="minute"
+                            onSelect={(minute) => setStartTime({ minute })}
+                            onClose={() => setIsConfigStartMin(false)}
+                          />
+                        )}
                       </Button>
                     </span>
                   )}
@@ -163,13 +196,35 @@ export default function AddEventModal({ day, onClose }: Prop) {
                         weekdays[endDate.getDay()]
                       }`}</Button>
                       {isTimeConfig && (
-                        <Button>
-                          <span>{`${endTime.hour
-                            .toString()
-                            .padStart(2, "0")} : ${endTime.minute
-                            .toString()
-                            .padStart(2, "0")}`}</span>
-                        </Button>
+                        <span>
+                          <Button
+                            onClick={() => setIsConfigEndHour(true)}
+                            className="relative"
+                          >
+                            {endTime.hour.toString().padStart(2, "0")}
+                            {isConfigEndHour && (
+                              <TimeSelect
+                                type="hour"
+                                onSelect={(hour) => setEndTime({ hour })}
+                                onClose={() => setIsConfigEndHour(false)}
+                              />
+                            )}
+                          </Button>
+                          <span>:</span>
+                          <Button
+                            onClick={() => setIsConfigEndMin(true)}
+                            className="relative"
+                          >
+                            {endTime.minute.toString().padStart(2, "0")}
+                            {isConfigEndMin && (
+                              <TimeSelect
+                                type="minute"
+                                onSelect={(minute) => setEndTime({ minute })}
+                                onClose={() => setIsConfigEndMin(false)}
+                              />
+                            )}
+                          </Button>
+                        </span>
                       )}
                     </div>
                   </>
@@ -184,7 +239,11 @@ export default function AddEventModal({ day, onClose }: Prop) {
                 )}
               </div>
               <Button
-                onClick={() => setIsTimeConfig((prev) => !prev)}
+                onClick={() => {
+                  setIsTimeConfig((prev) => !prev);
+                  setStartTime({ hour: 0, minute: 0 });
+                  setEndTime({ hour: 24, minute: 0 });
+                }}
                 className={`${isTimeConfig && "bg-lightgray dark:bg-darkgray"}`}
               >
                 시간설정
