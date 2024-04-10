@@ -82,7 +82,12 @@ export default function OptionBox() {
 
   useEffect(() => {
     const pick = options.find((option) => option.id === selectedOption.id);
-    pick && setSelectedOption(pick);
+
+    if (pick) {
+      setSelectedOption(pick);
+    } else {
+      setSelectedOption(allOption);
+    }
   }, [options]);
 
   return (
