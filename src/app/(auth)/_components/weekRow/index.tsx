@@ -4,6 +4,7 @@ import useModalOpen from "@/hooks/useModalOpen";
 import { Event } from "@/store/events";
 import useOptionState from "@/store/options";
 import { isAfter, isSameDay, isSameOrBefore } from "@/utils/date";
+import { useTheme } from "next-themes";
 import { useState } from "react";
 import tw from "tailwind-styled-components";
 import EditEventModal from "../_modal/editEventModal";
@@ -26,8 +27,8 @@ const EventsContainer = tw.span`
 `;
 
 const EventItem = tw.span`
-  relative w-full h-max text-r rounded-sm flex justify-center cursor-pointer
-  transition duration-300 ease-in-out px-4
+  relative w-full h-max rounded-md flex md:justify-center justify-start cursor-pointer
+  transition duration-300 ease-in-out md:px-4 px-[0.2rem] py-[0.2rem]
   hover:shadow-md
   dark:hover:shadow-white-md
   hover:text-gray
@@ -46,6 +47,7 @@ export default function WeekRow({
     closeModal: closeEdit,
   } = useModalOpen();
   const { options } = useOptionState();
+  const { theme } = useTheme();
 
   const [selectedEvent, setSelectedEvent] = useState<Event>();
   const [eventDay, setEventDay] = useState<Date>();
@@ -88,13 +90,25 @@ export default function WeekRow({
                       setSelectedEvent(event);
                       openEdit();
                     }}
-                    className="bg-lightgray dark:bg-gray"
+                    style={{
+                      color: theme === "dark" ? getOptionColor(event) : "",
+                    }}
+                    className={`md:text-r text-s font-light
+                      ${theme !== "dark" && "md:bg-lightgray"}
+                    `}
                   >
                     <span
-                      style={{ backgroundColor: getOptionColor(event) }}
-                      className="absolute top-0 left-0 w-[0.5rem] h-full rounded-l rounded-sm dark:bg-gray"
+                      style={{
+                        backgroundColor:
+                          theme === "dark"
+                            ? ""
+                            : getOptionColor(event)
+                            ? getOptionColor(event)
+                            : "#D3D3D3",
+                      }}
+                      className="absolute top-0 left-0 md:w-[0.5rem] md:h-full w-full h-full rounded-md md:dark:bg-gray"
                     />
-                    {event.title}
+                    <span className="z-[5]">{event.title}</span>
                   </EventItem>
                 ))}
           </EventsContainer>

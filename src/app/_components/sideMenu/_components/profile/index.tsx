@@ -9,7 +9,7 @@ import { IoPersonCircle } from "react-icons/io5";
 import tw from "tailwind-styled-components";
 
 const Container = tw.div`
-  flex flex-col rounded-lg bg-white dark:bg-darkgray px-[1rem] w-full py-[1.5rem]
+  flex flex-col rounded-lg bg-white dark:bg-darkgray px-[1rem] w-full py-[1.5rem] shadow-md
   transition-bg duration-300 ease-in-out
 `;
 

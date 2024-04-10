@@ -50,7 +50,7 @@ const Button = tw.span`
 export default function AddEventModal({ day, onClose }: Prop) {
   const supabase = createClient();
 
-  const { selectedOption, options, toggleUpdate } = useOptionState();
+  const { selectedOption, options, allOption, toggleUpdate } = useOptionState();
   const {
     startDate,
     setStartDate,
@@ -137,6 +137,9 @@ export default function AddEventModal({ day, onClose }: Prop) {
                 onChange={(e) => setPickedOption(e.target.value)}
                 className="text-m text-gray dark:text-white font-bold bg-transparent cursor-pointer outline-none"
               >
+                <option key={allOption.id} value={allOption.id}>
+                  {allOption.name}
+                </option>
                 {options.map((option, index) => (
                   <option key={index} value={option.id}>
                     {option.name}
