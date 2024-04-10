@@ -12,6 +12,7 @@ import tw from "tailwind-styled-components";
 import Container from "../_components/Container";
 import TimeSelect from "../_components/TimeSelect";
 import ChoseDateBox from "../_components/choseDateBox";
+import DeleteModal from "../_components/deleteModal";
 
 interface Timeconfig {
   startHour: boolean;
@@ -373,27 +374,7 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
         </div>
       </Form>
       {isOpenDel && (
-        <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-30 flex items-center justify-center z-10 drop-shadow-md">
-          <div className="relative flex flex-col justify-center gap-[2rem] w-[30rem] h-[14rem] shadow-md rounded-lg bg-white dark:bg-darkgray">
-            <div className="text-l font-bold flex justify-center items-center">
-              삭제 할꺼?
-            </div>
-            <div className="flex justify-center gap-[2rem] w-full">
-              <button
-                onClick={closeDel}
-                className="px-[1.4rem] py-[0.8rem] rounded-lg bg-lightgray dark:bg-gray text-white text-m font-semibold"
-              >
-                아니
-              </button>
-              <button
-                onClick={handleDelete}
-                className="px-[1.4rem] py-[0.8rem] rounded-lg bg-lightred text-white text-m font-semibold"
-              >
-                응
-              </button>
-            </div>
-          </div>
-        </div>
+        <DeleteModal closeDel={closeDel} handleDelete={handleDelete} />
       )}
     </Container>
   );

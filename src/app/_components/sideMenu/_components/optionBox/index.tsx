@@ -1,9 +1,11 @@
 "use client";
 
 import AddOptionModal from "@/app/(auth)/_components/_modal/addOptionModal";
+import EditOptionModal from "@/app/(auth)/_components/_modal/editOptionModal";
+import { OPTION_ALL_ID } from "@/constants/optionID";
 import useModalOpen from "@/hooks/useModalOpen";
 import { createClient } from "@/libs/supabase/client";
-import useOptionState, { Option } from "@/store/options";
+import useOptionState from "@/store/options";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { IoIosAdd, IoIosSettings } from "react-icons/io";
@@ -32,9 +34,24 @@ const SkeletonLi = tw.li`
 export default function OptionBox() {
   const supabase = createClient();
 
-  const { isOpen, openModal, closeModal } = useModalOpen();
-  const { selectedOption, setSelectedOption, options, setOptions, isUpdate } =
-    useOptionState();
+  const {
+    isOpen: isOpenAdd,
+    openModal: openAdd,
+    closeModal: closeAdd,
+  } = useModalOpen();
+  const {
+    isOpen: isOpenEdit,
+    openModal: openEdit,
+    closeModal: closeEdit,
+  } = useModalOpen();
+  const {
+    allOption,
+    selectedOption,
+    setSelectedOption,
+    options,
+    setOptions,
+    isUpdate,
+  } = useOptionState();
   const { theme } = useTheme();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -55,7 +72,7 @@ export default function OptionBox() {
       if (error) {
         console.log(error);
       } else {
-        setOptions(data as Option[]);
+        setOptions(data);
         setIsLoading(false);
       }
     };
@@ -63,10 +80,18 @@ export default function OptionBox() {
     getOptions();
   }, [isUpdate]);
 
+  useEffect(() => {
+    const pick = options.find((option) => option.id === selectedOption.id);
+    pick && setSelectedOption(pick);
+  }, [options]);
+
   return (
     <Container>
       <div className="h-[3rem] w-full flex justify-between items-center opacity-20 group-hover:opacity-55 transition-opacity duration-300 ease-in-out">
-        <button className="hover:bg-lightgray dark:hover:bg-gray p-1 rounded-full cursor-pointer transition-bg duration-300 ease-in-out">
+        <button
+          onClick={() => selectedOption.id !== OPTION_ALL_ID && openEdit()}
+          className="hover:bg-lightgray dark:hover:bg-gray p-1 rounded-full cursor-pointer transition-bg duration-300 ease-in-out"
+        >
           <IoIosSettings
             size={20}
             color={`${theme === "dark" ? "#D3D3D3" : "#232323"} `}
@@ -74,7 +99,7 @@ export default function OptionBox() {
         </button>
         <button
           className="hover:bg-lightgray dark:hover:bg-gray rounded-full cursor-pointer transition-bg duration-300 ease-in-out"
-          onClick={openModal}
+          onClick={openAdd}
         >
           <IoIosAdd
             size={24}
@@ -91,28 +116,52 @@ export default function OptionBox() {
           </Ul>
         ) : (
           <Ul>
-            {options.map((option, index) => (
-              <Li
-                key={index}
-                style={{
-                  backgroundColor: theme === "dark" ? "#232323" : option.color,
-                  color: theme === "dark" ? option.color : "",
-                }}
-                className={`${
-                  selectedOption.id === option.id ? "border-2 border-gray" : ""
-                }
+            <Li
+              key={allOption.id}
+              style={{
+                backgroundColor: theme === "dark" ? "#232323" : allOption.color,
+                color: theme === "dark" ? allOption.color : "",
+              }}
+              className={`${
+                selectedOption.id === allOption.id ? "border-2 border-gray" : ""
+              }
                   dark:hover:border-2
                  dark:hover:border-gray
                 `}
-                onClick={() => setSelectedOption(option)}
-              >
-                {option.name}
-              </Li>
-            ))}
+              onClick={() => setSelectedOption(allOption)}
+            >
+              {allOption.name}
+            </Li>
+            {options.map((option, index) => {
+              return (
+                <Li
+                  key={index}
+                  style={{
+                    backgroundColor:
+                      theme === "dark" ? "#232323" : option.color,
+                    color: theme === "dark" ? option.color : "",
+                  }}
+                  className={`${
+                    selectedOption.id === option.id
+                      ? "border-2 border-gray"
+                      : ""
+                  }
+                  dark:hover:border-2
+                 dark:hover:border-gray
+                `}
+                  onClick={() => setSelectedOption(option)}
+                >
+                  {option.name}
+                </Li>
+              );
+            })}
           </Ul>
         )}
       </div>
-      {isOpen && <AddOptionModal onClose={closeModal} />}
+      {isOpenAdd && <AddOptionModal onClose={closeAdd} />}
+      {isOpenEdit && (
+        <EditOptionModal onClose={closeEdit} pickedOption={selectedOption} />
+      )}
     </Container>
   );
 }

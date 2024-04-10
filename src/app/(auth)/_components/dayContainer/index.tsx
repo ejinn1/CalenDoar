@@ -32,7 +32,7 @@ export default function DayContainer() {
   } = useModalOpen();
 
   const { events, setEvents } = useEventState();
-  const { selectedOption, options, isUpdate } = useOptionState();
+  const { selectedOption, isUpdate } = useOptionState();
 
   const [selectedDay, setSelectedDay] = useState<Date>();
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(

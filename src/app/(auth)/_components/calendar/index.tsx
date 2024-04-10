@@ -19,8 +19,7 @@ const WeekCell = tw.div`
 `;
 
 const ArrowContainer = tw.div`
-  flex justify-center items-center opacity-30 cursor-pointer rounded-lg
-  hover:opacity-100
+  flex justify-center items-center cursor-pointer rounded-lg
   hover:bg-lightgray dark:hover:bg-gray
   transition duration-300 ease-in-out
 `;
