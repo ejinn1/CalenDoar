@@ -1,5 +1,6 @@
 "use client";
 
+import useModalOpen from "@/hooks/useModalOpen";
 import useOptionState from "@/store/options";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import { useEffect, useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import tw from "tailwind-styled-components";
+import Menu from "../menu";
 
 const Container = tw.header`
   group
@@ -24,8 +26,12 @@ const Head = tw.div`
 export default function Header() {
   const { selectedOption, options } = useOptionState();
   const { theme, setTheme } = useTheme();
+  const {
+    isOpen: isOpenMenu,
+    closeModal: closeMenu,
+    openModal: openMenu,
+  } = useModalOpen();
 
-  const [extended, setExtended] = useState(false);
   const [title, setTitle] = useState("Calendoar");
   const [color, setColor] = useState("");
 
@@ -61,10 +67,13 @@ export default function Header() {
             {title}
           </div>
         </Link>
-        <div className="flex items-center justify-end gap-[1rem] w-full bg-white dark:bg-darkgray h-[4rem] px-[2rem] rounded-lg shadow-md">
+        <div className="relative flex items-center justify-end gap-[1rem] w-full bg-white dark:bg-darkgray h-[4rem] px-[2rem] rounded-lg shadow-md">
+          {/* <div onClick={handleLogout}>
+            <IoLogOut size={16} />
+          </div> */}
           <div
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="pt-[0.3rem] cursor-pointer opacity-100 hover:opacity-50 transition-opacity duration-300 ease-in-out"
+            className=" cursor-pointer opacity-100 hover:opacity-50 transition-opacity duration-300 ease-in-out"
           >
             {theme === "dark" ? (
               <MdLightMode size={14} />
@@ -73,13 +82,14 @@ export default function Header() {
             )}
           </div>
           <div
-            onClick={() => setExtended((prev) => !prev)}
+            onClick={isOpenMenu ? closeMenu : openMenu}
             className="cursor-pointer opacity-100 hover:opacity-50 transition-opacity duration-300 ease-in-out"
           >
-            {extended ? <IoClose size={20} /> : <IoMenu size={20} />}
+            {isOpenMenu ? <IoClose size={20} /> : <IoMenu size={20} />}
           </div>
         </div>
       </Head>
+      {isOpenMenu && <Menu />}
     </Container>
   );
 }
