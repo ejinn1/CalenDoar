@@ -13,7 +13,7 @@ import tw from "tailwind-styled-components";
 
 const Container = tw.nav`
   group
-  relative w-full h-[calc(100%-8rem)] bg-white dark:bg-darkgray rounded-lg flex flex-col p-[1rem] gap-[1rem]
+  relative w-full h-[calc(100%-8rem)] bg-white dark:bg-darkgray rounded-lg flex flex-col p-[1rem] gap-[1rem] shadow-md
   transition-bg duration-300 ease-in-out
 `;
 

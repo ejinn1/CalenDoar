@@ -29,7 +29,7 @@ export const optionColors = [
 ];
 
 export const settingBackGround = [
-  { key: "#808080", from: "#808080", to: "#808080" },
+  { key: "#808080", from: "#D3D3D3", to: "#D3D3D3" },
   { key: "#be5656", from: "#be5656", to: "#F87171" },
   { key: "#ce8320", from: "#ce8320", to: "#fb9e24" },
   { key: "#bb9537", from: "#bb9537", to: "#FBBF24" },
@@ -37,7 +37,7 @@ export const settingBackGround = [
   { key: "#366cae", from: "#366cae", to: "#60A5FA" },
   { key: "#856fc9", from: "#856fc9", to: "#A78BFA" },
 
-  { key: "#D3D3D3", from: "#808080", to: "#808080" },
+  { key: "#D3D3D3", from: "#D3D3D3", to: "#D3D3D3" },
   { key: "#F87171", from: "#be5656", to: "#fcafaf" },
   { key: "#FB9E24", from: "#ce8320", to: "#fbd9ad" },
   { key: "#FBBF24", from: "#bb9537", to: "#f8e3ab" },
@@ -45,7 +45,7 @@ export const settingBackGround = [
   { key: "#60A5FA", from: "#366cae", to: "#b3d0f3" },
   { key: "#A78BFA", from: "#856fc9", to: "#d3c7f6" },
 
-  { key: "#efeeee", from: "#808080", to: "#808080" },
+  { key: "#efeeee", from: "#D3D3D3", to: "#D3D3D3" },
   { key: "#fcafaf", from: "#F87171", to: "#fcafaf" },
   { key: "#fbd9ad", from: "#fb9e24", to: "#fbd9ad" },
   { key: "#f8e3ab", from: "#FBBF24", to: "#f8e3ab" },

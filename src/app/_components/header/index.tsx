@@ -16,8 +16,8 @@ const Container = tw.header`
 
 const Head = tw.div`
   relative
-  w-full h-[4rem] rounded-lg px-[2rem]
-  flex justify-between items-center
+  w-full h-[4rem]
+  flex justify-between items-center gap-[1rem]
   transition duration-300 ease-in-out
 `;
 
@@ -52,13 +52,16 @@ export default function Header() {
 
   return (
     <Container>
-      <Head className="bg-white dark:bg-darkgray">
+      <Head>
         <Link href={"/"}>
-          <div className="text-l font-bold" style={{ color: color }}>
+          <div
+            className="flex justify-center items-center text-l font-bold bg-white dark:bg-darkgray w-[14rem] h-[4rem] px-[2rem] rounded-lg shadow-md"
+            style={{ color: color }}
+          >
             {title}
           </div>
         </Link>
-        <div className="flex gap-[1rem]">
+        <div className="flex items-center justify-end gap-[1rem] w-full bg-white dark:bg-darkgray h-[4rem] px-[2rem] rounded-lg shadow-md">
           <div
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="pt-[0.3rem] cursor-pointer opacity-100 hover:opacity-50 transition-opacity duration-300 ease-in-out"
