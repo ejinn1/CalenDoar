@@ -31,23 +31,6 @@ const useOptionState = create<OptionsState>((set) => ({
     set(() => ({ selectedOption: option })),
   options: [],
   setOptions: (options) => set({ options }),
-  // setOptions: (setOptions: Option[]) =>
-  //   set((state) => {
-  //     const updatedOptions = [...state.options];
-
-  //     setOptions.forEach((setOption) => {
-  //       const exists = state.options.some(
-  //         (existingOption) => existingOption.id === setOption.id
-  //       );
-  //       if (!exists) {
-  //         updatedOptions.push(setOption);
-  //       }
-  //     });
-
-  //     return {
-  //       options: updatedOptions,
-  //     };
-  //   }),
   isUpdate: false,
   toggleUpdate: () => set((state) => ({ isUpdate: !state.isUpdate })),
 }));

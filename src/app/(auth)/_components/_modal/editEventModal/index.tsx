@@ -205,7 +205,6 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
                 onChange={(e) => setPickedOption(e.target.value)}
                 className="text-m text-gray dark:text-white font-bold bg-transparent cursor-pointer outline-none"
               >
-                {" "}
                 <option key={allOption.id} value={allOption.id}>
                   {allOption.name}
                 </option>

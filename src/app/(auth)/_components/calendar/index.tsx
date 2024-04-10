@@ -45,10 +45,13 @@ export default function Calendar({ children }: Prop) {
   const [pickedOption, setPickedOption] = useState(selectedOption.id);
 
   useEffect(() => {
-    const select = options.find((option) => option.id === pickedOption);
-    if (!select) return;
+    const pick = options.find((option) => option.id === pickedOption);
 
-    setSelectedOption(select);
+    if (pick) {
+      setSelectedOption(pick);
+    } else {
+      setSelectedOption(allOption);
+    }
   }, [pickedOption]);
 
   return (
