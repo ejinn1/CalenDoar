@@ -43,8 +43,6 @@ export default function DayContainer() {
 
   // 타이머를 활용한 스크롤 이벤트
   const handleWheelEvent = (e: React.WheelEvent) => {
-    console.log("scroll");
-
     if (debounceTimer) clearTimeout(debounceTimer);
     const newTimer = setTimeout(() => {
       if (e.deltaY > 10) {
