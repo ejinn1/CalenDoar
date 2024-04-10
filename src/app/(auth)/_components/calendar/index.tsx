@@ -73,7 +73,7 @@ export default function Calendar({ children }: Prop) {
             <TodayContainer onClick={goToTodayMonth}>오늘</TodayContainer>
           </div>
         </header>
-        <div className="relative bg-white dark:bg-darkgray text-black w-max md:hidden">
+        <div className="relative text-black w-max md:hidden">
           <div className="flex items-center justify-center p-2">
             <div className="overflow-auto">
               <select
