@@ -15,7 +15,7 @@ interface Props {
 
 const Cell = tw.div`
   group
-  relative p-[0.5rem] font-medium text-r
+  relative md:p-[0.5rem] p-[0.2rem] font-medium text-r
 `;
 
 const TopDiv = tw.div`
