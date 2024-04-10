@@ -27,8 +27,8 @@ const EventsContainer = tw.span`
 `;
 
 const EventItem = tw.span`
-  relative w-full h-max rounded-md flex justify-center cursor-pointer
-  transition duration-300 ease-in-out md:px-4 px-[0.1rem] py-[0.2rem]
+  relative w-full h-max rounded-md flex md:justify-center justify-start cursor-pointer
+  transition duration-300 ease-in-out md:px-4 px-[0.2rem] py-[0.2rem]
   hover:shadow-md
   dark:hover:shadow-white-md
   hover:text-gray
