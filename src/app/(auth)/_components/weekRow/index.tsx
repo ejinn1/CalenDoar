@@ -106,7 +106,7 @@ export default function WeekRow({
                             ? getOptionColor(event)
                             : "#D3D3D3",
                       }}
-                      className="absolute top-0 left-0 md:w-[0.5rem] md:h-full w-full h-full rounded-l rounded-sm md:dark:bg-gray"
+                      className="absolute top-0 left-0 md:w-[0.5rem] md:h-full w-full h-full rounded-md md:dark:bg-gray"
                     />
                     <span className="z-[5]">{event.title}</span>
                   </EventItem>
