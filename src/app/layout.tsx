@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/logo.png",
   },
+  viewport: {
+    maximumScale: 1,
+  },
 };
 
 export default function RootLayout({
