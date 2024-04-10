@@ -1,24 +1,28 @@
 "use client";
 
 import AddOptionModal from "@/app/(auth)/_components/_modal/addOptionModal";
+import EditOptionModal from "@/app/(auth)/_components/_modal/editOptionModal";
+import { OPTION_ALL_ID } from "@/constants/optionID";
 import useModalOpen from "@/hooks/useModalOpen";
 import { createClient } from "@/libs/supabase/client";
-import useOptionState, { Option } from "@/store/options";
+import useOptionState from "@/store/options";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { IoIosAdd, IoIosSettings } from "react-icons/io";
 import tw from "tailwind-styled-components";
 
 const Container = tw.nav`
-  w-full bg-white rounded-lg h-full flex flex-col p-[1rem] gap-[1rem]
+  group
+  relative w-full h-[calc(100%-8rem)] bg-white dark:bg-darkgray rounded-lg flex flex-col p-[1rem] gap-[1rem]
+  transition-bg duration-300 ease-in-out
 `;
 
 const Ul = tw.ul`
-  flex flex-col gap-[1rem] w-full
+  flex flex-col gap-[1rem] w-full h-full items-center
 `;
 
 const Li = tw.li`
-  w-full h-[3.5rem] bg-lightgray rounded-lg font-semibold text-r
+  w-full min-h-[3.5rem] bg-lightgray rounded-lg font-semibold text-r
   flex justify-center items-center
 `;
 
@@ -27,37 +31,30 @@ const SkeletonLi = tw.li`
   animate-pulse
 `;
 
-const AddBox = tw.div`
-  w-full h-[4rem] border-lightgray dark:border-gray border-2 border-dotted rounded-lg
-  transition-opcatity duration-300 ease-in-out
-  flex justify-center items-center font-bold
-`;
-
 export default function OptionBox() {
   const supabase = createClient();
 
-  const { isOpen, openModal, closeModal } = useModalOpen();
-  const { selectedOption, setSelectedOption, options, setOptions, isUpdate } =
-    useOptionState();
+  const {
+    isOpen: isOpenAdd,
+    openModal: openAdd,
+    closeModal: closeAdd,
+  } = useModalOpen();
+  const {
+    isOpen: isOpenEdit,
+    openModal: openEdit,
+    closeModal: closeEdit,
+  } = useModalOpen();
+  const {
+    allOption,
+    selectedOption,
+    setSelectedOption,
+    options,
+    setOptions,
+    isUpdate,
+  } = useOptionState();
   const { theme } = useTheme();
 
-  const [isHover, setIsHover] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
-  const handleOpenModal = () => {
-    openModal();
-    setIsHover(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (!isOpen) {
-      setIsHover(false);
-    }
-  };
-
-  useEffect(() => {
-    handleMouseLeave();
-  }, [isOpen, handleMouseLeave]);
 
   useEffect(() => {
     const getOptions = async () => {
@@ -75,7 +72,7 @@ export default function OptionBox() {
       if (error) {
         console.log(error);
       } else {
-        setOptions(data as Option[]);
+        setOptions(data);
         setIsLoading(false);
       }
     };
@@ -83,10 +80,23 @@ export default function OptionBox() {
     getOptions();
   }, [isUpdate]);
 
+  useEffect(() => {
+    const pick = options.find((option) => option.id === selectedOption.id);
+
+    if (pick) {
+      setSelectedOption(pick);
+    } else {
+      setSelectedOption(allOption);
+    }
+  }, [options]);
+
   return (
-    <Container className="group overflow-scroll dark:bg-darkgray">
+    <Container>
       <div className="h-[3rem] w-full flex justify-between items-center opacity-20 group-hover:opacity-55 transition-opacity duration-300 ease-in-out">
-        <button className="hover:bg-lightgray dark:hover:bg-gray p-1 rounded-full cursor-pointer transition-bg duration-300 ease-in-out">
+        <button
+          onClick={() => selectedOption.id !== OPTION_ALL_ID && openEdit()}
+          className="hover:bg-lightgray dark:hover:bg-gray p-1 rounded-full cursor-pointer transition-bg duration-300 ease-in-out"
+        >
           <IoIosSettings
             size={20}
             color={`${theme === "dark" ? "#D3D3D3" : "#232323"} `}
@@ -94,9 +104,7 @@ export default function OptionBox() {
         </button>
         <button
           className="hover:bg-lightgray dark:hover:bg-gray rounded-full cursor-pointer transition-bg duration-300 ease-in-out"
-          onMouseOver={() => setIsHover(true)}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleOpenModal}
+          onClick={openAdd}
         >
           <IoIosAdd
             size={24}
@@ -104,36 +112,61 @@ export default function OptionBox() {
           />
         </button>
       </div>
-      {isLoading ? (
-        <Ul>
-          {Array.from({ length: 3 }).map((_, index) => (
-            <SkeletonLi key={index} />
-          ))}
-        </Ul>
-      ) : (
-        <Ul>
-          {options.map((option, index) => (
+      <div className="h-full overflow-scroll">
+        {isLoading ? (
+          <Ul>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <SkeletonLi key={index} />
+            ))}
+          </Ul>
+        ) : (
+          <Ul>
             <Li
-              key={index}
+              key={allOption.id}
               style={{
-                backgroundColor: theme === "dark" ? "#232323" : option.color,
-                color: theme === "dark" ? option.color : "",
+                backgroundColor: theme === "dark" ? "#232323" : allOption.color,
+                color: theme === "dark" ? allOption.color : "",
               }}
               className={`${
-                selectedOption.id === option.id ? "border-2 border-gray" : ""
+                selectedOption.id === allOption.id ? "border-2 border-gray" : ""
               }
                   dark:hover:border-2
                  dark:hover:border-gray
                 `}
-              onClick={() => setSelectedOption(option)}
+              onClick={() => setSelectedOption(allOption)}
             >
-              {option.name}
+              {allOption.name}
             </Li>
-          ))}
-        </Ul>
+            {options.map((option, index) => {
+              return (
+                <Li
+                  key={index}
+                  style={{
+                    backgroundColor:
+                      theme === "dark" ? "#232323" : option.color,
+                    color: theme === "dark" ? option.color : "",
+                  }}
+                  className={`${
+                    selectedOption.id === option.id
+                      ? "border-2 border-gray"
+                      : ""
+                  }
+                  dark:hover:border-2
+                 dark:hover:border-gray
+                `}
+                  onClick={() => setSelectedOption(option)}
+                >
+                  {option.name}
+                </Li>
+              );
+            })}
+          </Ul>
+        )}
+      </div>
+      {isOpenAdd && <AddOptionModal onClose={closeAdd} />}
+      {isOpenEdit && (
+        <EditOptionModal onClose={closeEdit} pickedOption={selectedOption} />
       )}
-      <AddBox className={isHover ? "opacity-100" : "opacity-0"}>추가</AddBox>
-      {isOpen && <AddOptionModal onClose={closeModal} />}
     </Container>
   );
 }

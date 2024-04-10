@@ -5,14 +5,17 @@ import {
   optionColors,
   optionLightColors,
 } from "@/constants/optionColor";
+import useModalOpen from "@/hooks/useModalOpen";
 import { createClient } from "@/libs/supabase/client";
-import useOptionState from "@/store/options";
-import React, { useState } from "react";
+import useOptionState, { Option } from "@/store/options";
+import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import tw from "tailwind-styled-components";
 import Container from "../_components/Container";
+import DeleteModal from "../_components/deleteModal";
 
 interface Prop {
+  pickedOption: Option;
   onClose: () => void;
 }
 
@@ -39,14 +42,22 @@ const ColorButton = tw.button`
 `;
 
 const AddButton = tw.button`
-  w-full rounded-xl bg-lightgray dark:bg-darkgray h-[4rem] text-m font-semibold
+  w-full rounded-xl bg-lightgray dark:bg-darkgray h-[4rem]
 `;
 
-export default function AddOptionModal({ onClose }: Prop) {
-  const [name, setName] = useState("");
-  const [color, setColor] = useState("");
+export default function EditOptionModal({ pickedOption, onClose }: Prop) {
   const supabase = createClient();
+
   const { toggleUpdate } = useOptionState();
+  const {
+    isOpen: isOpenDel,
+    openModal: openDel,
+    closeModal: closeDel,
+  } = useModalOpen();
+
+  const [name, setName] = useState("");
+  const [color, setColor] = useState(pickedOption.color);
+  const [isEdit, setIsEdit] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,13 +71,16 @@ export default function AddOptionModal({ onClose }: Prop) {
 
     if (!user) return;
 
-    const newOption = {
+    const EditOption = {
       name: name,
       color: color,
       user_id: user.id,
     };
 
-    const { error } = await supabase.from("options").insert(newOption);
+    const { error } = await supabase
+      .from("options")
+      .update(EditOption)
+      .eq("id", pickedOption.id);
 
     if (error) {
       console.log(error);
@@ -82,9 +96,36 @@ export default function AddOptionModal({ onClose }: Prop) {
     }
   };
 
+  const handleDelete = async () => {
+    const { error } = await supabase
+      .from("options")
+      .delete()
+      .eq("id", pickedOption.id);
+
+    if (error) {
+      console.log(error);
+    } else {
+      toggleUpdate();
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    setName(pickedOption.name);
+    setColor(pickedOption.color);
+  }, []);
+
+  useEffect(() => {
+    if (pickedOption.name !== name || pickedOption.color !== color) {
+      setIsEdit(true);
+    } else {
+      setIsEdit(false);
+    }
+  }, [name, color]);
+
   return (
     <Container>
-      <h1 className="text-l font-bold">옵션 추가</h1>
+      <h1 className="text-l font-bold">{pickedOption.name} 수정하기</h1>
       <IoClose
         onClick={onClose}
         size={20}
@@ -156,8 +197,26 @@ export default function AddOptionModal({ onClose }: Prop) {
             )}
           </Field>
         </div>
-        <AddButton type="submit">추가</AddButton>
+        <div className="flex gap-[1rem] text-m font-semibold">
+          <button
+            type="button"
+            onClick={openDel}
+            className="min-w-[5rem] rounded-lg bg-lightred text-white"
+          >
+            삭제
+          </button>
+          <AddButton
+            type="submit"
+            disabled={!isEdit}
+            className={`${!isEdit ? "bg-lightgray" : "bg-lightblue"}`}
+          >
+            수정
+          </AddButton>
+        </div>
       </form>
+      {isOpenDel && (
+        <DeleteModal closeDel={closeDel} handleDelete={handleDelete} />
+      )}
     </Container>
   );
 }

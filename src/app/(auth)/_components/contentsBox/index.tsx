@@ -4,7 +4,7 @@ interface Prop {
 
 export default function ContentsBox({ children }: Prop) {
   return (
-    <article className="bg-white rounded-lg w-full h-full p-[1rem] dark:bg-darkgray">
+    <article className="bg-white rounded-lg w-full h-full p-[1rem] dark:bg-darkgray transition-bg duration-300 ease-in">
       {children}
     </article>
   );

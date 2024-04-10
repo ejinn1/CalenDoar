@@ -1,3 +1,4 @@
+import Loading from "@/app/_components/loading";
 import useModalOpen from "@/hooks/useModalOpen";
 import { createClient } from "@/libs/supabase/client";
 import useCalendarState from "@/store/calendarDay";
@@ -31,26 +32,25 @@ export default function DayContainer() {
   } = useModalOpen();
 
   const { events, setEvents } = useEventState();
-  const { selectedOption, options, isUpdate } = useOptionState();
+  const { selectedOption, isUpdate } = useOptionState();
 
   const [selectedDay, setSelectedDay] = useState<Date>();
   const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(
     null
   );
   const [viewEvents, setViewEvents] = useState(events);
+  const [isLoading, setIsLoading] = useState(true);
 
   // 타이머를 활용한 스크롤 이벤트
   const handleWheelEvent = (e: React.WheelEvent) => {
     if (debounceTimer) clearTimeout(debounceTimer);
-
     const newTimer = setTimeout(() => {
-      if (e.deltaX > 20) {
+      if (e.deltaY > 10) {
         goToRightMonth();
-      } else if (e.deltaX < -20) {
+      } else if (e.deltaY < -10) {
         goToLeftMonth();
       }
     }, 100);
-
     setDebounceTimer(newTimer);
   };
 
@@ -84,10 +84,12 @@ export default function DayContainer() {
   useEffect(() => {
     if (selectedOption.id === "a7a9a629-fc06-4fc3-99bd-7ba881e4fb0f") {
       setViewEvents(events);
+      setIsLoading(false);
     } else {
       setViewEvents(
         events.filter((event) => event.option_id === selectedOption.id)
       );
+      setIsLoading(false);
     }
   }, [selectedOption, events]);
 
@@ -99,6 +101,7 @@ export default function DayContainer() {
 
   return (
     <Container onWheel={handleWheelEvent}>
+      {isLoading && <Loading size={40} />}
       <WeekRow
         days={days.slice(0, 7)}
         events={viewEvents}
