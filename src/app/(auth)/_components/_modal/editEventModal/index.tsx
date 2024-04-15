@@ -223,6 +223,7 @@ export default function EditEventModal({ event, day, onClose }: Prop) {
         size={20}
         className="absolute top-[2rem] right-[2rem] cursor-pointer opacity-50 transition-opacity duration-300 ease-in-out hover:opacity-100"
       />
+
       <Form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-[3rem]">
           <Field>
